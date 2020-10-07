@@ -9,7 +9,7 @@ window.onload = function(){
     
     alert("Acá están tus datos:"+"\n \n"+"Nombre:"+" "+nombre+".\n"+"Apellido:"+" "+apellido+".\n"+"Edad:"+" "+edad+".");
     
-    alert("Ahora probemos si no sos un robot!");
+    alert("Hola "+nombre+"! "+"ahora probemos si no sos un robot!");
     
     var numeroAleatorio1 = Math.round(Math.random()*10);
     var numeroAleatorio2 = Math.round(Math.random()*10);
