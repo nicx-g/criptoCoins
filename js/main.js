@@ -1,24 +1,38 @@
 window.onload = function(){
-    var nombre;
-    var apellido;
-    var edad;
-    
-    nombre=prompt('Ingresá tu nombre por favor');
-    apellido=prompt('Ingresá tu apellido!');
-    edad=prompt('y ahora tu edad!');
-    
-    alert("Acá están tus datos:"+"\n \n"+"Nombre:"+" "+nombre+".\n"+"Apellido:"+" "+apellido+".\n"+"Edad:"+" "+edad+".");
-    
-    alert("Hola "+nombre+"! "+"ahora probemos si no sos un robot!");
-    
-    var numeroAleatorio1 = Math.round(Math.random()*10);
-    var numeroAleatorio2 = Math.round(Math.random()*10);
-    var calculo;
-    calculo=prompt("¿Cuánto es "+numeroAleatorio1+' + '+numeroAleatorio2+'?');
-    if (calculo == numeroAleatorio1 + numeroAleatorio2){
-        alert("Muy bien! pasaste la prueba");
-    } else{
-        alert("Me parece que sos un robot che");
+    alert("Hola! presentate!")
+    var nombre = prompt("ingresá tu nombre por favor");
+    if(nombre == null || nombre.length < 2 || !isNaN(nombre)){
+        alert("Poné tu nombre capo")
+    } else {
+        var apellido = prompt("Poné tu apellido");
+        if (apellido == null || apellido.length < 2 || !isNaN(apellido)){
+            alert("Poné bien tu apellido!")
+        } else{
+            var edad = prompt("Ahora poné tu edad");
+            if (edad == null || edad.length == 0 || isNaN(edad)){
+                alert("Sólo números! estamos hablando de cuántos años tenés!")
+            } else if(edad < 4){
+                alert("Sos muy chiquito para estar con esto!")
+            } else if(edad > 105){
+                alert("O tuviste una vida muy sana o me estás mintiendo, probá de nuevo!")
+            }
+             else {
+                alert("Acá están tus datos:"+"\n \n"+"Nombre:"+" "+nombre+".\n"+"Apellido:"+" "+apellido+".\n"+"Edad:"+" "+edad+".");
+                alert("Hola "+nombre+"! "+"ahora probemos si no sos un robot!");
+                
+                var numeroAleatorio1 = Math.round(Math.random()*10);
+                var numeroAleatorio2 = Math.round(Math.random()*10);
+                var calculo=prompt("¿Cuánto es "+numeroAleatorio1+' + '+numeroAleatorio2+'?');
+                if (calculo == null || calculo == "" || isNaN(calculo)){
+                    alert("Estamos hablando de números!");
+                } else if(calculo < numeroAleatorio1 + numeroAleatorio2 || calculo > numeroAleatorio1 + numeroAleatorio2){
+                    alert("Estuviste muy cerca! peeeeeero no");
+                } else {
+                    alert("Muy bien! pasaste la prueba crack!");
+                }
+            }
+        }
     }
     
-    };
+    
+} 
