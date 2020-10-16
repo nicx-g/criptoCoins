@@ -1,21 +1,50 @@
 .menu-header{
-    background-color: map-get($colors, primary);
-    padding: 20px 0;
+    // background-image: linear-gradient(90deg, map-get($colors, primary) 75%, map-get($colors, tertiary));
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    width:100%;
+    z-index: 10;
     nav{
         div{
             ul{
                 li{
                     margin: 20px auto;
+                    .login-button{
+                        margin-left: 100px;
+                        a{
+                            background-image: linear-gradient(-45deg, map-get($colors, tertiary) 0 calc(50% - 10px), map-get($colors, primary) calc(50% - 10px) calc(50% + 10px), map-get($colors, quaternary) calc(50% + 10px) 100%);
+                            background-size: 275% 100%;
+                            background-position: 100% 50%;
+                            transition: all .5s;
+                            &:hover{
+                                background-position: 0% 50%; 
+                                border-radius: 25px;
+                                transition: .5s all;
+                            }
+                        }
+                    }
                     a{
-                        background-color: map-get($colors, secondary);
                         border-radius: 7px;
                         box-shadow: 5px 5px 10px black;
                         color: map-get($colors, primary);
-                        font-size: 1.1rem;
+                        font-size: 1rem;
                         font-weight: 800;
                         margin: 0 5px;
+                        margin-bottom: 4px;
                         padding: 10px;
                         text-decoration: none;
+                    }
+                    
+                    a{
+                        background-image: linear-gradient(-45deg, map-get($colors, secondary) 0 calc(50% - 10px), map-get($colors, primary) calc(50% - 10px) calc(50% + 10px), map-get($colors, tertiary) calc(50% + 10px) 100%);
+                        background-size: 275% 100%;
+                        background-position: 100% 50%;
+                        transition: all .5s;
+                        &:hover{
+                           background-position: 0% 50%; 
+                           transition: .5s all;
+                        }
                     }
                 }
             }

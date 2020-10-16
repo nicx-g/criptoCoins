@@ -5,28 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cripto Coins</title>
     <link rel="stylesheet" href="./libraries/bootstrap.min.css">
+    <link rel="stylesheet" href="./libraries/fontAwesome5-14.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
     <header>
         <div class="menu-header">
             <div class="container-fluid d-flex justify-content-around">
-                <div class="header-logo">
-                    <img src="https://via.placeholder.com/250x100?=logo" alt="Este es el logo de la pag">
-                </div>
+                <a class="header-logo d-flex align-items-center" href="#">
+                    <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                </a>
                 <nav class="navbar navbar-expand-lg">
                     <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
-                        <span class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
                     </button>
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a href="#">Inicio</a></li>
-                            <li class="nav-item"><a href="#">¿Qué es cripto?</a></li>
-                            <li class="nav-item"><a href="#">Paso a paso</a></li>
-                            <li class="nav-item"><a href="#">Nosotros</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable" href="#">Inicio</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">¿Qué es cripto?</a>
+                                    <a class="dropdown-item" href="#">Paso a Paso</a>
+                                    <a class="dropdown-item" href="#"> Sobre nosotros</a>
+                                </div>
+                            </li>
                             <li class="nav-item"><a href="#">Descargá la app</a></li>
                             <li class="nav-item"><a href="#">Contacto</a></li>
-                            <li class="nav-item"><a href="#">Ingresar</a></li>
+                            <li class="nav-item">
+                                <div class="login-button"><a href="#">Ingresar/Registrarse</a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -34,6 +42,17 @@
         </div class="header">
     </header>
     <main>
+        <div class="hero d-flex align-items-center">
+            <div class="hero-container container d-flex flex-column align-items-center justify-content-center">
+                <div class="hero-text d-flex flex-column">
+                    <h1>¿Cansado de perder contra la inflación?</h1>
+                    <h2>Las criptomonedas son tu solución.</h2>
+                    <h2>Bienvenido a la economía del futuro. !Empecemos!</h2>
+                </div>
+                <i class="fas fa-angle-double-down"></i>
+            </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium optio placeat omnis quia, consectetur ad, atque nesciunt alias tempore perferendis laudantium minima fugit id error asperiores cum minus aliquam. Minus necessitatibus magnam saepe fugit quasi aliquid qui amet neque, cum vitae nulla laudantium reiciendis architecto beatae dicta voluptas dolorum a dolores laborum? Pariatur, inventore possimus! Facere debitis maiores modi earum perspiciatis dicta, aspernatur reprehenderit fugiat fugit, deserunt numquam perferendis quam. Ipsa, iste consectetur recusandae eius totam cum magni repellat aspernatur enim eligendi dicta doloremque tempora iure, nostrum, commodi officia veritatis quidem dolor quis libero excepturi. Cupiditate enim vitae corrupti, debitis repellendus libero voluptates quae. Nulla rem laborum esse libero ullam ratione obcaecati explicabo aliquam quasi necessitatibus eligendi magnam corrupti, vitae dolore impedit magni neque assumenda aut similique accusamus. Delectus porro vitae recusandae nam eum deserunt eaque doloribus a iusto possimus beatae ratione in, facilis nostrum dolorum aspernatur voluptates sed sint!</p>
     </main>
     <footer></footer>
     <script src="./js/jquery.min.js"></script>

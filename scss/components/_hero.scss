@@ -1,0 +1,34 @@
+.hero{
+    background-image: url("https://image.freepik.com/foto-gratis/bitcoin-dorado-manos-correo_155003-2374.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
+    .hero-container{
+        background-color: transparentize(black, .65);
+        padding-bottom: 40px;
+        padding-top: 20px;
+        
+        .hero-text{
+            h1, h2{
+                color: map-get($colors, secondary);
+                font-size: 2rem;
+                font-weight: 800;
+                margin: 0;
+                margin-bottom: 20px;
+                text-align:center;
+                padding: 0;
+                width: auto;
+            }
+        }
+        i{
+            font-size:1.5rem;
+            animation: flechaMoviendose .5s infinite alternate;
+            color: map-get($colors, secondary);
+        }
+    }
+}
+
+@keyframes flechaMoviendose{
+    0% {transform: translateY(0)}
+    100%{transform: translateY(30px)}
+}
