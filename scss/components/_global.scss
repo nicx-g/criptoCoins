@@ -1,31 +1,4 @@
 body{
-    animation: movete infinite 5s alternate;
-    background-image: linear-gradient(45deg, rgb(136, 226, 136), rgb(138, 232, 255));
-    background-size: 200%;
     margin: 0;
     padding: 0;
-}
-
-@keyframes movete{
-    0% {background-position: left}
-    100% {background-position: right;}
-}
-.container{
-    align-items:center;
-    display:flex;
-    height: 100vh;
-    justify-content:center;
-    .new-box{
-        background-color: rgb(255, 247, 247);
-        border-radius: 20px;
-        h1{
-            color: orange;
-            font-size: 2rem;
-            padding: 15px;
-        }
-}
-}
-@keyframes bg-tittle {
-    0% {background-position: left;}
-    100% {background-position: right;}
 }

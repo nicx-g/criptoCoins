@@ -9,22 +9,24 @@
 </head>
 <body>
     <header>
-        <div class="header">
-            <div class="container">
-                <nav class="navbar">
-                    <a href="">
-
-                    </a>
-                    <button class="navbar-toggler">
-                        
+        <div class="menu-header">
+            <div class="container-fluid d-flex justify-content-around">
+                <div class="header-logo">
+                    <img src="https://via.placeholder.com/250x100?=logo" alt="Este es el logo de la pag">
+                </div>
+                <nav class="navbar navbar-expand-lg">
+                    <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
+                        <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse">
+                    <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav">
-                            <li class="nav-item"></li>
-                            <li class="nav-item"></li>
-                            <li class="nav-item"></li>
-                            <li class="nav-item"></li>
-                            <li class="nav-item"></li>
+                            <li class="nav-item"><a href="#">Inicio</a></li>
+                            <li class="nav-item"><a href="#">¿Qué es cripto?</a></li>
+                            <li class="nav-item"><a href="#">Paso a paso</a></li>
+                            <li class="nav-item"><a href="#">Nosotros</a></li>
+                            <li class="nav-item"><a href="#">Descargá la app</a></li>
+                            <li class="nav-item"><a href="#">Contacto</a></li>
+                            <li class="nav-item"><a href="#">Ingresar</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -32,17 +34,11 @@
         </div class="header">
     </header>
     <main>
-        <div class="container">
-            <section class="new-box">
-                <h1>Hola mundo!</h1>
-            </section>
-        </div>
     </main>
     <footer></footer>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/index.js"></script>
     <script src="./js/wow.min.js"></script>
     <script>
         new WOW().init();
