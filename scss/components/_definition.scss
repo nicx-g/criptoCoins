@@ -2,7 +2,7 @@
     background-color: map-get($colors, tertiary);
     position: relative;
 
-    
+    //propiedades de líneas principales
     .central-line{
         animation: centralLine 5s linear;
         background-image: linear-gradient(to bottom, map-get($colors, quaternary), map-get($colors, quaternary));
@@ -53,6 +53,7 @@
         }
     }
 
+    //propiedades del texto e imágenes
     .definition-card{
         &:nth-child(1){
             margin-top: 30px;
@@ -67,7 +68,7 @@
         max-width: 320px;
         padding: 10px 20px;
         text-align:center;
-
+        
         p{
             font-weight: 500;
         }
@@ -96,12 +97,34 @@
         transform: rotate3d(0, 5, 6, 38deg);
     }
 
+    //animación y propiedades de las líneas de las cards de cripto
+
+    .criptos-lines-container{
+        perspective: 40rem;
+
+        .criptos-lines{
+            position: relative; 
+            transform-style: preserve-3d;
+
+            .cripto-line{
+                background-image: linear-gradient(to bottom, map-get($colors, quaternary), map-get($colors, quaternary));
+                background-repeat: no-repeat;
+                background-position: 100% -100%;
+                height: 100px;
+                left: 50%;
+                position: absolute;
+                width: 15px;
+            }
+        }
+    }
+
     .card-criptos{
         .card-cripto{
             background-color: rgb(240, 240, 240);
             box-shadow: 2px 4px 10px black;
             width: 100px;
             margin: 10px;
+            margin-top: 100px;
 
             i{
                 font-size: 3rem;
