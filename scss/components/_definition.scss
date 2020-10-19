@@ -1,0 +1,152 @@
+.definition{
+    background-color: map-get($colors, tertiary);
+    position: relative;
+
+    
+    .central-line{
+        animation: centralLine 5s linear;
+        background-image: linear-gradient(to bottom, map-get($colors, quaternary), map-get($colors, quaternary));
+        background-repeat: no-repeat;
+        background-position: 100% -100%;
+        height: 1025px;
+        left: 50%;
+        position: absolute;
+        width: 15px;
+
+        .circle-line{
+            width: 50px;
+            height: 50px;
+            border-radius:50%;
+            background-color: map-get($colors, quaternary);
+            position: absolute;
+            right: -120%;
+            box-shadow: 2px 4px 10px black;
+
+            .left-line{
+                animation: leftLine 1s linear forwards;
+                animation-delay: 3.1s;
+                background-image: linear-gradient(to bottom, map-get($colors, quaternary), map-get($colors, quaternary));
+                background-repeat: no-repeat;
+                background-position: 100% 100%;
+                background-size: 0 0;
+                height: 15px;
+                right: 50%;
+                position: absolute;
+                width: 245px;
+                top: 540%;
+
+                .right-line{
+                    animation: rightLine 1s linear forwards;
+                    animation-delay: 4s;
+                    background-image: linear-gradient(to bottom, map-get($colors, quaternary), map-get($colors, quaternary));
+                    background-repeat: no-repeat;
+                    background-position: -100% 100%;
+                    background-size: 0 0;
+                    height: 15px;
+                    left: 100%;
+                    position: absolute;
+                    width: 227.9px;
+                    top: 3140%;
+                }
+                
+            }
+        }
+    }
+
+    .definition-card{
+        &:nth-child(1){
+            margin-top: 30px;
+        }
+        background-color: map-get($colors, secondary);
+        border: 2px rgba(#000000, 0.2) solid;
+        border-radius: 20px;
+        box-shadow: 2px 4px 10px rgba(#000000, 0.2);
+        color: map-get($colors, primary);
+        font-weight: 800;
+        margin-bottom: 10px;
+        max-width: 320px;
+        padding: 10px 20px;
+        text-align:center;
+
+        p{
+            font-weight: 500;
+        }
+        
+    }
+
+    .bitcoin-image{
+        animation: bitcoinGiro 3.5s linear infinite;
+        background-image: url("../resources/images/bitcoin.png");
+        background-size: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 366px;
+        height: 366px;
+        transform: rotate3d(0, 5, 6, 38deg);
+    }
+
+    .criptos-image{
+        animation: bitcoinGiro 3.5s linear infinite;
+        background-image: url("../resources/images/criptos.png");
+        background-size: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 366px;
+        height: 366px;
+        transform: rotate3d(0, 5, 6, 38deg);
+    }
+
+    .card-criptos{
+        .card-cripto{
+            background-color: rgb(240, 240, 240);
+            box-shadow: 2px 4px 10px black;
+            width: 100px;
+            margin: 10px;
+
+            i{
+                font-size: 3rem;
+                color: black;
+                margin: 10px 0;
+            }
+
+            span{
+                font-size: 1rem;
+                font-weight: 800;
+            }
+        }
+    }
+}
+
+@keyframes centralLine{
+    from{
+        background-size: 0 0;
+    }
+    to{
+        background-size: 15px 100%;
+    }
+}
+@keyframes leftLine{
+    from{
+        background-size: 0 0;
+    }
+    to{
+        background-size: 100% 15px;
+    }
+}
+@keyframes rightLine{
+    from{
+        background-size: 0 0;
+    }
+    to{
+        background-size: 100% 15px;
+    }
+}
+
+@keyframes bitcoinGiro{
+    from{
+        transform: rotate3d(0, 2, .5, 0deg)
+    }
+    to{
+        transform: rotate3d(0, 2, .5, 360deg)
+    }
+}

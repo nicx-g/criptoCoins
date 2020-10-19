@@ -9,9 +9,8 @@
         div{
             ul{
                 li{
-                    margin: 20px auto;
-                    .login-button{
-                        margin-left: 100px;
+                    margin: 20px 0;
+                    &:nth-child(4){
                         a{
                             background-image: linear-gradient(-45deg, map-get($colors, tertiary) 0 calc(50% - 10px), map-get($colors, primary) calc(50% - 10px) calc(50% + 10px), map-get($colors, quaternary) calc(50% + 10px) 100%);
                             background-size: 275% 100%;
