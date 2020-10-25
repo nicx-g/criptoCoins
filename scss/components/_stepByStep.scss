@@ -1,0 +1,38 @@
+.step-by-step{
+    background-color: map-get($colors, tertiary);
+
+    &-title{
+        font-size: 1.9rem;
+        margin: 40px 0;
+        text-align: center;
+
+        span{
+            font-weight: 700;    
+        }
+    }
+
+    &-text{
+        text-align:center;
+        max-width: 400px;
+
+        &-item{
+            margin-bottom: 20px;
+            
+            h4{
+                color: map-get($colors, primary);
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+             } 
+
+            span{
+                font-size: 1rem;
+
+                i{
+                    color: map-get($colors, primary);
+                    font-size: 1.3rem;
+                    margin: 0 5px;
+                }
+            }
+        }
+    }
+}
