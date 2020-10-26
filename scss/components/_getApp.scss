@@ -1,0 +1,21 @@
+.get-app{
+    background-color: map-get($colors, quaternary);
+
+    &-text{
+        max-width: 500px;
+        margin: 40px 0;
+
+        &-title{
+            color: map-get($colors, primary);
+            font-weight: 600;
+            margin: 25px 0;
+            text-align:center;
+        }
+        
+        &-span{
+            color: map-get($colors, primary);
+            font-weight: 400;
+            text-align:center;
+        }
+    }
+}

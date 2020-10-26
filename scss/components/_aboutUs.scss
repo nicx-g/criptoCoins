@@ -1,5 +1,6 @@
 .about-us{
-    background-image: linear-gradient(135deg, map-get($colors, primary) 90%, map-get($colors, tertiary) 5%);
+    // background-image: linear-gradient(135deg, map-get($colors, primary) 90%, map-get($colors, tertiary) 5%);
+    background-color: map-get($colors, primary);
     background-size: cover;
     background-position: 100%;
 

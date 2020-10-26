@@ -3,12 +3,17 @@
 
     &-title{
         font-size: 1.9rem;
-        margin: 40px 0;
+        padding: 40px 0;
         text-align: center;
+        color: map-get($colors, primary);
 
         span{
             font-weight: 700;    
         }
+    }
+
+    &-img{
+        margin-right: 60px;
     }
 
     &-text{

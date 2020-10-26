@@ -1,0 +1,44 @@
+.footer-container{
+    background-color: map-get($colors, primary);
+    padding: 60px 0 30px;
+
+    &-sections{
+
+        &-item{
+
+            h5{
+                border-bottom: 2px map-get($colors, quaternary) solid;
+                color: map-get($colors, secondary);
+                font-size: 1.2rem;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+
+            ul{
+                margin: 0;
+                padding: 0;
+
+                li{
+                    list-style: none;
+
+                    a{
+                        color: map-get($colors, secondary);
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+    
+    .autor{
+        span{
+        color: map-get($colors, secondary);
+        font-weight: 700;
+
+            a{
+                color: map-get($colors, quaternary);
+                text-decoration: none
+            }
+        }
+    }
+}
