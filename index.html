@@ -14,7 +14,7 @@
         <div class="menu-header">
             <div class="container-fluid">
                 <nav class="navbar navbar-expand-lg d-flex justify-content-between">
-                    <a class="header-logo d-flex align-items-center" href="#">
+                    <a class="header-logo d-flex align-items-center" href="./index.html">
                         <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
                     </a>
                     <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
@@ -32,12 +32,22 @@
                             </li>
                             <li class="nav-item"><a href="#">Descargá la app</a></li>
                             <li class="nav-item"><a href="#">Contacto</a></li>
-                            <li class="nav-item"><a href="#">Ingresar/Registrarse</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Ingresar/Registrarse</a>
+                                <div class="dropdown-menu">
+                                    <form class="dropdown-item" action="./login.html">
+                                        <button type="submit">Iniciar sesión</button>
+                                    </form>
+                                    <form class="dropdown-item" action="./register.html">
+                                        <button type="submit">Crear cuenta</button>
+                                    </form>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </nav>
             </div>
-        </div class="header">
+        </div>
     </header>
     <main>
 
