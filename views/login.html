@@ -23,16 +23,32 @@
                     <div class="collapse navbar-collapse" id="menu">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable" href="#">Inicio</a>
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable" href="../index.html">Inicio</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">¿Qué es cripto?</a>
-                                    <a class="dropdown-item" href="#"> Sobre nosotros</a>
-                                    <a class="dropdown-item" href="#">Paso a paso</a>
+                                    <div class="dropdown-item">
+                                        <a href="../index.html">¿Qué es cripto?</a>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <a href="../index.html"> Sobre nosotros</a>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <a href="../index.html">Paso a paso</a>
+                                    </div>
                                 </div>
                             </li>
-                            <li class="nav-item"><a href="#">Descargá la app</a></li>
-                            <li class="nav-item"><a href="#">Contacto</a></li>
-                            <li class="nav-item"><a href="#">Ingresar/Registrarse</a></li>
+                            <li class="nav-item"><a href="../index.html">Descargá la app</a></li>
+                            <li class="nav-item"><a href="../index.html">Contacto</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Ingresar/Registrarse</a>
+                                <div class="dropdown-menu">
+                                    <form class="dropdown-item" action="./login.html">
+                                        <button type="submit">Iniciar sesión</button>
+                                    </form>
+                                    <form class="dropdown-item" action="./register.html">
+                                        <button type="submit">Crear cuenta</button>
+                                    </form>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -41,15 +57,31 @@
     </header>
 
     <main>
-        <div class="login-register d-flex justify-content-center align-items-center flex-column">
-            <h1>¡Bienvenido! Deseas iniciar sesión o crear una cuenta nueva?</h1>
-            <div class="login-register-form">
-                <form action="./login.html">
-                    <button type="submit">Iniciar sesión</button>
-                </form>
-                <form action="./register.html">
-                    <button type="submit">Crear cuenta</button>
-                </form>
+        <div class="login d-flex justify-content-center align-items-center flex-column">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="login-container">
+                    <div class="login-container-text d-flex flex-column justify-content-center">
+                        <h1>Iniciar sesión</h1>
+                        <span>Ingrese sus datos para entrar a la plataforma</span>
+                    </div>
+                    <div>
+                        <form class="login-container-form d-flex flex-column" action="./dashboard.html">
+                            <label for="emailDeUsuario">Email</label>
+                            <input required type="text" name="emailDeUsuario" id="emailDeUsuario" placeholder="ingrese su email">
+                            <label for="contrasenaDeUsuario">Contraseña</label>
+                            <input required type="password" name="contrasenaDeUsuario" id="contrasenaDeUsuario" placeholder="ingrese su contraseña">
+                    
+                            <div>
+                                <input type="submit" value="Iniciar sesión">
+                            </div>
+                    
+                            <div class="d-flex flex-column">
+                                <a href="#">Olvidé mi contraseña</a>
+                                <span>¿No tenés una cuenta todavía? <a href="./register.html">Crear cuenta</a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -61,8 +93,8 @@
                     <div class="footer-container-sections-item">
                         <h5>Cuenta</h5>
                         <ul>
-                            <li><a href="#">Crear cuenta</a></li>
-                            <li><a href="#">Iniciar sesión</a></li>
+                            <li><a href="./register.html">Crear cuenta</a></li>
+                            <li><a href="./login.html">Iniciar sesión</a></li>
                             <li><a href="#">Trading</a></li>
                             <li><a href="#">Depósitos</a></li>
                             <li><a href="#">Retiros</a></li>

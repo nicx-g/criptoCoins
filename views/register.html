@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | Cripto Coins</title>
+    <link rel="stylesheet" href="../libraries/bootstrap.min.css">
+    <link rel="stylesheet" href="../libraries/fontAwesome5-14.min.css">
+    <link rel="stylesheet" href="../libraries/cryptofont.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="menu-header">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg d-flex justify-content-between">
+                    <a class="header-logo d-flex align-items-center" href="../index.html">
+                        <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                    </a>
+                    <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
+                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable" href="../index.html">Inicio</a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-item">
+                                        <a href="../index.html">¿Qué es cripto?</a>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <a href="../index.html"> Sobre nosotros</a>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <a href="../index.html">Paso a paso</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a href="../index.html">Descargá la app</a></li>
+                            <li class="nav-item"><a href="../index.html">Contacto</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Ingresar/Registrarse</a>
+                                <div class="dropdown-menu">
+                                    <form class="dropdown-item" action="./login.html">
+                                        <button type="submit">Iniciar sesión</button>
+                                    </form>
+                                    <form class="dropdown-item" action="./register.html">
+                                        <button type="submit">Crear cuenta</button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="login d-flex justify-content-center align-items-center flex-column">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="login-container">
+                    <div class="login-container-text d-flex flex-column justify-content-center">
+                        <h1>Crear cuenta</h1>
+                        <span>Ingrese sus datos para crear su cuenta en Cripto Coins</span>
+                    </div>
+                    <div>
+                        <form class="login-container-form d-flex flex-column" action="./dashboard.html">
+                            <label for="nombreDeUsuario">Nombre</label>
+                            <input required type="text" name="nombreDeUsuario" id="nombreDeUsuario" placeholder="ingrese su nombre. Ejemplo: Pepe">
+                            <label for="apellidoDeUsuario">Apellido</label>
+                            <input required type="text" name="apellidoDeUsuario" id="apellidoDeUsuario" placeholder="ingrese su apellido. Ejemplo: Quiroga">
+                            <label for="emailDeUsuario">Email</label>
+                            <input required type="text" name="emailDeUsuario" id="emailDeUsuario" placeholder="ingrese su email. Ejemplo: pepequiroga@gmail.com">
+                            <label for="contrasenaDeUsuario">Contraseña</label>
+                            <input required type="password" name="contrasenaDeUsuario" id="contrasenaDeUsuario" placeholder="ingrese su contraseña">
+                    
+                            <div>
+                                <span><input type="checkbox">Acepto los <a href="#">términos y condiciones</a></span>
+                                <input type="submit" value="Crear cuenta">
+                            </div>
+                    
+                            <div class="d-flex flex-column">
+                                <span>¿Ya tenés una cuenta? <a href="./login.html">Iniciar sesión</a></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="container d-flex flex-column">
+                <div class="footer-container-sections d-flex justify-content-around">
+                    <div class="footer-container-sections-item">
+                        <h5>Cuenta</h5>
+                        <ul>
+                            <li><a href="./register.html">Crear cuenta</a></li>
+                            <li><a href="./login.html">Iniciar sesión</a></li>
+                            <li><a href="#">Trading</a></li>
+                            <li><a href="#">Depósitos</a></li>
+                            <li><a href="#">Retiros</a></li>
+                            <li><a href="#">Seguridad de la cuenta</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-container-sections-item">
+                        <h5>General</h5>
+                        <ul>
+                            <li><a href="#">Estado del sitio</a></li>
+                            <li><a href="#">Comisiones</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-container-sections-item">
+                        <h5>Legal</h5>
+                        <ul>
+                            <li><a href="#">Términos y Condiciones</a></li>
+                            <li><a href="#">Política de privacidad</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                            <li><a href="#">Riesgo de mercado</a></li>
+                        </ul>
+                    </div>
+                </div>
+            
+                <div class="autor align-self-center">
+                    <span>This page was made with ❤️ by <a href="https://github.com/nicx-g" target="_blank">nicx-g</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>

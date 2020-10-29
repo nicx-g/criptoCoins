@@ -1,12 +1,14 @@
 @import "./components/variables";
 @import "./components/global";
+
+
+@import "./components/aboutUs";
+@import "./components/definition";
+@import "./components/footer";
+@import "./components/form";
+@import "./components/getApp";
 @import "./components/header";
 @import "./components/hero";
-@import "./components/definition";
-@import "./components/aboutUs";
+@import "./components/login-register.scss";
 @import "./components/stepByStep";
 @import "./components/separators";
-@import "./components/getApp";
-@import "./components/form";
-@import "./components/footer";
-@import "./components/login-register";
