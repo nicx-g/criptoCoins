@@ -7,7 +7,7 @@
         background-color: map-get($colors, secondary);
         border-radius: 5px;
         max-width: 500px;
-        padding: 40px 80px;
+        padding: 20px 40px;
 
         &-text{
             margin-bottom: 10px;
@@ -20,36 +20,146 @@
             }
 
             span{
-                font-size: 1rem;
+                font-size: 1.1rem;
                 font-weight: 500;
             }
         }
 
+        // Esto corresponde al formulario
+
         &-form{
             margin-bottom: 10px;
 
-            input, label{
-                font-family: 'Montserrat', sans-serif;
-                font-size: .9rem;
-                font-weight: 400;
-                margin-bottom: 10px;
-                padding: 10px 15px;
+            //Esta parte es cada input con su respectivo label y párrafo de error
+            &-item{
+                position: relative;
+
+                label{
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: .9rem;
+                    font-weight: 400;
+                    padding: 0;
+                    margin: 0;
+                    margin-bottom: 5px;
+                }
+
+                &-input{
+
+                    input{
+                        border: .5px solid black;
+                        border-radius: 2px;
+                        font-family: 'Montserrat', sans-serif;
+                        font-size: .85rem;
+                        font-weight: 400;
+                        margin-bottom: 10px;
+                        padding: 10px 15px;
+                        transition: .1s linear all;
+                        width: 100%;
+
+                        &:focus{
+                            border: 1px solid black
+                        }
+                    }
+
+                    &-i{
+                        font-size: 1.2rem;
+                        opacity: 0;
+                        position: absolute;
+                        right: 10px;
+                        top: 40px;
+                        z-index:2;
+
+                        &-active{
+                            opacity: 1;
+                        }
+                    }
+                    
+                }
+
+                &-p{
+                    display:none;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: .8rem;
+                    font-weight: 600;
+                    padding: 0;
+                    margin: 0;
+
+                    &-active{
+                        display: block;
+                    }
+                }
+
+                //Esto corresponde a si el formulario está bien hecho
+
+                &-okay{
+
+                    .login-container-form-item-input{
+                        
+                        &-i{
+                            color: lightgreen;
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                //Esto corresponde a si el formulario está mal hecho
+
+                &-notOkay{
+
+                    label{
+                        color: red;
+                    }
+
+                    .login-container-form-item-input{
+
+                        input{
+                            border: .5px solid red;
+
+                            &:focus{
+                                border: .5px solid red
+                            }
+                        }
+
+                        &-i{
+                            color:red;
+                            opacity: 1;
+                        }
+                    }
+                }
             }
 
-            label{
-                padding: 0;
-                margin: 0;
-                margin-bottom: 5px;
-            }
-            
-            div{
+            //Esta parte es el checkbox
+
+            &-item.form-checkbox{
+
+                input{
+                    margin-right: 5px;
+                }
 
                 a{
                     color: map-get($colors, primary);
                     font-size: .9rem;
                     font-weight: 500;
                     margin-bottom: 5px;
+                }
+            }
 
+            // Esta parte pertenece al boton de submit
+
+            &-item.form-submit{
+
+                &-p{
+                    background-color: lightgreen;
+                    color: map-get($colors, secondary);
+                    display: none;
+                    font-size: .9rem;
+                    font-weight: 700;
+                    margin-bottom: 5px;
+                    padding: 10px 20px;
+
+                    &-active{
+                        display:block
+                    }
                 }
 
                 input{
@@ -59,9 +169,7 @@
                     font-family: 'Montserrat', sans-serif;
                     font-size: 1rem;
                     font-weight: 700;
-                    margin-bottom: 15px;
-                    margin-top: 10px;
-                    margin-right: 5px;
+                    margin: 10px 5px 15px 0;
                     padding: 10px 15px;
                     transition: all .5s;
 
@@ -70,6 +178,15 @@
                         border-radius: 25px;
                         transition: .5s all;
                     }
+                }
+            }
+
+            //Texto para pasar a otra pag
+
+            &-text{
+                a{
+                    color:map-get($colors, primary);
+                    font-weight: 600;
                 }
             }
         }

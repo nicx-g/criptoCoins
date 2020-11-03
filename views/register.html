@@ -65,22 +65,83 @@
                         <span>Ingrese sus datos para crear su cuenta en Cripto Coins</span>
                     </div>
                     <div>
-                        <form class="login-container-form d-flex flex-column" action="./dashboard.html">
-                            <label for="nombreDeUsuario">Nombre</label>
-                            <input required type="text" name="nombreDeUsuario" id="nombreDeUsuario" placeholder="ingrese su nombre. Ejemplo: Pepe">
-                            <label for="apellidoDeUsuario">Apellido</label>
-                            <input required type="text" name="apellidoDeUsuario" id="apellidoDeUsuario" placeholder="ingrese su apellido. Ejemplo: Quiroga">
-                            <label for="emailDeUsuario">Email</label>
-                            <input required type="text" name="emailDeUsuario" id="emailDeUsuario" placeholder="ingrese su email. Ejemplo: pepequiroga@gmail.com">
-                            <label for="contrasenaDeUsuario">Contraseña</label>
-                            <input required type="password" name="contrasenaDeUsuario" id="contrasenaDeUsuario" placeholder="ingrese su contraseña">
-                    
-                            <div>
-                                <span><input type="checkbox">Acepto los <a href="#">términos y condiciones</a></span>
-                                <input type="submit" value="Crear cuenta">
+                        <form id="formularioLogin" class="login-container-form d-flex flex-column" action="" method="POST">
+
+                            <div class="login-container-form-item">
+                                <label for="nombreDeUsuario">Nombre</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="text" name="nombreDeUsuario" id="nombreDeUsuario" placeholder="Ingresá tu nombre. Ejemplo: Pepe">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Ingresá un nombre válido, por favor.</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="apellidoDeUsuario">Apellido</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="text" name="apellidoDeUsuario" id="apellidoDeUsuario" placeholder="Ingresá tu apellido. Ejemplo: Quiroga">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Ingresá un apellido válido, por favor</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="dniDeUsuario">DNI</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="text" name="dniDeUsuario" id="dniDeUsuario" placeholder="Ingresá tu DNI. Ejemplo: 34153167">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Lo sentimos, ese DNI no es válido.</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="emailDeUsuario">Email</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="email" name="emailDeUsuario" id="emailDeUsuario" placeholder="Ingresá tu email. Ejemplo: pepequiroga@gmail.com">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Ingresá un email válido, por favor.</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="passwordDeUsuario">Contraseña</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="password" name="passwordDeUsuario" id="passwordDeUsuario" placeholder="ingrese su contraseña">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Ingresá una contraseña válida, por favor.</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="password2DeUsuario">Repetir Contraseña</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="password" name="password2DeUsuario" id="password2DeUsuario" placeholder="ingrese su contraseña">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Las contraseñas tienen que ser iguales.</p>
+                            </div>
+
+                            <div class="login-container-form-item">
+                                <label for="telefonoDeUsuario">Número de teléfono</label>
+                                <div class="login-container-form-item-input">
+                                    <input required type="text" name="telefonoDeUsuario" id="telefonoDeUsuario" placeholder="Ingrese su número de teléfono. Ejemplo: 1125478451">
+                                    <i class="login-container-form-item-input-i far fa-times-circle"></i>
+                                </div>
+                                <p class="login-container-form-item-p">Ese número de teléfono no es válido.</p>
                             </div>
                     
-                            <div class="d-flex flex-column">
+                            <div class="login-container-form-item form-checkbox">
+                                <label>
+                                    <input type="checkbox">Acepto los <a href="#">términos y condiciones</a>
+                                </label>
+                            </div>
+
+                            <div class="login-container-form-item form-submit">
+                                <input type="submit" value="Enviar">
+                                <p class="login-container-form-item form-submit-p">Tu cuenta ya ha sido creada y verificada. ¡Ya podés ingresar a la plataforma!</p>
+                            </div>
+                    
+                            <div class="login-container-form-text d-flex flex-column">
                                 <span>¿Ya tenés una cuenta? <a href="./login.html">Iniciar sesión</a></span>
                             </div>
                         </form>
@@ -138,6 +199,7 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/wow.min.js"></script>
+    <!-- <script src="../js/login-register2.js"></script> -->
     <script>
         new WOW().init();
     </script>

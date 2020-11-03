@@ -1,6 +1,6 @@
-function pokemon(nombre, id, tipo, habilidad, tipoEnemigo) {
+function pokemon(nombre, id, habilidad, tipoEnemigo) {
     this.nombrePokemon = nombre;
-    this.tipoPokemon = tipo.split(`, `);
+    this.tipoPokemon = prompt("inserte tipo de pokemon").split(`, `);
     this.habilidadPokemon = habilidad;
     this.tipoEnemigoPokemon = tipoEnemigo.split(`, `);
 
@@ -34,7 +34,7 @@ function pokemon(nombre, id, tipo, habilidad, tipoEnemigo) {
                     let listaDebilidadesFuego = []
                     let pushFuego = listaDebilidadesFuego.push(listaTipo[2],listaTipo[8], listaTipo[12])
                     
-                    console.log(`${this.nombrePokemon} es débil a ${listaDebilidadesFuego.join(", ")}`);
+                    document.body.innerHTML = `<p>${this.nombrePokemon} es débil a ${listaDebilidadesFuego.join(", ")}</p>`;
 
                     break;
                     
@@ -161,7 +161,7 @@ function pokemon(nombre, id, tipo, habilidad, tipoEnemigo) {
 
 }
 
-let nuevoPokemon = new pokemon("Charizard", 006, "fuego, volador", "Mar Llamas", "tierra, roca")
+let nuevoPokemon = new pokemon("Charizard", 006, "Mar Llamas", "tierra, roca")
 
 console.log(nuevoPokemon);
 console.log(nuevoPokemon.saberDebilidad());

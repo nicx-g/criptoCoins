@@ -1,13 +1,14 @@
-function UsuarioCripto(){
+function registrarUsuario(){
     this.Nombre
     this.Apellido
     this.Email
     let Contraseña = []
 
+    this.setNombre = function(){
+        let inputNombre = document.getElementById("nombreDeUsuario")
+    }
 
     this.registrarUsuario = function(){
-
-        alert("Hola, bienvenido! se te pedirán unos datos para empezar el registro, tomará unos minutos")
 
         this.Nombre = prompt("Ingrese acá su nombre");
         this.Apellido = prompt("Ingrese acá su apellido")
@@ -39,37 +40,53 @@ function UsuarioCripto(){
     
     }
 
-    this.loguearUsuario = function(){
-
-       this.LoginEmail = prompt("Ingresá el email con el que te registraste");
-       this.LoginContraseña = prompt("Ingresá acá tu clave");
-
-        if(this.LoginEmail == this.Email && this.LoginContraseña == Contraseña){
-
-        return true;
-
-        } else{
-            
-            return false;
-        }
-
+    this.getContraseña = function() {
+        return Contraseña
     }
 
-    this.operarCripto = function(){
-
-        if(this.loguearUsuario() == true){
-
-            alert(`Bienvenido, estamos en construccion`)
-
-        } else{
-
-            alert("Te recomiendo que lo intentes de nuevo porque no coincide querido")
-            return this.operarCripto();
-        }
+    this.getDatosBasicos = function(posicionDelDatoASaber) {
+        
+        let datosBasicos = []
+        let pushearDatosBasicos = datosBasicos.push(this.Nombre, this.Apellido, this.Email)
+        return datosBasicos[posicionDelDatoASaber]
     }
+
 }
+
+function operarCripto(){
+    
+            if(loguearUsuario() == true){
+    
+                alert(`Bienvenido, estamos en construccion`)
+    
+            } else{
+                let deseaReintentarOperacion = confirm("?Querés reintentarlo?")
+                if(deseaReintentarOperacion == true){
+                    alert("Te recomiendo que lo intentes de nuevo porque no coincide querido")
+                    return operarCripto();
+                } else{
+                    alert("bueno jodete")
+                }
+            }
+        }
+
+function loguearUsuario(){
+
+    this.LoginEmail = prompt("Ingresá el email con el que te registraste");
+    this.LoginContraseña = prompt("Ingresá acá tu clave");
+
+     if(this.LoginEmail == UsuarioPrueba.getDatosBasicos(2) && this.LoginContraseña == UsuarioPrueba.getContraseña()){
+
+     return true;
+
+     } else{
+         
+         return false;
+     }
+
+ }
 
 let UsuarioPrueba = new UsuarioCripto()
 
 UsuarioPrueba.registrarUsuario();
-UsuarioPrueba.operarCripto();
+operarCripto();
