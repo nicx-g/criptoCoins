@@ -1,0 +1,96 @@
+.register {
+    background-image: url(../resources/images/portada2.jpg);
+    background-position: 60% 60%;
+    padding: 110px;
+
+    &-container{
+        background-color: map-get($colors, secondary);
+        border-radius: 5px;
+        max-width: 500px;
+        padding: 20px 40px;
+
+        &-text{
+            margin-bottom: 10px;
+
+            h1, span{
+                color: map-get($colors , primary);
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+
+            span{
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+        }
+
+        &-form{
+            margin-bottom: 10px;
+
+            &-item{
+
+                label{
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: .9rem;
+                    font-weight: 400;
+                    padding: 0;
+                    margin: 0;
+                    margin-bottom: 5px;
+                }
+
+                input{
+                    border: .5px solid black;
+                    border-radius: 2px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: .85rem;
+                    font-weight: 400;
+                    margin-bottom: 10px;
+                    padding: 10px 15px;
+                    transition: .1s linear all;
+                    width: 100%;
+
+                    &:focus{
+                        border: 1px solid black;
+                        outline: none;
+                    }
+                }
+            }
+
+            &-item.registerForm-submit{
+                
+                &-p{
+                    color: red;
+                    display: none;
+                    font-size: .9rem;
+                    font-weight: 700;
+                    margin-bottom: 5px;
+                    padding: 10px 20px;
+                    text-align:center;
+
+                    &-active{
+                        display:block
+                    }
+                }
+
+                input{
+                    background-image: linear-gradient(-45deg, map-get($colors, tertiary) 0 calc(50% - 10px), map-get($colors, primary) calc(50% - 10px) calc(50% + 10px), map-get($colors, quaternary) calc(50% + 10px) 100%);
+                    background-size: 290% 100%;
+                    background-position: 100% 50%;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 1rem;
+                    font-weight: 700;
+                    margin: 10px 5px 15px 0;
+                    padding: 10px 15px;
+                    transition: all .5s;
+
+                    &:hover{
+                        background-position: 0% 50%; 
+                        border-radius: 25px;
+                        transition: .5s all;
+                    }
+                }
+            }
+        }
+    }
+}

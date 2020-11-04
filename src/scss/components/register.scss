@@ -57,7 +57,8 @@
                         width: 100%;
 
                         &:focus{
-                            border: 1px solid black
+                            border: 1px solid black;
+                            outline: none;
                         }
                     }
 
@@ -95,6 +96,14 @@
 
                     .login-container-form-item-input{
                         
+                        input{
+                            border: .5px solid lightgreen;
+
+                            &:focus{
+                                border: .5px solid lightgreen;
+                            }
+                        }
+
                         &-i{
                             color: lightgreen;
                             opacity: 1;

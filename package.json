@@ -6,8 +6,8 @@
   "scripts": {
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "build-css": "npm run css && npm run css-autoprefixer",
-    "css": "cross-var node-sass --importer node_modules/node-sass-glob-importer/dist/cli.js --output-style compressed scss/main.scss css/styles.css",
-    "css-autoprefixer": "cross-var \"postcss -u autoprefixer -r css/*\""
+    "css": "cross-var node-sass --importer node_modules/node-sass-glob-importer/dist/cli.js --output-style compressed src/scss/main.scss src/css/styles.css",
+    "css-autoprefixer": "cross-var \"postcss -u autoprefixer -r src/css/*\""
   },
   "version": "1.0.0",
   "devDependencies": {

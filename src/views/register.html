@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión | Cripto Coins</title>
-    <link rel="stylesheet" href="../libraries/bootstrap.min.css">
-    <link rel="stylesheet" href="../libraries/fontAwesome5-14.min.css">
-    <link rel="stylesheet" href="../libraries/cryptofont.css">
+    <link rel="stylesheet" href="../libraries/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../libraries/css/fontAwesome5-14.min.css">
+    <link rel="stylesheet" href="../libraries/css/cryptofont.css">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -65,9 +65,9 @@
                         <span>Ingrese sus datos para crear su cuenta en Cripto Coins</span>
                     </div>
                     <div>
-                        <form id="formularioLogin" class="login-container-form d-flex flex-column" action="" method="POST">
+                        <form id="formularioRegister" class="login-container-form d-flex flex-column" action="" method="POST">
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-nombre">
                                 <label for="nombreDeUsuario">Nombre</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="text" name="nombreDeUsuario" id="nombreDeUsuario" placeholder="Ingresá tu nombre. Ejemplo: Pepe">
@@ -76,7 +76,7 @@
                                 <p class="login-container-form-item-p">Ingresá un nombre válido, por favor.</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-apellido">
                                 <label for="apellidoDeUsuario">Apellido</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="text" name="apellidoDeUsuario" id="apellidoDeUsuario" placeholder="Ingresá tu apellido. Ejemplo: Quiroga">
@@ -85,7 +85,7 @@
                                 <p class="login-container-form-item-p">Ingresá un apellido válido, por favor</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-dni">
                                 <label for="dniDeUsuario">DNI</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="text" name="dniDeUsuario" id="dniDeUsuario" placeholder="Ingresá tu DNI. Ejemplo: 34153167">
@@ -94,7 +94,7 @@
                                 <p class="login-container-form-item-p">Lo sentimos, ese DNI no es válido.</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-email">
                                 <label for="emailDeUsuario">Email</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="email" name="emailDeUsuario" id="emailDeUsuario" placeholder="Ingresá tu email. Ejemplo: pepequiroga@gmail.com">
@@ -103,7 +103,7 @@
                                 <p class="login-container-form-item-p">Ingresá un email válido, por favor.</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-password">
                                 <label for="passwordDeUsuario">Contraseña</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="password" name="passwordDeUsuario" id="passwordDeUsuario" placeholder="ingrese su contraseña">
@@ -112,7 +112,7 @@
                                 <p class="login-container-form-item-p">Ingresá una contraseña válida, por favor.</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-password2">
                                 <label for="password2DeUsuario">Repetir Contraseña</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="password" name="password2DeUsuario" id="password2DeUsuario" placeholder="ingrese su contraseña">
@@ -121,7 +121,7 @@
                                 <p class="login-container-form-item-p">Las contraseñas tienen que ser iguales.</p>
                             </div>
 
-                            <div class="login-container-form-item">
+                            <div class="login-container-form-item" id="formRegister-item-telefono">
                                 <label for="telefonoDeUsuario">Número de teléfono</label>
                                 <div class="login-container-form-item-input">
                                     <input required type="text" name="telefonoDeUsuario" id="telefonoDeUsuario" placeholder="Ingrese su número de teléfono. Ejemplo: 1125478451">
@@ -132,7 +132,7 @@
                     
                             <div class="login-container-form-item form-checkbox">
                                 <label>
-                                    <input type="checkbox">Acepto los <a href="#">términos y condiciones</a>
+                                    <input id="checkboxTerms" type="checkbox">Acepto los <a href="#">términos y condiciones</a>
                                 </label>
                             </div>
 
@@ -195,11 +195,11 @@
         </div>
     </footer>
 
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/wow.min.js"></script>
-    <!-- <script src="../js/login-register2.js"></script> -->
+    <script src="../libraries/js/jquery.min.js"></script>
+    <script src="../libraries/js/popper.min.js"></script>
+    <script src="../libraries/js/bootstrap.min.js"></script>
+    <script src="../libraries/js/wow.min.js"></script>
+    <script src="../js/register.js"></script>
     <script>
         new WOW().init();
     </script>

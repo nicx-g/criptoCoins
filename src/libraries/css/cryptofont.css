@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'cryptofont';
-  src:  url('../resources/fonts/crypto/');
-  src:  url('../resources/fonts/crypto/#iefix') format('embedded-opentype'),
-    url('../resources/fonts/crypto//cryptofont.ttf?21w9ej') format('truetype'),
-    url('../resources/fonts/crypto//cryptofont.woff?21w9ej') format('woff'),
-    url('../resources/fonts/crypto//cryptofont.svg?21w9ej#cryptofont') format('svg');
+  src:  url('../../resources/fonts/crypto/');
+  src:  url('..../resources/fonts/crypto/#iefix') format('embedded-opentype'),
+    url('../../resources/fonts/crypto//cryptofont.ttf?21w9ej') format('truetype'),
+    url('../../resources/fonts/crypto//cryptofont.woff?21w9ej') format('woff'),
+    url('../../resources/fonts/crypto//cryptofont.svg?21w9ej#cryptofont') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
