@@ -59,8 +59,8 @@
 
             &-item.registerForm-submit{
                 
-                &-p{
-                    color: red;
+                &-errorForm{
+                    color: rgb(201, 48, 48);
                     display: none;
                     font-size: .9rem;
                     font-weight: 700;
@@ -70,6 +70,27 @@
 
                     &-active{
                         display:block
+                    }
+                }
+                &-errorEmail{
+                    background-color: orange;
+                    bottom: 0px;
+                    color: map-get($colors, secondary);
+                    height: 0;
+                    font-size: .9rem;
+                    font-weight: 700;
+                    right: 0px;
+                    text-align:center;
+                    position: fixed;
+                    opacity: 0;
+                    transition: .3s ease-in all;
+
+                    &-active{
+                        height: auto;
+                        opacity: 1;
+                        margin-bottom: 5px;
+                        padding: 10px 20px;
+                        transition: .3s ease-in all;
                     }
                 }
 

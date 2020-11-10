@@ -157,17 +157,39 @@
 
             &-item.form-submit{
 
-                &-p{
+                &-okay{
                     background-color: lightgreen;
                     color: map-get($colors, secondary);
-                    display: none;
                     font-size: .9rem;
+                    height: 0;
                     font-weight: 700;
-                    margin-bottom: 5px;
-                    padding: 10px 20px;
+                    opacity: 0;
+                    transition: all .3s ease-in;
 
                     &-active{
-                        display:block
+                        height: auto;
+                        opacity: 1;
+                        margin-bottom: 5px;
+                        padding: 10px 20px;
+                        transition: all .3s ease-in;
+                    }
+                }
+
+                &-error{
+                    background-color: rgb(201, 48, 48);
+                    color: map-get($colors, secondary);
+                    height: 0;
+                    font-size: .9rem;
+                    font-weight: 700;
+                    opacity: 0;
+                    transition: all .3s ease-in;
+
+                    &-active{
+                        height: auto;
+                        margin-bottom: 5px;
+                        padding: 10px 20px;
+                        opacity: 1;
+                        transition: all ease-in .3s;
                     }
                 }
 

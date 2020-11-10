@@ -1,49 +1,42 @@
-function validarLogin(){
-
-    emailLogin = document.getElementById(`emailLoginDeUsuario`)
-    passwordLogin = document.getElementById(`passwordLoginDeUsuario`)
-
-    if(localStorage.getItem("email") == emailLogin.value.toLowerCase() && localStorage.getItem("password") == passwordLogin.value){
-
-        error = document.querySelector(`.registerForm-submit-p`).classList.remove('registerForm-submit-p-active')
-
-        checkboxReminder = document.getElementById('checkboxLogin') 
-
-        if(!checkboxReminder.checked){
-
-            sessionStorage.setItem(`emailLoginSession`, emailLogin.value);
-            sessionStorage.setItem(`passwordLoginSession`, passwordLogin.value);
-
-        } else{
-
-            localStorage.setItem(`emailLoginLocal`, emailLogin.value)
-            localStorage.setItem(`passwordLoginLocal`, passwordLogin.value)
-
-        }
-        
-        return true
-        
-    } else{
-
-        error = document.querySelector(`.registerForm-submit-p`).classList.add('registerForm-submit-p-active')
-        return false
-
-    }
-}
-
 formularioLogin = document.getElementById(`login-form`)
 
-formularioLogin.addEventListener('submit', (e) => {
+authFirestore.onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      let emailVerificado = user.emailVerified;
 
-    e.preventDefault();
+      if(emailVerificado){
 
-    if(validarLogin()){
+          window.location.href = "./dashboard.html"
 
-        formularioLogin.reset()
+      } else{
 
-        setTimeout(() => {
+        document.querySelector(`.registerForm-submit-errorEmail`).classList.add('registerForm-submit-errorEmail-active')
+
+      }
+
+    } else {
+      // User is signed out.
+      formularioLogin.addEventListener('submit', (e) => {
+
+        e.preventDefault();
+    
+        emailLogin = document.getElementById(`emailLoginDeUsuario`).value;
+        passwordLogin = document.getElementById(`passwordLoginDeUsuario`).value;
+    
+        firebase.auth().signInWithEmailAndPassword(emailLogin, passwordLogin)
+        .then(() => {
+    
+            error = document.querySelector(`.registerForm-submit-errorForm`).classList.remove('registerForm-submit-errorForm-active')
             window.location.href = "./dashboard.html"
-        }, 100);
-
+    
+        })
+        .catch(() => {
+            
+            error = document.querySelector(`.registerForm-submit-errorForm`).classList.add('registerForm-submit-errorForm-active')
+    
+        })
+    })
     }
-})
+  });
+

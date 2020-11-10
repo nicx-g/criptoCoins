@@ -2,14 +2,19 @@ const formularioRegister = document.getElementById("formularioRegister")
 
 const inputsRegister = document.querySelectorAll('#formularioRegister input');
 
+
+// Estas expresiones las estoy usando para las validaciones de los campos 
+
 const expresiones = {
-	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios con acentos.
-	apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios con acentos.
-    dni: /^\d{8,8}$/, // sólo 8 números?.
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios con acentos
+	apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios con acentos
+    dni: /^\d{8,8}$/, // sólo 8 números
 	email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-	password: /^.{4,20}$/, // 4 a 20 digitos.
-    telefono: /^\d{7,14}$/, // 7 a 14 numeros.
+	password: /^.{6,20}$/, // 6 a 20 digitos
+    telefono: /^\d{7,14}$/, // 7 a 14 numeros
 }
+
+//Este objeto se sobreescribe cuando todos los inputs fueron correctamente validados
 
 const camposValidados = {
     nombre: false,
@@ -20,7 +25,9 @@ const camposValidados = {
     telefono: false
 }
 
-//No pienso usar frameworks para esto
+//No pienso usar frameworks para esto como cierto vago *cos *cos MyFood
+
+//Función que valida cada uno de los inputs
 
 let validarFormulario = (e) => {
 
@@ -71,6 +78,8 @@ let validarFormulario = (e) => {
     
 }
 
+//Función general que valida los inputs
+
 let validarInputs = (expresion, input, campo) => {
 
     if(expresion.test(input.value)){
@@ -94,6 +103,8 @@ let validarInputs = (expresion, input, campo) => {
     }
 
 }
+
+//Esta función es para validar que las dos contraseñas sean iguales
 
 let validarContra = () => {
 
@@ -121,42 +132,83 @@ let validarContra = () => {
     }
 }
 
+//Esta función es para escuchar el keyup y el blur de todos los inputs que existen en el formulario y ejecuta la función validarFormulario que se encuentra más arriba
 
 inputsRegister.forEach((inputR) => {
     inputR.addEventListener(`keyup`, validarFormulario)
     inputR.addEventListener(`blur`, validarFormulario)
 })
 
-function guardarDatos(){
-    localStorage.setItem(`nombre`, document.getElementById(`nombreDeUsuario`).value)
-    localStorage.setItem(`apellido`, document.getElementById(`apellidoDeUsuario`).value)
-    localStorage.setItem(`dni`, document.getElementById(`dniDeUsuario`).value)
-    localStorage.setItem(`email`, document.getElementById(`emailDeUsuario`).value)
-    localStorage.setItem(`password`, document.getElementById(`passwordDeUsuario`).value)
-    localStorage.setItem(`telefono`, document.getElementById(`telefonoDeUsuario`).value)
+
+// Guardar datos tanto en la base de datos de FireStore como para guardar al usuario en el firebase Auth
+
+async function guardarDatos(){
+
+    let nombreValue = document.getElementById('nombreDeUsuario').value
+    let apellidoValue = document.getElementById('apellidoDeUsuario').value
+    let dniValue = document.getElementById('dniDeUsuario').value
+    let emailValue = document.getElementById('emailDeUsuario').value
+    let passwordValue = document.getElementById('passwordDeUsuario').value
+    let telefonoValue = document.getElementById('telefonoDeUsuario').value
+
+    let usersData = firestore.doc(`Users/${emailValue}`)
+
+    await usersData.set({
+        nombre: nombreValue,
+        apellido: apellidoValue,
+        dni: dniValue,
+        email: emailValue,
+        password: passwordValue,
+        telefono: telefonoValue,
+    });
+
+   await authFirestore.createUserWithEmailAndPassword(emailValue, passwordValue);
+
 }
 
-formularioRegister.addEventListener(`submit`, (e) => {
-    e.preventDefault();
+
+formularioRegister.addEventListener(`submit`, async (e) => {
+
+    e.preventDefault(); // Evita que el botón ejecute la acción
+    
     let terminosaceptados = document.getElementById('checkboxTerms')
+
+    let emailValue = document.getElementById('emailDeUsuario').value
+    let usersData = firestore.doc(`Users/${emailValue}`)
 
     if(camposValidados.nombre && camposValidados.apellido && camposValidados.dni && camposValidados.email && camposValidados.password && camposValidados.telefono && terminosaceptados.checked){
 
-        guardarDatos();
-        formularioRegister.reset();
+        await guardarDatos(); 
+        formularioRegister.reset(); // resetea completamente el formulario
 
-        document.querySelector('.form-submit-p').classList.add('form-submit-p-active')
+        let enviarEmailDeVerificacion = firebase.auth().currentUser; //
 
-        setTimeout(() => {
+        await enviarEmailDeVerificacion.sendEmailVerification()
+        .then(()=>{
+            //Ignorar, esta es una función que hace algo si se envió el email correctamente, están acá porque si no me deja mandar el email de verificación
+        })
+        .catch(() => {
+            //y este el caso contrario, si salió mal
+        })
 
-            document.querySelector('.form-submit-p').classList.remove('form-submit-p-active')
-            window.location.href = "./login.html";
+        firebase.auth().signOut() // Por alguna razón el usuario automáticamente se me loguea cuando se registra, con esto logro que se desloguee automáticamente una vez manda el formulario
 
-        }, 5000);
+        document.querySelector('.form-submit-okay').classList.add('form-submit-okay-active') //añade el mensaje de éxito
+        document.querySelector(".form-submit-error").classList.remove("form-submit-error-active") //elimina el mensaje de error en caso de que estuviera
 
         document.querySelectorAll(`.login-container-form-item-okay`).forEach((icono) => {
             icono.classList.remove(`login-container-form-item-okay`)
-        })
+        }) // elimina todos los icons
+
+        setTimeout(() => {
+
+            document.querySelector('.form-submit-okay').classList.remove('form-submit-okay-active') //elimina el mensaje de éxito
+            window.location.href = "./login.html" //Lleva al login 
+
+        }, 13000); // en 13 segundos
+
+    } else{
+        document.querySelector(".form-submit-error").classList.add("form-submit-error-active") //mensaje de erorr en caso de que algo saliera mal
     }
 
 })

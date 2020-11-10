@@ -65,7 +65,7 @@
                         <span>Ingrese sus datos para entrar a la plataforma</span>
                     </div>
                     <div>
-                        <form id="login-form" class="register-container-form d-flex flex-column" action="./dashboard.html">
+                        <form id="login-form" class="register-container-form d-flex flex-column" method="POST">
 
                             <div class="register-container-form-item" id="formLogin-item-email">
                                 <label for="emailDeUsuario">Email</label>
@@ -84,7 +84,8 @@
 
                             <div class="register-container-form-item  registerForm-submit" id="formLogin-item-submit">
                                 <input type="submit" value="Iniciar sesión">
-                                <p class="register-container-form-item registerForm-submit-p">Usuario y/o contraseña incorrectos. Intente nuevamente</p>
+                                <p class="register-container-form-item registerForm-submit-errorForm">Usuario y/o contraseña incorrectos. Intente nuevamente</p>
+                                <p class="register-container-form-item registerForm-submit-errorEmail">Si ya estás logueado y el email no fue verificado no vas a poder ingresar a la plataforma, por favor, verificalo primero. Si ya lo verificaste, recargá la página y te debería dejar entrar. Si el email todavía no te llegó, disculpá, a esperar, no te queda otra ahre o crea otra cuenta (la mejor user experience del mundo)</p>
                             </div>
                     
                             <div class="d-flex flex-column">
@@ -146,9 +147,13 @@
     <script src="../libraries/js/popper.min.js"></script>
     <script src="../libraries/js/bootstrap.min.js"></script>
     <script src="../libraries/js/wow.min.js"></script>
-    <script src="../js/login.js"></script>
-    <script>
-        new WOW().init();
-    </script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+    <script defer src="../js/init-libraries.js"></script>
+    <script defer src="../js/login.js"></script>
 </body>
 </html>
