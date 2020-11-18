@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../libraries/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../libraries/css/fontAwesome5-14.min.css">
-    <link rel="stylesheet" href="../libraries/css/cryptofont.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../libraries/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../libraries/css/fontAwesome5-14.min.css">
+    <link rel="stylesheet" href="../../libraries/css/cryptofont.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
     
@@ -94,49 +94,36 @@
                     </ul>
                 </div>
 
-                <div class="dashboard-content-home">
-                    <div class="saldos d-flex justify-content-center flex-column">
-                        <h2 class="align-self-start">Tu saldo:</h2>
-                        <div class="saldo d-flex justify-content-center">
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>ARS</span>
-                                <span id="saldo-ars">100</span>
+                <div class="dashboard-content-operar">
+                    <div class="ingresar-y-retirar-noCripto">
+                        <div class="ingresar-o-retirar">
+                            <a class="active-link" href="#/dashboard/depositos-y-retiros/ingresar/dai">Ingresar</a>
+                            <a href="#/dashboard/depositos-y-retiros/retirar/dai">Retirar</a>
+                        </div> 
+                        
+                        <div class="ingresar-o-retirar-noCripto">
+                            <div class="ingresar-o-retirar-noCripto-operacion">
+                                <h2>¿Cuántos DAI deseas ingresar a tu cuenta?</h2>
+                                <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
+                                    <label for="ingresarPesos">Insertar cantidad de DAI's</label>
+                                    <input type="text" name="ingresarPesos" id="ingresarPesos" placeholder="Por ej: 122">
+                                </div>
+                                <button type="submit">Ingresar DAI's</button>
                             </div>
 
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>USD</span>
-                                <span id="saldo-usd">200</span>
+                            <div class="mensaje-de-operacion bg-light">
+                                <p>Vas a tener que depositar los DAI en la siguiente dirección para que se te acredite:</p>
+                                <p>0xac4f72e7bda732a521dff91a0fb46ee24f1eadbf</p>
                             </div>
 
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-dai"></i>DAI</span>
-                                <span id="saldo-dai">15.92</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-btc"></i>BTC</span>
-                                <span id="saldo-btc">0.0024</span>
+                            <div class="mensaje-de-exito bg-success">
+                                <p>Por fines prácticos ya tenés los DAI depositados en tu cuenta</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="historial">
-                        <h2>Historial de operaciones:</h2>
-                        <div id="historial-de-operaciones" class="historial-de-operaciones">
-
-                            <div class="historial-item  d-flex justify-content-around align-items-center">
-                                <div class="d-flex">
-                                    <span id="history-title"><i class="fas fa-piggy-bank"></i>Titulo</span>
-                                </div>
-                                
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <span>Monto</span>
-                                    <span>Fecha y hora</span>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -148,18 +135,18 @@
     </footer>
 
 
-    <script src="../libraries/js/jquery.min.js"></script>
-    <script src="../libraries/js/popper.min.js"></script>
-    <script src="../libraries/js/bootstrap.min.js"></script>
-    <script src="../libraries/js/wow.min.js"></script>
+    <script src="../../libraries/js/jquery.min.js"></script>
+    <script src="../../libraries/js/popper.min.js"></script>
+    <script src="../../libraries/js/bootstrap.min.js"></script>
+    <script src="../../libraries/js/wow.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-    <script defer src="../js/init-libraries.js"></script>
-    <script defer type="module" src="../js/main.js"></script>
-    <script defer type="module" src="../router/index.routes.js"></script>
+    <script defer src="../../js/init-libraries.js"></script>
+    <script defer type="module" src="../../js/main.js"></script>
+    <script defer type="module" src="../../router/index.routes.js"></script>
 </body>
 </html>

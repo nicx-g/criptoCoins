@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../libraries/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../libraries/css/fontAwesome5-14.min.css">
-    <link rel="stylesheet" href="../libraries/css/cryptofont.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../libraries/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../libraries/css/fontAwesome5-14.min.css">
+    <link rel="stylesheet" href="../../libraries/css/cryptofont.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
     
@@ -94,49 +94,40 @@
                     </ul>
                 </div>
 
-                <div class="dashboard-content-home">
-                    <div class="saldos d-flex justify-content-center flex-column">
-                        <h2 class="align-self-start">Tu saldo:</h2>
-                        <div class="saldo d-flex justify-content-center">
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>ARS</span>
-                                <span id="saldo-ars">100</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>USD</span>
-                                <span id="saldo-usd">200</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-dai"></i>DAI</span>
-                                <span id="saldo-dai">15.92</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-btc"></i>BTC</span>
-                                <span id="saldo-btc">0.0024</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="historial">
-                        <h2>Historial de operaciones:</h2>
-                        <div id="historial-de-operaciones" class="historial-de-operaciones">
-
-                            <div class="historial-item  d-flex justify-content-around align-items-center">
-                                <div class="d-flex">
-                                    <span id="history-title"><i class="fas fa-piggy-bank"></i>Titulo</span>
+                <div class="dashboard-content-operar">
+                    <div class="ingresar-y-retirar-noCripto">
+                        <div class="ingresar-o-retirar">
+                            <a class="active-link" href="#/dashboard/operar/compra/daiars">Comprar</a>
+                            <a href="#/dashboard/operar/venta/daiars">Vender</a>
+                        </div> 
+                        
+                        <div class="ingresar-o-retirar-cripto flex-column d-flex justify-content-center align-items-center">
+                            <div class="ingresar-o-retirar-cripto-operacion d-flex flex-column align-items-center">
+                                <h2>Comprar DAI por ARS</h2>
+                                <div class="ingresar-o-retirar-cripto-input d-flex">
+                                    <div class="d-flex align-items-center justify-content-center flex-column">
+                                        <label for="ingresarPesos">DAI que vas a comprar</label>
+                                        <input type="text" name="ingresarPesos" id="ingresarPesos" placeholder="0">
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center flex-column">
+                                        <label for="ingresarPesos1">ARS que vas a pagar</label>
+                                        <input type="text" name="ingresarPesos1" id="ingresarPesos1" placeholder="0">
+                                    </div>
                                 </div>
+                                <p>Tu cotización: 125 ARS/DAI</p>
                                 
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <span>Monto</span>
-                                    <span>Fecha y hora</span>
-                                </div>
+                                <label for="juramento"><input type="checkbox" name="juramento" id="juramento">Al continuar declaro bajo juramento que mis fondos no provienen de planes y programas sociales en Argentina.</label>
+                                <button type="submit">Confirmar operación</button>
+                            </div>
+
+                            <div class="mensaje-de-exito bg-success">
+                                <p>Ya están los DAI acreditados en tu cuenta</p>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -148,18 +139,18 @@
     </footer>
 
 
-    <script src="../libraries/js/jquery.min.js"></script>
-    <script src="../libraries/js/popper.min.js"></script>
-    <script src="../libraries/js/bootstrap.min.js"></script>
-    <script src="../libraries/js/wow.min.js"></script>
+    <script src="../../libraries/js/jquery.min.js"></script>
+    <script src="../../libraries/js/popper.min.js"></script>
+    <script src="../../libraries/js/bootstrap.min.js"></script>
+    <script src="../../libraries/js/wow.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-    <script defer src="../js/init-libraries.js"></script>
-    <script defer type="module" src="../js/main.js"></script>
-    <script defer type="module" src="../router/index.routes.js"></script>
+    <script defer src="../../js/init-libraries.js"></script>
+    <script defer type="module" src="../../js/main.js"></script>
+    <script defer type="module" src="../../router/index.routes.js"></script>
 </body>
 </html>

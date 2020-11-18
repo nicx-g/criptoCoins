@@ -1,0 +1,412 @@
+.dashboard-header{
+    background-color: map-get($colors, quaternary);
+    
+    .cotizacion{
+        color: map-get($colors, primary);
+        margin-left: 50px;
+
+        div{
+            margin-left: 15px;
+
+            span{
+                font-weight: 500;
+                font-size: 1rem;
+            }
+            div{
+                margin-top: 5px;
+
+                span{
+                font-weight: 600;
+                margin-right: 10px;
+                font-size: 1.3rem;
+            }
+             }
+        }
+    }
+
+    .criptoUser{
+        a.nav-item{
+            border-left: 3px map-get($colors, primary) solid;
+            color: map-get($colors, primary);
+            font-weight: 500;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+        }
+    }
+
+}
+
+.dashboard-content{
+    background-color: map-get($colors, tertiary);
+
+    .historial{
+        margin: 20px 0;
+        
+        h2{
+            color: map-get($colors, primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .historial-de-operaciones{
+            max-height: 400px;
+            overflow-y: scroll;
+
+            .historial-item{
+                background-color: map-get($colors, secondary);
+                border-radius: 10px;
+                margin-bottom: 5px;
+            }
+            div{
+
+                span{
+                    font-size: 1.2rem;
+                    font-weight: 500;
+    
+                    i{
+                        font-size: 1.6rem;
+                        margin-right: 7px;
+                    }
+                }
+            }
+        }
+    }
+
+    &-aside{
+
+        ul{
+            border-right: 3px solid map-get($colors, primary);
+            margin-top: 20px;
+            padding-top: 10px;
+            padding-right: 10px;
+    
+            li{
+                list-style: none;
+                margin-bottom: 20px;
+    
+                a{
+                    color: map-get($colors, primary);
+                    font-size: 1rem;
+                    text-decoration: none;
+    
+                    i{
+                        color: map-get($colors, primary);
+                        font-size: 1.5rem;
+                        margin-right: 7px;
+                    }
+                }
+    
+                ul {
+                    border: 0;
+                    margin: 0;
+                    padding-top: 20px;
+                    
+                    li{
+                        list-style: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &-home{
+        height: 90%;
+        padding-left: 20px;
+        width: 100%;
+
+        .saldos{
+            margin-top: 20px;
+
+            h2{
+                color: map-get($colors, primary);
+                font-size: 1.4rem;
+                font-weight: 700;
+            }
+
+            .saldo{
+
+                div{
+                    background-color: #fff;
+                    border: map-get($colors, quaternary) solid 2px;
+                    border-radius: 5px;
+                    min-width: 220px;
+                    margin: 0 5px;
+                    padding: 5px 10px;
+
+                    span{
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        text-align:center;
+
+                        i{
+                            margin-right: 7px;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+    &-deposito-y-retiro, &-operar{
+        height: 90%;
+        padding-left: 20px;
+        width: 100%;
+
+        .operaciones{
+
+            h2{
+                color: map-get($colors, primary);
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin: 15px 0;
+            }
+
+            .elegirMoneda{
+
+                span{
+                    color: map-get($colors, primary);
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                }
+
+                .elegirMonedaItem{
+                    background-color: map-get($colors, secondary);
+                    border: 2px map-get($colors, secondary) solid;
+                    border-radius: 10px;
+                    margin-top: 15px;
+                    padding: 20px 0;
+                    transition: all .3s ease-in;
+
+                    &:hover{
+                        border: 2px map-get($colors, quaternary) solid;
+                    }
+
+                    a{
+                        color: map-get($colors, primary);
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                        padding: 20px 60px;
+                        text-decoration: none;
+
+                        i{
+                            color: map-get($colors, primary);
+                            margin-right: 7px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-operar{
+
+        .ingresar-y-retirar-noCripto{
+
+            .ingresar-o-retirar{
+                margin: 20px 0;
+
+                a{
+                    background-color: map-get($colors, secondary);
+                    border: 2px map-get($colors, primary) solid;
+                    border-radius: 3px;
+                    color: map-get($colors, primary);
+                    font-size: 1.2rem;
+                    font-weight: 400;
+                    margin: 0 5px;
+                    padding: 8px 16px;
+                    text-decoration: none;
+                    transition: all .3s ease-in;
+
+                    &:hover{
+                        background-color: map-get($colors, quaternary);
+                        border: 0;
+                        border-bottom: 3px map-get($colors, primary) solid;
+                    }
+                }
+                .active-link{
+                    background-color: map-get($colors, quaternary);
+                    border: 0;
+                    border-bottom: 3px map-get($colors, primary) solid;
+                }
+            }
+
+            .ingresar-o-retirar-noCripto{
+
+                .ingresar-o-retirar-noCripto-operacion{
+
+                    h2{
+                        color: map-get($colors, primary);
+                        font-size: 1.3rem;
+                        font-weight: 600;    
+                    }
+    
+                    .ingresar-o-retirar-noCripto-input{
+    
+                        label{
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                            margin: -5px;
+                        }
+
+                        input{
+                            border: 0;
+                            border-bottom: 1px map-get($colors, primary) solid;
+                            border-radius: 4px;
+                            font-family: 'Montserrat', sans-serif;
+                            font-size: 1.2rem;
+                            font-weight: 400;
+                            margin: 15px 0;
+                            padding: 10px 20px;
+                            outline: none;
+                            text-align: center;
+                            width: 250px;
+                        }
+
+                        p{
+                            color: rgb(201, 48, 48);
+                        }
+                    }
+    
+                    button{
+                        background-color: map-get($colors, quaternary);
+                        border: 2px map-get($colors, quaternary) solid;
+                        border-radius: 5px;
+                        font-family: 'Montserrat', sans-serif;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        padding: 10px 20px;
+                        transition: all .3s ease-in-out;
+                        
+                        &:hover{
+                            border: 2px map-get($colors, primary) solid;
+                        }
+                    }
+                }
+
+                .mensaje-de-operacion{
+                    padding: 10px 20px;
+
+                    p{
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                    }
+                    span{
+                        font-weight:600;
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .mensaje-de-exito{
+                    margin-top: 10px;
+                    padding: 10px 20px;
+
+                    p{
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+
+            .ingresar-o-retirar-cripto{
+
+                &-operacion{
+
+                    h2{
+                        color: map-get($colors, primary);
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        margin-bottom: 25px;
+                    }
+
+                    .ingresar-o-retirar-cripto-input{
+
+                        label{
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                            margin: -5px;
+                        }
+
+                        input{
+                            border: 0;
+                            border-bottom: 1px map-get($colors, primary) solid;
+                            border-radius: 4px;
+                            font-family: 'Montserrat', sans-serif;
+                            font-size: 1.2rem;
+                            font-weight: 400;
+                            margin: 15px 10px;
+                            padding: 10px 20px;
+                            outline: none;
+                            text-align: center;
+                        }
+
+                        p{
+                            color: rgb(201, 48, 48);
+                        }
+                    }
+
+                    p{
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        margin-bottom: 10px;
+                    }
+
+                    label{
+                        font-size: 1.2rem;
+                        font-weight: 500;
+
+                        input{
+                            height: 16px;
+                            margin-right: 5px;
+                            width: 16px;
+                        }
+                    }
+
+                    button{
+                        background-color: map-get($colors, quaternary);
+                        border: 2px map-get($colors, quaternary) solid;
+                        border-radius: 5px;
+                        font-family: 'Montserrat', sans-serif;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        padding: 10px 20px;
+                        transition: all .3s ease-in-out;
+                        
+                        &:hover{
+                            border: 2px map-get($colors, primary) solid;
+                        }
+                    }
+
+                }
+
+                .mensaje-de-exito{
+                    margin-top: 10px;
+                    padding: 10px 20px;
+
+                    p{
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.dashboard-footer{
+    background-color: map-get($colors, primary);
+
+    .footer-text{
+        color: map-get($colors, secondary);
+    }
+}
+
+.error-input{
+    border: 2px rgb(201, 48, 48) solid !important;
+}

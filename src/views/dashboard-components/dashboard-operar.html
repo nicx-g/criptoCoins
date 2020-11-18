@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../libraries/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../libraries/css/fontAwesome5-14.min.css">
-    <link rel="stylesheet" href="../libraries/css/cryptofont.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../../libraries/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../libraries/css/fontAwesome5-14.min.css">
+    <link rel="stylesheet" href="../../libraries/css/cryptofont.css">
+    <link rel="stylesheet" href="../../css/styles.css">
 </head>
 <body>
     
@@ -94,32 +94,25 @@
                     </ul>
                 </div>
 
-                <div class="dashboard-content-home">
-                    <div class="saldos d-flex justify-content-center flex-column">
-                        <h2 class="align-self-start">Tu saldo:</h2>
-                        <div class="saldo d-flex justify-content-center">
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>ARS</span>
-                                <span id="saldo-ars">100</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="fas fa-dollar-sign"></i>USD</span>
-                                <span id="saldo-usd">200</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-dai"></i>DAI</span>
-                                <span id="saldo-dai">15.92</span>
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <span><i class="cf cf-btc"></i>BTC</span>
-                                <span id="saldo-btc">0.0024</span>
+                <div class="dashboard-content-operar">
+                    <div class="operaciones">
+                        <h2>Operar</h2>
+                        <div class="elegirMoneda">
+                            <span>¿Qué querés vender o comprar?</span>
+                            <div class="d-flex justify-content-around">
+                                <div class="elegirMonedaItem">
+                                    <a href="#/dashboard/operar/compra/daiars"><i class="fas fa-dollar-sign"></i>DAI/ARS</a>
+                                </div>
+                                <div class="elegirMonedaItem">
+                                    <a href="#/dashboard/operar/compra/daiusd"><i class="fas fa-dollar-sign"></i>DAI/USD</a>
+                                </div>
+                                <div class="elegirMonedaItem">
+                                    <a href="#/dashboard/operar/compra/btcars"><i class="cf cf-dai"></i>BTC/ARS</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="historial">
                         <h2>Historial de operaciones:</h2>
                         <div id="historial-de-operaciones" class="historial-de-operaciones">
@@ -137,6 +130,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -148,18 +142,18 @@
     </footer>
 
 
-    <script src="../libraries/js/jquery.min.js"></script>
-    <script src="../libraries/js/popper.min.js"></script>
-    <script src="../libraries/js/bootstrap.min.js"></script>
-    <script src="../libraries/js/wow.min.js"></script>
+    <script src="../../libraries/js/jquery.min.js"></script>
+    <script src="../../libraries/js/popper.min.js"></script>
+    <script src="../../libraries/js/bootstrap.min.js"></script>
+    <script src="../../libraries/js/wow.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-    <script defer src="../js/init-libraries.js"></script>
-    <script defer type="module" src="../js/main.js"></script>
-    <script defer type="module" src="../router/index.routes.js"></script>
+    <script defer src="../../js/init-libraries.js"></script>
+    <script defer type="module" src="../../js/main.js"></script>
+    <script defer type="module" src="../../router/index.routes.js"></script>
 </body>
 </html>
