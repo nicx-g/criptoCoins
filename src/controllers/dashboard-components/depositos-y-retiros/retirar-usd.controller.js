@@ -89,16 +89,20 @@ export default () => {
                 <div class="ingresar-o-retirar-noCripto">
                     <div class="ingresar-o-retirar-noCripto-operacion">
                         <h2>¿Cuánto dólares deseas retirar de tu cuenta?</h2>
-                        <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
-                            <label for="ingresarPesos">Insertar cantidad de dólares</label>
-                            <input type="text" name="ingresarPesos" id="ingresarPesos" placeholder="Por ej: 68">
-                            <label for="cbu">Insertar tu CBU o ALIAS de tu caja de ahorro en DÓLARES</label>
-                            <input type="text" name="cbu" id="cbu" placeholder="Por ej: 1430001713000035540010">
-                        </div>
-                        <button type="submit">Retirar dólares</button>
+                        <form id="form-retirar-usd">
+                            <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
+                                <label for="retirarDolares">Insertar cantidad de dólares</label>
+                                <input type="text" name="retirarDolares" id="retirarDolares" placeholder="Por ej: 68">
+                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+
+                                <label for="cbuAlias">Insertar tu CBU o ALIAS de tu caja de ahorro en DÓLARES</label>
+                                <input type="text" name="cbuAlias" id="cbuAlias" placeholder="Por ej: 1430001713000035540010">
+                            </div>
+                            <button id="btn-retirar-usd" type="submit">Retirar dólares</button>
+                        </form>
                     </div>
 
-                    <div class="mensaje-de-exito bg-success">
+                    <div id="mensaje-de-exito" class="mensaje-de-exito bg-success" style="display:none">
                         <p>Ya tendrías que tener los dólares acreditados en tu cuenta bancaria.</p>
                     </div>
                 </div>
@@ -116,7 +120,277 @@ export default () => {
     const divElement = document.createElement('div');
     divElement.innerHTML = `${header} ${views} ${footer}`;
 
+    //Codigo JS
+    
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // si el User está logueado
+            var emailVerified = user.emailVerified;
+            let userEmail = user.email
+    
+            if (emailVerified){
+                
+                // Si el email está verificado
+    
+                //Ruta de base de datos
+                
+                const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
+                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
+                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
+                const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`); //Base de datos de monedero
 
+                //Get datos
+
+                const getUserData = () => userDataBase.get()
+
+                // elementos del DOM
+
+                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+
+                const mensaje_de_exito = divElement.querySelector('#mensaje-de-exito');
+                const mensaje_de_error = divElement.querySelectorAll('#mensaje-de-error')
+
+                const input_retirar_usd = divElement.querySelector('#retirarDolares');
+                const btn_retirar_usd = divElement.querySelector('#btn-retirar-usd');
+                const form_retirar_usd = divElement.querySelector('#form-retirar-usd');
+
+                // Funciones
+                
+                $(async (e) => {
+
+                    const userData = await getUserData();
+                    const userName = userData.data().nombre;
+                    const userLastname = userData.data().apellido;
+
+                    userNameHeader.innerHTML = `${userName} ${userLastname}`
+                })
+                // Esta función
+                async function guardarOperacion(monedaQueModifica, retiroOIngreso, input) {
+
+                    let valueMoney = parseFloat(input.value);
+
+                    let getMoney = await userMoney.get();
+
+                    let ars_actual = await getMoney.data().ars;
+                    let usd_actual = await getMoney.data().usd;
+                    let dai_actual = await getMoney.data().dai;
+                    let btc_actual = await getMoney.data().btc;
+
+                    switch (monedaQueModifica) {
+                        case "ars":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = ars_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: moneda_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de ARS", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + ars_actual
+
+                                userMoney.set({
+                                    ars: moneda_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de ARS", valueMoney);
+                            }
+                            break;
+
+                        case "usd":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = usd_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: moneda_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de USD", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + usd_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: moneda_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de USD", valueMoney);
+                            }
+                            break;
+
+                        case "dai":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = dai_actual - valueMoney 
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: ars_actual,
+                                    dai: moneda_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de DAI", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + dai_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: usd_actual,
+                                    dai: moneda_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de DAI", valueMoney);
+                            }
+
+                            break;
+                        case "btc":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = btc_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: ars_actual,
+                                    dai: dai_actual,
+                                    btc: moneda_actual
+                                });
+
+                                guardarhistorial("Retiro de BTC", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + btc_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: moneda_actual
+                                });
+
+                                guardarhistorial("Ingreso de BTC", valueMoney);
+                            }    
+
+                            break;
+                    }
+                } 
+                
+                
+                async function guardarhistorial(operacion, monto){
+
+                    let hoy = new Date();
+                    
+                    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
+                    const hora = hoy.getHours();
+                    const minuto = hoy.getMinutes();
+                    let horaPosta = "";
+                    let minutoPosta = "";
+
+                    if (hora < 10){
+                        horaPosta = `0${hora}`
+                    } else{
+                        horaPosta = hora;
+                    }
+                    if (minuto < 10){
+                        minutoPosta = `0${minuto}`
+                    } else{
+                        minutoPosta = minuto;
+                    }
+
+                    userHistory_depositos_y_retiros.add({
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
+                        monto: monto,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+
+                    userHistory.add({
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
+                        monto: monto,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                }
+
+                function validarInput(inputId){
+                    let checkearInput = inputId.value
+                    
+                    if(!isNaN(checkearInput)){
+                        return true;
+                    } else{
+                        return false;
+                    }
+                }
+
+                $(()=>{
+
+                    btn_retirar_usd.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        if(validarInput(input_retirar_usd)){
+
+                            input_retirar_usd.classList.remove("error-input")
+                            $(mensaje_de_error).fadeOut();
+                            btn_retirar_usd.disabled = true;
+                            input_retirar_usd.readOnly=true;
+                            $(mensaje_de_exito).fadeIn(500)
+                            guardarOperacion("usd", "retiro", input_retirar_usd);
+                            
+                            setTimeout(() => {
+    
+                                $(mensaje_de_exito).fadeOut(500);
+                                input_retirar_usd.readOnly = false;
+                                btn_retirar_usd.disabled = false;
+                                form_retirar_usd.reset();
+                                
+                            }, 4000);
+                        } else{
+                            input_retirar_usd.classList.add("error-input")
+                            $(mensaje_de_error).fadeIn();
+
+                            setTimeout(() => {
+                                input_retirar_usd.classList.remove("error-input")
+                                $(mensaje_de_error).fadeOut();
+                            }, 3000);
+
+                        }
+                    });
+
+                })
+    
+            } else{
+    
+                // Si el email no está verificado
+    
+                window.location.href = "#/login"
+            }
+            
+        } else {
+            // si el user no está logueado
+            window.location.href = "#/login"
+        }
+        });
 
     return divElement
 }

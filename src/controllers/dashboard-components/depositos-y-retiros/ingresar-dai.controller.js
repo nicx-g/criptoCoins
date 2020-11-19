@@ -37,7 +37,7 @@ export default () => {
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>
@@ -143,7 +143,7 @@ export default () => {
 
                 const getUserData = () => userDataBase.get()
 
-                // agarrando a los elementos del html
+                // Elementos del DOM
 
                 const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
 
@@ -164,27 +164,135 @@ export default () => {
                     userNameHeader.innerHTML = `${userName} ${userLastname}`
                 })
 
-                async function guardarOperacion() {
+                async function guardarOperacion(monedaQueModifica, retiroOIngreso, input) {
 
-                    let valueMoneda = parseFloat(input_ingresar_dai.value);
+                    let valueMoney = parseFloat(input.value);
 
                     let getMoney = await userMoney.get();
+
                     let ars_actual = await getMoney.data().ars;
                     let usd_actual = await getMoney.data().usd;
                     let dai_actual = await getMoney.data().dai;
                     let btc_actual = await getMoney.data().btc;
 
-                    
-                    let dai_total = valueMoneda + dai_actual;
-                    
-                    userMoney.set({
-                        ars: ars_actual,
-                        usd: usd_actual,
-                        dai: dai_total,
-                        btc: btc_actual,
-                    });
+                    switch (monedaQueModifica) {
+                        case "ars":
+                            if(retiroOIngreso == "retiro"){
 
-                    guardarhistorial("Ingreso de DAI", valueMoneda);
+                                let moneda_actual = ars_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: moneda_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de ARS", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + ars_actual
+
+                                userMoney.set({
+                                    ars: moneda_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de ARS", valueMoney);
+                            }
+                            break;
+
+                        case "usd":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = usd_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: moneda_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de USD", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + usd_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: moneda_actual,
+                                    dai: dai_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de USD", valueMoney);
+                            }
+                            break;
+
+                        case "dai":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = dai_actual - valueMoney 
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: ars_actual,
+                                    dai: moneda_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Retiro de DAI", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + dai_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: usd_actual,
+                                    dai: moneda_actual,
+                                    btc: btc_actual
+                                });
+
+                                guardarhistorial("Ingreso de DAI", valueMoney);
+                            }
+
+                            break;
+                        case "btc":
+                            if(retiroOIngreso == "retiro"){
+
+                                let moneda_actual = btc_actual - valueMoney
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: ars_actual,
+                                    dai: dai_actual,
+                                    btc: moneda_actual
+                                });
+
+                                guardarhistorial("Retiro de BTC", valueMoney);
+
+                            } else if (retiroOIngreso == "ingreso"){
+
+                                let moneda_actual = valueMoney + btc_actual
+
+                                userMoney.set({
+                                    ars: ars_actual,
+                                    usd: usd_actual,
+                                    dai: dai_actual,
+                                    btc: moneda_actual
+                                });
+
+                                guardarhistorial("Ingreso de BTC", valueMoney);
+                            }    
+
+                            break;
+                    }
                 } 
                 
                 
@@ -249,7 +357,7 @@ export default () => {
                             
                             setTimeout(() => {
                                 $(mensaje_de_exito).fadeIn(500)
-                                guardarOperacion();
+                                guardarOperacion("dai", "ingreso", input_ingresar_dai);
     
                                 
                                 setTimeout(() => {

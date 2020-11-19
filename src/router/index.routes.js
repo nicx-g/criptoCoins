@@ -20,8 +20,6 @@ import Dashboard_O_V_DAIUSD from "../controllers/dashboard-components/operar/ven
 import Dashboard_O_V_BITCOINARS from "../controllers/dashboard-components/operar/venta-bitcoinars.controller.js";
 
 let contentMain = document.getElementById('root-main')
-let contentHeader = document.getElementById('root-header')
-let contentFooter = document.getElementById('root-footer')
 
 const router = (route) => {
 
@@ -29,6 +27,9 @@ const router = (route) => {
 
     switch(route){
         case '':{
+            window.location.href = '#/home'
+        }
+        case '#/':{
             window.location.href = '#/home'
         }
         
@@ -44,118 +45,67 @@ const router = (route) => {
 
         case '#/dashboard':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard())
 
         case '#/dashboard/depositos-y-retiros':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_DyR())
 
         case '#/dashboard/depositos-y-retiros/ingresar/ars':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_DyR_I_ARS())
 
         case '#/dashboard/depositos-y-retiros/retirar/ars':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_DyR_R_ARS())
 
         case '#/dashboard/depositos-y-retiros/ingresar/usd':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_DyR_I_USD())
 
         case '#/dashboard/depositos-y-retiros/retirar/usd':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_DyR_R_USD())
 
         case '#/dashboard/depositos-y-retiros/ingresar/dai':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_DyR_I_DAI())
 
         case '#/dashboard/depositos-y-retiros/retirar/dai':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_DyR_R_DAI())
 
         case '#/dashboard/depositos-y-retiros/ingresar/btc':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_DyR_I_BTC())
 
         case '#/dashboard/depositos-y-retiros/retirar/btc':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_DyR_R_BTC())
 
         case '#/dashboard/operar':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_O())
         case '#/dashboard/operar/compra/daiars':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_O_C_DAIARS())
 
         case '#/dashboard/operar/venta/daiars':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_O_V_DAIARS())
         case '#/dashboard/operar/compra/daiusd':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_O_C_DAIUSD())
 
         case '#/dashboard/operar/venta/daiusd':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_O_V_DAIUSD())
 
         case '#/dashboard/operar/compra/bitcoinars':
 
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
-
             return contentMain.appendChild(Dashboard_O_C_BITCOINARS())
 
         case '#/dashboard/operar/venta/bitcoinars':
-
-            contentHeader.innerHTML = ""
-            contentFooter.innerHTML = ""
 
             return contentMain.appendChild(Dashboard_O_V_BITCOINARS())
 
