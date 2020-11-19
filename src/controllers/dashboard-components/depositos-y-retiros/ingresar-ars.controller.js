@@ -37,7 +37,7 @@ export default () => {
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>
@@ -136,13 +136,20 @@ export default () => {
                 
                 // Si el email está verificado
     
+                //Ruta de base de datos
+                
                 const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
-                const userHistory = firestore.collection(`Users/${userEmail}/historial`)
-                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`)
+                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
+                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
                 const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`); //Base de datos de monedero
+
+                //Get datos
+
+                const getUserData = () => userDataBase.get()
 
                 // agarrando a los elementos del html
 
+                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
                 const mensaje_de_exito = divElement.querySelector('#mensaje-de-exito');
                 const mensaje_de_operacion = divElement.querySelector('#mensaje-de-operacion');
                 const mensaje_de_error = divElement.querySelector('#mensaje-de-error')
@@ -150,9 +157,18 @@ export default () => {
                 const btn_ingresar_pesos = divElement.querySelector('#btn-ingresar-pesos');
                 const form_ingresar_ars = divElement.querySelector('#form-ingresar-ars');
 
+                $(async (e) => {
+
+                    const userData = await getUserData();
+                    const userName = userData.data().nombre;
+                    const userLastname = userData.data().apellido;
+
+                    userNameHeader.innerHTML = `${userName} ${userLastname}`
+                })
+
                 async function guardarOperacion() {
 
-                    let valuePesos = parseInt(input_ingresar_pesos.value);
+                    let valueMoney = parseFloat(input_ingresar_pesos.value);
 
                     let getMoney = await userMoney.get();
                     let ars_actual = await getMoney.data().ars;
@@ -161,7 +177,7 @@ export default () => {
                     let btc_actual = await getMoney.data().btc;
 
                     
-                    let pesos_total = valuePesos + ars_actual;
+                    let pesos_total = valueMoney + ars_actual;
                     
                     userMoney.set({
                         ars: pesos_total,
@@ -170,28 +186,43 @@ export default () => {
                         btc: btc_actual,
                     });
 
-                    guardarhistorialARS(valuePesos);
+                    guardarhistorialARS("Ingreso de ARS", valueMoney);
                 } 
                 
                 
-                async function guardarhistorialARS(monto){
+                async function guardarhistorialARS(operacion, monto){
+
                     let hoy = new Date();
                     
-                    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`
-                    const horaActual = `${hoy.getHours()}:${hoy.getMinutes()}`
+                    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
+                    const hora = hoy.getHours();
+                    const minuto = hoy.getMinutes();
+                    let horaPosta = "";
+                    let minutoPosta = "";
+
+                    if (hora < 10){
+                        horaPosta = `0${hora}`
+                    } else{
+                        horaPosta = hora;
+                    }
+                    if (minuto < 10){
+                        minutoPosta = `0${minuto}`
+                    } else{
+                        minutoPosta = minuto;
+                    }
 
                     userHistory_depositos_y_retiros.add({
-                        titulo: "Ingreso de ARS",
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
                         monto: monto,
                         fecha: fechaActual,
-                        hora: horaActual
+                        hora: `${horaPosta}:${minutoPosta}`
                     })
 
                     userHistory.add({
-                        titulo: "Ingreso de ARS",
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
                         monto: monto,
                         fecha: fechaActual,
-                        hora: horaActual
+                        hora: `${horaPosta}:${minutoPosta}`
                     })
                 }
 

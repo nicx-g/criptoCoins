@@ -37,7 +37,7 @@ export default () => {
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>
@@ -88,26 +88,28 @@ export default () => {
                 
                 <div class="ingresar-o-retirar-noCripto">
                     <div class="ingresar-o-retirar-noCripto-operacion">
-                        <h2>¿Cuánto dólares deseas ingresar a tu cuenta?</h2>
-                        <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
-                            <label for="ingresarPesos">Insertar cantidad de dólares</label>
-                            <input type="text" name="ingresarPesos" id="ingresarPesos" placeholder="Por ej: 200">
-                        </div>
-                        <button type="submit">Ingresar dólares</button>
+                        <h2>¿Cuánto dolares deseas ingresar a tu cuenta?</h2>
+                        <form id="form-ingresar-usd" method="POST">
+                            <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
+                                <label for="ingresarDolares">Insertar cantidad de dólares</label>
+                                <input type="text" name="ingresarDolares" id="ingresarDolares" placeholder="Por ej: 200">
+                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+                            </div>
+                            <button id="btn-ingresar-dolares" type="submit">Ingresar dólares</button>
+                        </form>
                     </div>
 
-                    <div class="mensaje-de-operacion bg-warning">
+                    <div id="mensaje-de-operacion" class="mensaje-de-operacion bg-warning" style="display:none">
                         <p>Para que se te acrediten los fondos tenés que transferirlos a la siguiente cuenta bancaria:</p>
                         <p>Alias: <span>NICX-G.USD</span></p>
                         <p>CBU: <span>1430001714000035540028</span> </p>
                         <p>Banco: <span>Brubank</span></p>
                     </div>
 
-                    <div class="mensaje-de-exito bg-success">
+                    <div id="mensaje-de-exito" class="mensaje-de-exito bg-success" style="display:none">
                         <p>Jajaja, mentira, ya deberías tener acreditado los dólares</p>
                     </div>
                 </div>
-                
             </div>
         </div>
 
@@ -121,7 +123,168 @@ export default () => {
     const divElement = document.createElement('div');
     divElement.innerHTML = `${header} ${views} ${footer}`;
 
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // si el User está logueado
+            var emailVerified = user.emailVerified;
+            let userEmail = user.email
+    
+            if (emailVerified){
+                
+                // Si el email está verificado
+    
+                //Ruta de base de datos
+                
+                const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
+                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
+                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
+                const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`); //Base de datos de monedero
 
+                //Get datos
+
+                const getUserData = () => userDataBase.get()
+
+                // agarrando a los elementos del html
+
+                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+                const mensaje_de_exito = divElement.querySelector('#mensaje-de-exito');
+                const mensaje_de_operacion = divElement.querySelector('#mensaje-de-operacion');
+                const mensaje_de_error = divElement.querySelector('#mensaje-de-error')
+                const input_ingresar_dolares = divElement.querySelector('#ingresarDolares');
+                const btn_ingresar_dolares = divElement.querySelector('#btn-ingresar-dolares');
+                const form_ingresar_usd = divElement.querySelector('#form-ingresar-usd');
+
+                $(async (e) => {
+
+                    const userData = await getUserData();
+                    const userName = userData.data().nombre;
+                    const userLastname = userData.data().apellido;
+
+                    userNameHeader.innerHTML = `${userName} ${userLastname}`
+                })
+
+                async function guardarOperacion() {
+
+                    let valueMoneda = parseFloat(input_ingresar_dolares.value);
+
+                    let getMoney = await userMoney.get();
+                    let ars_actual = await getMoney.data().ars;
+                    let usd_actual = await getMoney.data().usd;
+                    let dai_actual = await getMoney.data().dai;
+                    let btc_actual = await getMoney.data().btc;
+
+                    
+                    let usd_total = valueMoneda + usd_actual;
+                    
+                    userMoney.set({
+                        ars: ars_actual,
+                        usd: usd_total,
+                        dai: dai_actual,
+                        btc: btc_actual,
+                    });
+
+                    guardarhistorial("Ingreso de USD", valueMoneda);
+                } 
+                
+                
+                async function guardarhistorial(operacion, monto){
+
+                    let hoy = new Date();
+                    
+                    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
+                    const hora = hoy.getHours();
+                    const minuto = hoy.getMinutes();
+                    let horaPosta = "";
+                    let minutoPosta = "";
+
+                    if (hora < 10){
+                        horaPosta = `0${hora}`
+                    } else{
+                        horaPosta = hora;
+                    }
+                    if (minuto < 10){
+                        minutoPosta = `0${minuto}`
+                    } else{
+                        minutoPosta = minuto;
+                    }
+
+                    userHistory_depositos_y_retiros.add({
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
+                        monto: monto,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+
+                    userHistory.add({
+                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
+                        monto: monto,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                }
+
+                function validarInput(inputId){
+                    let checkearInput = inputId.value
+                    
+                    if(!isNaN(checkearInput)){
+                        return true;
+                    } else{
+                        return false;
+                    }
+                }
+
+                $( () => {
+
+                    btn_ingresar_dolares.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        if(validarInput(input_ingresar_dolares)){
+
+                            input_ingresar_dolares.classList.remove("error-input")
+                            $(mensaje_de_error).fadeOut();
+                            btn_ingresar_dolares.disabled = true;
+                            input_ingresar_dolares.readOnly=true;
+                            $(mensaje_de_operacion).fadeIn(500);
+                            
+                            setTimeout(() => {
+                                $(mensaje_de_exito).fadeIn(500)
+                                guardarOperacion();
+    
+                                
+                                setTimeout(() => {
+                                    $(mensaje_de_operacion).fadeOut(500);
+                                    $(mensaje_de_exito).fadeOut(500);
+                                    input_ingresar_dolares.readOnly = false;
+                                    btn_ingresar_dolares.disabled = false;
+                                    form_ingresar_usd.reset();
+                                }, 5000);
+                            }, 4000);
+                        } else{
+                            input_ingresar_dolares.classList.add("error-input")
+                            $(mensaje_de_error).fadeIn();
+
+                            setTimeout(() => {
+                                input_ingresar_dolares.classList.remove("error-input")
+                                $(mensaje_de_error).fadeOut();
+                            }, 3000);
+
+                        }
+                    });
+
+                })
+    
+            } else{
+    
+                // Si el email no está verificado
+    
+                window.location.href = "#/login"
+            }
+            
+        } else {
+            // si el user no está logueado
+            window.location.href = "#/login"
+        }
+        });
 
     return divElement
 }

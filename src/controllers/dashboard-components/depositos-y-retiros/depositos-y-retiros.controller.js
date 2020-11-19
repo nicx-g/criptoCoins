@@ -37,7 +37,7 @@ export default()=>{
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>
@@ -105,16 +105,6 @@ export default()=>{
                 <h2>Historial de operaciones:</h2>
                 <div id="historial-de-operaciones" class="historial-de-operaciones">
 
-                    <div class="historial-item  d-flex justify-content-around align-items-center">
-                        <div class="d-flex">
-                            <span id="history-title"><i class="fas fa-piggy-bank"></i>Titulo</span>
-                        </div>
-                        
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <span>Monto</span>
-                            <span>Fecha y hora</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -129,6 +119,77 @@ export default()=>{
     const divElement = document.createElement('div')
     divElement.innerHTML = `${header} ${views} ${footer}`
 
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // si el User está logueado
+            var emailVerified = user.emailVerified;
+            let userEmail = user.email
+    
+            if (emailVerified){
+                
+                // Si el email está verificado
+    
+    
+                const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
+                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
+                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
+                
+                const getUserData = () => userDataBase.get(); // Esta constante es para obtener datos del usuario
+                const getHistoryAll = () => userHistoryAll.get(); // Esta constante es para obtener datos del historial del usuario
+                const getHistoryDyR = () => userHistory_depositos_y_retiros.get(); //   Esta constante es para obtener datos del historial de depósitos y retiros del usuario
 
+                // Elementos del DOM
+
+                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+                const HistorialDeOperaciones = divElement.querySelector('#historial-de-operaciones');
+
+                // Funciones y ejecuciones 
+                
+                
+
+                $(async() => {
+                    const userData = await getUserData();
+
+                    const userName = userData.data().nombre;
+                    const userLastname = userData.data().apellido;
+
+                    userNameHeader.innerHTML = `${userName} ${userLastname}`;
+
+                    const historyDyR = await getHistoryDyR();
+                    HistorialDeOperaciones.innerHTML = '';
+                    
+                    
+                    historyDyR.forEach((doc) => {
+        
+                        const historyitem = doc.data();
+                        HistorialDeOperaciones.innerHTML +=
+                        `<div class="historial-item  d-flex justify-content-around align-items-center">
+                            <div class="d-flex">
+                                <span id="history-title">${historyitem.titulo}</span>
+                            </div>
+                            
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <span>$${historyitem.monto}</span>
+                                <span>${historyitem.fecha} ${historyitem.hora}</span>
+                            </div>
+                        </div>`
+                    })
+                })
+
+                
+    
+            } else{
+    
+                // Si el email no está verificado
+    
+                window.location.href = "#/login"
+            }
+            
+        } else {
+            // si el user no está logueado
+            window.location.href = "#/login"
+        }
+        }); 
+    
     return divElement;
 }

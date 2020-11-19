@@ -145,7 +145,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
             //Llamado de los elementos del DOM
             
-            const nombreDelUsuarioCripto = divElement.querySelector("#nombreDelUsuarioCripto");
+            const userNameHeader = divElement.querySelector("#nombreDelUsuarioCripto");
             const saldo_ARS = divElement.querySelector('#saldo-ars');
             const saldo_USD = divElement.querySelector('#saldo-usd');
             const saldo_DAI = divElement.querySelector('#saldo-dai');
@@ -156,9 +156,9 @@ firebase.auth().onAuthStateChanged((user) => {
             $(async (e) => {
 
             //Nombre y apellido
-            const querySnapshot = await getUserData();
-            const nombre = querySnapshot.data().nombre;
-            const apellido = querySnapshot.data().apellido;
+            const userData = await getUserData();
+            const userName = userData.data().nombre;
+            const userLastname = userData.data().apellido;
 
             // Monedas que posee
             const querySnapshotMoney = await getUserMoney();
@@ -168,7 +168,7 @@ firebase.auth().onAuthStateChanged((user) => {
             const saldo_Monedero_BTC = querySnapshotMoney.data().btc;
 
             // Colocar nombre de usuario
-            nombreDelUsuarioCripto.innerHTML = `${nombre} ${apellido}`
+            userNameHeader.innerHTML = `${userName} ${userLastname}`
 
             // Colocar monedas que posee
             saldo_ARS.innerHTML = saldo_Monedero_ARS;
@@ -185,7 +185,7 @@ firebase.auth().onAuthStateChanged((user) => {
                 HistorialDeOperaciones.innerHTML +=
                 `<div class="historial-item  d-flex justify-content-around align-items-center">
                     <div class="d-flex">
-                        <span id="history-title"><i class="fas fa-piggy-bank"></i>${historyitem.titulo}</span>
+                        <span id="history-title">${historyitem.titulo}</span>
                     </div>
                     
                     <div class="d-flex flex-column align-items-center justify-content-center">
