@@ -1,0 +1,28 @@
+.preloader{
+    background-color: map-get($colors, primary);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 1000000;
+
+    &-item{
+        animation: giro .5s infinite forwards;
+        border: 8px map-get($colors, quaternary) solid;
+        border-left: 8px map-get($colors, primary) solid;
+        border-radius: 50%;
+        height: 50px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+    }
+}
+
+@keyframes giro{
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

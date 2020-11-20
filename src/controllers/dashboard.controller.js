@@ -13,24 +13,24 @@ export default () => {
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/ARS</span>
                     <div>
-                        <span>123</span>
-                        <span>123</span>
+                        <span id="dai-ars-sell"></span>
+                        <span id="dai-ars-buy"></span>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/USD</span>
                     <div>
-                        <span>1.006</span>
-                        <span>1.001239</span>
+                        <span id="dai-usd-sell"></span>
+                        <span id="dai-usd-buy"></span>
                     </div>
                 </div>
                     
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>BTC/ARS</span>
                     <div>
-                        <span>41515</span>
-                        <span>3546546132</span>
+                        <span id="btc-ars-sell"></span>
+                        <span id="btc-ars-buy"></span>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,9 @@ export default () => {
 </div>`
 
     const divElement = document.createElement('div')
-    divElement.innerHTML = `${header} ${views} ${footer}`
+    divElement.innerHTML = `<div class="preloader">
+    <div class="preloader-item"></div>
+</div> ${header} ${views} ${footer}`
 
         
 firebase.auth().onAuthStateChanged((user) => {
@@ -146,15 +148,27 @@ firebase.auth().onAuthStateChanged((user) => {
             //Llamado de los elementos del DOM
             
             const userNameHeader = divElement.querySelector("#nombreDelUsuarioCripto");
+            
             const saldo_ARS = divElement.querySelector('#saldo-ars');
             const saldo_USD = divElement.querySelector('#saldo-usd');
             const saldo_DAI = divElement.querySelector('#saldo-dai');
             const saldo_BTC = divElement.querySelector('#saldo-btc');
 
+            let dai_ars_sell = divElement.querySelector('#dai-ars-sell')
+            let dai_usd_sell = divElement.querySelector('#dai-usd-sell')
+            let btc_ars_sell = divElement.querySelector('#btc-ars-sell')
+            let dai_ars_buy = divElement.querySelector('#dai-ars-buy')
+            let dai_usd_buy = divElement.querySelector('#dai-usd-buy')
+            let btc_ars_buy = divElement.querySelector('#btc-ars-buy')
+
             const HistorialDeOperaciones = divElement.querySelector('#historial-de-operaciones');
 
             $(async (e) => {
 
+            //-----------------
+            //  Data del usuario
+            //-----------------
+                
             //Nombre y apellido
             const userData = await getUserData();
             const userName = userData.data().nombre;
@@ -167,14 +181,80 @@ firebase.auth().onAuthStateChanged((user) => {
             const saldo_Monedero_DAI = querySnapshotMoney.data().dai;
             const saldo_Monedero_BTC = querySnapshotMoney.data().btc;
 
+            //-------------------
+            // Funciones
+            //-------------------
+            
             // Colocar nombre de usuario
             userNameHeader.innerHTML = `${userName} ${userLastname}`
+
+            //Coloca precios actuales de las cripto
+            
+            function getCripto(){
+                $.ajax({
+                    type: "GET",
+                    url: 'https://api.coinranking.com/v1/public/coins?base=USD&timePeriod=24h&ids="0,68589&sort=price',
+                    dataType: "json",
+                    success: renderUsd
+                })
+                $.ajax({
+                    type: "GET",
+                    url: 'https://api.coinranking.com/v1/public/coins?base=ARS&timePeriod=24h&ids="0,1,68589&sort=price',
+                    dataType: "json",
+                    success: renderArs
+                })
+            }
+            
+            function renderArs(response) {
+
+                let buyBtcPriceValue = parseInt(response.data.coins[1].price);
+                let buyDaiPriceValue = parseInt(response.data.coins[2].price);
+
+                let sellBtcPriceValue = parseInt(response.data.coins[1].price) - parseInt(response.data.coins[1].price) * 4 / 100
+                let sellDaiPriceValue = parseInt(response.data.coins[2].price) - parseInt(response.data.coins[2].price) * 4 / 100
+
+                $(btc_ars_buy).slideUp();
+                $(btc_ars_sell).slideUp();
+                $(dai_ars_buy).slideUp();
+                $(dai_ars_sell).slideUp();
+
+                $(btc_ars_buy).html(buyBtcPriceValue);
+                $(btc_ars_sell).html(sellBtcPriceValue);
+                $(dai_ars_buy).html(buyDaiPriceValue);
+                $(dai_ars_sell).html(sellDaiPriceValue);
+
+                $(btc_ars_buy).slideDown();
+                $(btc_ars_sell).slideDown();
+                $(dai_ars_buy).slideDown();
+                $(dai_ars_sell).slideDown();
+            }
+
+            function renderUsd(response) {
+
+                let buyUsdPriceValue = parseInt(response.data.coins[1].price) + parseInt(response.data.coins[1].price) * 6 / 100
+                let sellUsdPriceValue = parseInt(response.data.coins[1].price) + parseInt(response.data.coins[1].price) * 2 / 100
+
+
+                $(dai_usd_buy).slideUp();
+                $(dai_usd_sell).slideUp();
+
+                $(dai_usd_buy).html(buyUsdPriceValue);
+                $(dai_usd_sell).html(sellUsdPriceValue);
+
+                $(dai_usd_buy).slideDown();
+                $(dai_usd_sell).slideDown();
+            }
+
+            getCripto();
+            setInterval(getCripto, 30000);
 
             // Colocar monedas que posee
             saldo_ARS.innerHTML = saldo_Monedero_ARS;
             saldo_USD.innerHTML = saldo_Monedero_USD;
             saldo_DAI.innerHTML = saldo_Monedero_DAI;
             saldo_BTC.innerHTML = saldo_Monedero_BTC;
+
+            //Coloca el historial
 
             const querySnapshotHistory = await getHistoryAll();
             HistorialDeOperaciones.innerHTML = '';
@@ -194,7 +274,8 @@ firebase.auth().onAuthStateChanged((user) => {
                     </div>
                 </div>`
             })
-            // HistorialDeOperaciones.innerHTML =
+
+            $(".preloader").hide();
             })
 
         } else{
