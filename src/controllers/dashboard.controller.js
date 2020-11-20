@@ -246,7 +246,7 @@ firebase.auth().onAuthStateChanged((user) => {
             }
 
             getCripto();
-            setInterval(getCripto, 30000);
+            // setInterval(getCripto, 30000);
 
             // Colocar monedas que posee
             saldo_ARS.innerHTML = saldo_Monedero_ARS;
