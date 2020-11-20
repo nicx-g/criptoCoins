@@ -1,3 +1,6 @@
 node_modules/
 pruebas.html
 src/JSDePrueba
+src/js/dashboard.js
+src/js/login.js
+src/js/register.js
