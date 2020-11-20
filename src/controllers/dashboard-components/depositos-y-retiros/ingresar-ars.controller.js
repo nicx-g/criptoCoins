@@ -168,6 +168,8 @@ export default () => {
                     userNameHeader.innerHTML = `${userName} ${userLastname}`
                 })
 
+                // Esta función recibe por parámetro la moneda que vas a modificar, si es un ingreso o un retiro y el input del cual va a sacar el valor para realizar la modificación, todo mediante un switch y una suma resta
+                
                 async function guardarOperacion(monedaQueModifica, retiroOIngreso, input) {
 
                     let valueMoney = parseFloat(input.value);
@@ -299,9 +301,12 @@ export default () => {
                     }
                 } 
                 
-                
+                // Esta funcion va a recibir por parámetro el nombre de la operación "retiro/ingreso de moenda" y el monto que ya lo vas a aclarar con el input de la funcion guardarOperacion()
+
                 async function guardarhistorial(operacion, monto){
 
+                    // Me saca la fecha y la hora actual
+                    
                     let hoy = new Date();
                     
                     const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
@@ -310,6 +315,8 @@ export default () => {
                     let horaPosta = "";
                     let minutoPosta = "";
 
+                    //Acá le agrega un 0 a la hora y minuto si llega a tener un sólo digito. ej: 1:5 = 01:05
+                    
                     if (hora < 10){
                         horaPosta = `0${hora}`
                     } else{
@@ -321,6 +328,8 @@ export default () => {
                         minutoPosta = minuto;
                     }
 
+                    // Setea historial de depósitos y retiro
+
                     userHistory_depositos_y_retiros.add({
                         titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
                         monto: monto,
@@ -328,6 +337,7 @@ export default () => {
                         hora: `${horaPosta}:${minutoPosta}`
                     })
 
+                    // Setea historial general
                     userHistory.add({
                         titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
                         monto: monto,
@@ -335,6 +345,8 @@ export default () => {
                         hora: `${horaPosta}:${minutoPosta}`
                     })
                 }
+
+                // Valida si el value del input es un número o no
 
                 function validarInput(inputId){
                     let checkearInput = inputId.value
@@ -349,37 +361,37 @@ export default () => {
                 $(()=>{
 
                     btn_ingresar_pesos.addEventListener('click', (e) => {
-                        e.preventDefault();
+                        e.preventDefault(); // Me cancela el form
 
                         if(validarInput(input_ingresar_pesos)){
 
-                            input_ingresar_pesos.classList.remove("error-input")
-                            $(mensaje_de_error).fadeOut();
-                            btn_ingresar_pesos.disabled = true;
-                            input_ingresar_pesos.readOnly=true;
-                            $(mensaje_de_operacion).fadeIn(500);
+                            input_ingresar_pesos.classList.remove("error-input"); // Me remueve la clase en caso de que estuviera
+                            $(mensaje_de_error).fadeOut(); // Me remueve el mensaje de error en caso de que estuviera
+                            btn_ingresar_pesos.disabled = true; // Me deshabilita el botón para 
+                            input_ingresar_pesos.readOnly=true; // Me hace de lectura el input
+                            $(mensaje_de_operacion).fadeIn(500); // Me muestra el mensaje de operación
                             
                             setTimeout(() => {
-                                $(mensaje_de_exito).fadeIn(500)
-                                guardarOperacion("ars", "ingreso", input_ingresar_pesos);
+                                $(mensaje_de_exito).fadeIn(500) // Me muestra el mensaje de exito
+                                guardarOperacion("ars", "ingreso", input_ingresar_pesos); //Realiza la función con los parámetros establecidos
     
                                 
                                 setTimeout(() => {
-                                    $(mensaje_de_operacion).fadeOut(500);
-                                    $(mensaje_de_exito).fadeOut(500);
-                                    input_ingresar_pesos.readOnly = false;
-                                    btn_ingresar_pesos.disabled = false;
-                                    form_ingresar_ars.reset();
-                                }, 5000);
-                            }, 4000);
+                                    $(mensaje_de_operacion).fadeOut(500); // Lo esconde
+                                    $(mensaje_de_exito).fadeOut(500); // Lo esconde
+                                    input_ingresar_pesos.readOnly = false; // Lo habilita
+                                    btn_ingresar_pesos.disabled = false; // Lo habilita
+                                    form_ingresar_ars.reset(); // Lo resetea
+                                }, 5000); // en 5 s
+                            }, 4000); // en 4s
                         } else{
-                            input_ingresar_pesos.classList.add("error-input")
-                            $(mensaje_de_error).fadeIn();
+                            input_ingresar_pesos.classList.add("error-input") // En caso de que no sea numero le pone esta clase
+                            $(mensaje_de_error).fadeIn(); // mensaje de error
 
                             setTimeout(() => {
-                                input_ingresar_pesos.classList.remove("error-input")
-                                $(mensaje_de_error).fadeOut();
-                            }, 3000);
+                                input_ingresar_pesos.classList.remove("error-input") // elimina la clase
+                                $(mensaje_de_error).fadeOut(); // elimina el mensaje de error
+                            }, 3000); // en 3 segundos
 
                         }
                     });
@@ -399,5 +411,5 @@ export default () => {
         }
         });
     
-    return divElement;
+    return divElement; // Todo este choclo se reduce a este divElement que contiene toda la lógica y el html
 }
