@@ -1,3 +1,5 @@
+import {getCripto, renderArs, renderUsd, colocarDatosBasicos, cerrarSesion, colocarHistorial} from "../../../js/functions.js";
+
 export default () => {
     const header =
     `<div class="dashboard-header">
@@ -13,31 +15,31 @@ export default () => {
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/ARS</span>
                     <div>
-                        <span>123</span>
-                        <span>123</span>
+                        <span id="dai-ars-sell"></span>
+                        <span  id="dai-ars-buy"></span>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/USD</span>
                     <div>
-                        <span>1.006</span>
-                        <span>1.001239</span>
+                        <span  id="dai-usd-sell"></span>
+                        <span  id="dai-usd-buy"></span>
                     </div>
                 </div>
                     
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>BTC/ARS</span>
                     <div>
-                        <span>41515</span>
-                        <span>3546546132</span>
+                        <span id="btc-ars-sell"></span>
+                        <span id="btc-ars-buy"></span>
                     </div>
                 </div>
             </div>
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>
@@ -102,16 +104,6 @@ export default () => {
                 <h2>Historial de operaciones:</h2>
                 <div id="historial-de-operaciones" class="historial-de-operaciones">
 
-                    <div class="historial-item  d-flex justify-content-around align-items-center">
-                        <div class="d-flex">
-                            <span id="history-title"><i class="fas fa-piggy-bank"></i>Titulo</span>
-                        </div>
-                        
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <span>Monto</span>
-                            <span>Fecha y hora</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -126,6 +118,58 @@ export default () => {
     const divElement = document.createElement('div')
     divElement.innerHTML = `${header} ${views} ${footer}`
 
+    // Código js
 
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // si el User está logueado
+            var emailVerified = user.emailVerified;
+            let userEmail = user.email
+    
+            if (emailVerified){
+                
+                // Si el email está verificado
+    
+    
+                const userNameHeader = divElement.querySelector("#nombreDelUsuarioCripto");
+                const btnSignOut = divElement.querySelector("#btn-sign-out");
+                const HistorialDeOperaciones = divElement.querySelector('#historial-de-operaciones');
+                
+                let dai_ars_sell = divElement.querySelector('#dai-ars-sell');
+                let dai_usd_sell = divElement.querySelector('#dai-usd-sell');
+                let btc_ars_sell = divElement.querySelector('#btc-ars-sell');
+                let dai_ars_buy = divElement.querySelector('#dai-ars-buy');
+                let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
+                let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
+                
+                
+
+                $(async() => {
+
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
+                    // setInterval(getCripto, 30000); // Cada 30 secs
+
+                    colocarDatosBasicos(userEmail, userNameHeader);
+                    $(btnSignOut).on('click', cerrarSesion);
+
+                    colocarHistorial(userEmail, "compraventa", HistorialDeOperaciones)
+
+                })
+
+                
+    
+            } else{
+    
+                // Si el email no está verificado
+    
+                window.location.href = "#/login"
+            }
+            
+        } else {
+            // si el user no está logueado
+            window.location.href = "#/login"
+        }
+        }); 
+    
     return divElement
 }

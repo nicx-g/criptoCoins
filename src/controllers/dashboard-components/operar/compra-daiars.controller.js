@@ -13,31 +13,31 @@ export default () => {
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/ARS</span>
                     <div>
-                        <span>123</span>
-                        <span>123</span>
+                        <span id="dai-ars-sell"></span>
+                        <span  id="dai-ars-buy"></span>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/USD</span>
                     <div>
-                        <span>1.006</span>
-                        <span>1.001239</span>
+                        <span  id="dai-usd-sell"></span>
+                        <span  id="dai-usd-buy"></span>
                     </div>
                 </div>
                     
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>BTC/ARS</span>
                     <div>
-                        <span>41515</span>
-                        <span>3546546132</span>
+                        <span id="btc-ars-sell"></span>
+                        <span id="btc-ars-buy"></span>
                     </div>
                 </div>
             </div>
             <div class="criptoUser collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Nicolás Gomez</a>
+                        <a id="nombreDelUsuarioCripto" class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#/dashboard/perfil">Mi Perfil</a>
                             <a class="dropdown-item" href="#/ayuda">Ayuda</a>

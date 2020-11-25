@@ -1,3 +1,5 @@
+import {getCripto, renderArs, renderUsd, colocarDatosBasicos, cerrarSesion, colocarHistorial} from "../../../js/functions.js";
+
 export default()=>{
     const header = 
     `<div class="dashboard-header">
@@ -13,24 +15,24 @@ export default()=>{
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/ARS</span>
                     <div>
-                        <span>123</span>
-                        <span>123</span>
+                        <span id="dai-ars-sell"></span>
+                        <span  id="dai-ars-buy"></span>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>DAI/USD</span>
                     <div>
-                        <span>1.006</span>
-                        <span>1.001239</span>
+                        <span  id="dai-usd-sell"></span>
+                        <span  id="dai-usd-buy"></span>
                     </div>
                 </div>
                     
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <span>BTC/ARS</span>
                     <div>
-                        <span>41515</span>
-                        <span>3546546132</span>
+                        <span id="btc-ars-sell"></span>
+                        <span id="btc-ars-buy"></span>
                     </div>
                 </div>
             </div>
@@ -130,50 +132,29 @@ export default()=>{
                 // Si el email está verificado
     
     
-                const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
-                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
-                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
-                
-                const getUserData = () => userDataBase.get(); // Esta constante es para obtener datos del usuario
-                const getHistoryAll = () => userHistoryAll.get(); // Esta constante es para obtener datos del historial del usuario
-                const getHistoryDyR = () => userHistory_depositos_y_retiros.get(); //   Esta constante es para obtener datos del historial de depósitos y retiros del usuario
-
-                // Elementos del DOM
-
-                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+                const userNameHeader = divElement.querySelector("#nombreDelUsuarioCripto");
+                const btnSignOut = divElement.querySelector("#btn-sign-out");
                 const HistorialDeOperaciones = divElement.querySelector('#historial-de-operaciones');
-
-                // Funciones y ejecuciones 
+                
+                let dai_ars_sell = divElement.querySelector('#dai-ars-sell');
+                let dai_usd_sell = divElement.querySelector('#dai-usd-sell');
+                let btc_ars_sell = divElement.querySelector('#btc-ars-sell');
+                let dai_ars_buy = divElement.querySelector('#dai-ars-buy');
+                let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
+                let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
                 
                 
 
                 $(async() => {
-                    const userData = await getUserData();
 
-                    const userName = userData.data().nombre;
-                    const userLastname = userData.data().apellido;
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
+                    // setInterval(getCripto, 30000); // Cada 30 secs
 
-                    userNameHeader.innerHTML = `${userName} ${userLastname}`;
+                    colocarDatosBasicos(userEmail, userNameHeader);
+                    $(btnSignOut).on('click', cerrarSesion);
 
-                    const historyDyR = await getHistoryDyR();
-                    HistorialDeOperaciones.innerHTML = '';
-                    
-                    
-                    historyDyR.forEach((doc) => {
-        
-                        const historyitem = doc.data();
-                        HistorialDeOperaciones.innerHTML +=
-                        `<div class="historial-item  d-flex justify-content-around align-items-center">
-                            <div class="d-flex">
-                                <span id="history-title">${historyitem.titulo}</span>
-                            </div>
-                            
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <span>$${historyitem.monto}</span>
-                                <span>${historyitem.fecha} ${historyitem.hora}</span>
-                            </div>
-                        </div>`
-                    })
+                    colocarHistorial(userEmail, "depositosyretiros", HistorialDeOperaciones)
+
                 })
 
                 
