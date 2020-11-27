@@ -4,7 +4,7 @@ export default () =>{
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg d-flex justify-content-between">
             <a class="header-logo d-flex align-items-center" href="#/home">
-                <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                <img src="./src/resources/images/logo.png" width="250px" alt="Este es el logo de la pag">
             </a>
             <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>

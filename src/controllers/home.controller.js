@@ -4,7 +4,7 @@ export default () =>{
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg d-flex justify-content-between">
             <a class="header-logo d-flex align-items-center" href="#/home">
-                <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                <img src="./src/resources/images/logo.png" alt="Este es el logo de la pag" width= "300px">
             </a>
             <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
@@ -15,20 +15,20 @@ export default () =>{
                         <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable" href="#">Inicio</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-item">
-                                <a href="#">¿Qué es cripto?</a>
+                                <a class="que-es-cripto-link" >¿Qué es cripto?</a>
                             </div>
                             <div class="dropdown-item">
-                                <a href="#"> Sobre nosotros</a>
+                                <a class="about-us-link"> Sobre nosotros</a>
                             </div>
                             <div class="dropdown-item">
-                                <a href="#">Paso a paso</a>
+                                <a class="step-by-step-link">Paso a paso</a>
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item"><a href="#">Descargá la app</a></li>
-                    <li class="nav-item"><a href="#">Contacto</a></li>
+                    <li class="nav-item"><a class="get-app-link">Descargá la app</a></li>
+                    <li class="nav-item"><a class="contact-link">Contacto</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" href="#">Ingresar/Registrarse</a>
+                        <a class="nav-item dropdown-toggle" data-toggle="dropdown" data-target="desplegable2" >Ingresar/Registrarse</a>
                         <div class="dropdown-menu">
                             <div class="dropdown-item">
                                 <a href="#/login">Iniciar sesión</a>
@@ -218,7 +218,7 @@ export default () =>{
 
 <div class="separator4"></div>
 
-<div class="form">
+<div class="form contact">
     <div class="container d-flex justify-content-around">
         <div class="form-text">
             <h3>¿Te quedó alguna duda de lo que hacemos?</h3>
@@ -299,7 +299,93 @@ export default () =>{
     const divElement = document.createElement("div");
     divElement.innerHTML = `${header} ${views} ${footer}`;
 
-    
+    // Código JS
+
+    const menu_header = divElement.querySelector('.menu-header'); 
+    const menu_header_logo = divElement.querySelector('.header-logo img'); 
+
+    const queEsCripto = divElement.querySelector('.definition');
+    const aboutUs = divElement.querySelector('.about-us');
+    const stepByStep = divElement.querySelector('.step-by-step');
+    const getApp = divElement.querySelector('.get-app');
+    const contact = divElement.querySelector('.contact');
+
+    const linkQueEsCripto = divElement.querySelector('.que-es-cripto-link')
+    const linkAboutUs = divElement.querySelector('.about-us-link')
+    const linkStepByStep = divElement.querySelector('.step-by-step-link')
+    const linkGetApp = divElement.querySelector('.get-app-link')
+    const linkContact = divElement.querySelector('.contact-link')
+
+    $(linkQueEsCripto).on('click', () => {
+        smoothScroll(queEsCripto, 1000);
+    })
+    $(linkAboutUs).on('click', () => {
+        smoothScroll(aboutUs, 1000);
+    })
+    $(linkStepByStep).on('click', () => {
+        smoothScroll(stepByStep, 1000);
+    })
+    $(linkGetApp).on('click', () => {
+        smoothScroll(getApp, 1000);
+    })
+    $(linkContact).on('click', () => {
+        smoothScroll(contact, 1000);
+    })
+
+    let scrollPos = 0;
+
+    function smoothScroll (objetivo, duration){
+        let target = objetivo;
+        let targetPosition = target.getBoundingClientRect().top;
+        let startPosition = window.pageYOffset;
+        let distance = targetPosition - startPosition;
+        let startTime = null;
+
+        function animation (currentTime){
+            if(startTime === null) startTime = currentTime;
+            let timeElapsed = currentTime - startTime;
+            let run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if(timeElapsed < duration) requestAnimationFrame(animation);
+
+        }
+
+        function ease(t, b, c, d) {
+            t /= d/2;
+            if (t < 1) return c/2*t*t + b;
+            t--;
+            return -c/2 * (t*(t-2) - 1) + b;
+        };
+
+        requestAnimationFrame(animation)
+    }
+
+
+
+    $(window).on('scroll', () => {
+
+
+        if (document.documentElement.scrollTop > 450) {
+            menu_header.classList.add("menu-header-scroll");
+            menu_header_logo.classList.add('logo-chico');
+            menu_header_logo.classList.remove('logo-grande');
+        } else{
+            menu_header.classList.remove("menu-header-scroll");
+            menu_header_logo.classList.remove('logo-chico');
+            menu_header_logo.classList.add('logo-grande');
+        }
+
+        if((document.body.getBoundingClientRect()).top > scrollPos) {
+            menu_header.style.top = "0";
+        } else {
+            if(document.documentElement.scrollTop > 600){
+            menu_header.style.top = "-100px";
+            }
+        }
+
+        scrollPos = (document.body.getBoundingClientRect()).top;
+
+    })
 
     return divElement
 }

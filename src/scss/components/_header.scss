@@ -1,10 +1,10 @@
 .menu-header{
-    // background-image: linear-gradient(90deg, map-get($colors, primary) 75%, map-get($colors, tertiary));
     padding: 15px 0;
     position: fixed;
     top: 0;
     width:100%;
     z-index: 10;
+    transition: .3s all ease-in;
     nav{
         div{
             ul{
@@ -16,6 +16,7 @@
                             background-image: linear-gradient(-45deg, map-get($colors, tertiary) 0 calc(50% - 10px), map-get($colors, primary) calc(50% - 10px) calc(50% + 10px), map-get($colors, quaternary) calc(50% + 10px) 100%);
                             background-size: 275% 100%;
                             background-position: 100% 50%;
+                            cursor: pointer;
                             transition: all .5s;
                             &:hover{
                                 background-position: 0% 50%; 
@@ -33,8 +34,9 @@
                     }
                     a{
                         border-radius: 7px;
-                        box-shadow: 5px 5px 10px black;
+                        box-shadow: 1px 1px 5px black;
                         color: map-get($colors, primary);
+                        cursor: pointer;
                         font-size: 1rem;
                         font-weight: 800;
                         margin: 0 5px;
@@ -66,4 +68,20 @@
             }
         }
     }
+}
+
+.menu-header-scroll{
+    background-color: map-get($colors, primary);
+    padding: 0;
+    transition: all .3s ease-in;
+    z-index: 1000;
+}
+
+.logo-chico {
+    width: 200px;
+    transition: all .3s ease-in;
+}
+.logo-grande {
+    width: 300px;
+    transition: all .3s ease-in;
 }

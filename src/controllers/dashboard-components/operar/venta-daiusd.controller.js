@@ -4,7 +4,7 @@ export default () => {
     <div class="container">
         <div class="navbar navbar-expand-lg d-flex justify-content-between">
             <a class="mr-auto" href="#/dashboard">
-                <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                <img src="./src/resources/images/logo.png" width="250px" alt="Este es el logo de la pag">
             </a>
             <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
@@ -91,18 +91,18 @@ export default () => {
                         <h2>Vender DAI por USD</h2>
                         <div class="ingresar-o-retirar-cripto-input d-flex">
                             <div class="d-flex align-items-center justify-content-center flex-column">
-                                <label for="ingresarPesos">DAI que vas a vender</label>
-                                <input type="text" name="ingresarPesos" id="ingresarPesos" placeholder="0">
+                                <label for="moneyLeft">DAI que vas a vender</label>
+                                <input type="text" name="moneyLeft" id="moneyLeft" placeholder="0">
                             </div>
                             <div class="d-flex align-items-center justify-content-center flex-column">
-                                <label for="ingresarPesos1">USD que vas a recibir</label>
-                                <input type="text" name="ingresarPesos1" id="ingresarPesos1" placeholder="0">
+                                <label for="moneyRight">USD que vas a recibir</label>
+                                <input type="text" name="moneyRight" id="moneyRight" placeholder="0">
                             </div>
                         </div>
-                        <p>Tu cotización: 1.01 USD/DAI</p>
+                        <p id="cotizacionOperacion">Tu cotización: 1.01 USD/DAI</p>
                         
                         <label for="juramento"><input type="checkbox" name="juramento" id="juramento">Al continuar declaro bajo juramento que mis fondos no provienen de planes y programas sociales en Argentina.</label>
-                        <button type="submit">Confirmar operación</button>
+                        <button id="confirmOperation" type="submit">Confirmar operación</button>
                     </div>
 
                     <div class="mensaje-de-exito bg-success">

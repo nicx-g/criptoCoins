@@ -6,7 +6,7 @@ export default () => {
     <div class="container">
         <div class="navbar navbar-expand-lg d-flex justify-content-between">
             <a class="mr-auto" href="#/dashboard">
-                <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                <img src="./src/resources/images/logo.png" width="250px" alt="Este es el logo de la pag">
             </a>
             <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
@@ -157,7 +157,7 @@ export default () => {
                 $(()=>{
 
                     getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    // setInterval(getCripto, 30000); // Cada 30 secs
+                    setInterval(getCripto, 30000); // Cada 30 secs
                     colocarDatosBasicos(userEmail, userNameHeader);
 
                     btnSignOut.addEventListener('click', cerrarSesion);

@@ -372,4 +372,195 @@ const colocarHistorial = async(userEmail, HistorialADesear, domElement) => {
     }
 }
 
-export {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, getCripto, renderArs, renderUsd, cerrarSesion, colocarHistorial};
+// Me obtiene la cotización de las cripto, podría haber mejorado la que ya hice? sí. Sólo acepta "ARS" o "USD"
+
+const getCotizacion = (cotizaEn, compraOVenta, leftOrRight, operacion, inputLeft, inputRight, cotizacionOperacion) => {
+
+    $.ajax({
+        type: "GET",
+        url: `https://api.coinranking.com/v1/public/coins?base=${cotizaEn}&timePeriod=24h&ids=1,68589&sort=price`,
+        dataType: "json"
+    }).then((response) => {
+        actualizarValoresInput(response, compraOVenta, leftOrRight, operacion, inputLeft, inputRight, cotizacionOperacion)
+    })
+
+}
+
+// Esta función va a hacer que el value de los inputs cambien dependiendo de la cotización que desee. cotizaEn puede recibir "ARS" o "USD"
+
+const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operacion, inputLeft, inputRight, cotizacionOperacion) => {
+    
+    let dai_ars_sell = parseFloat(response.data.coins[1].price) - parseFloat(response.data.coins[1].price) * 4 / 100;
+    let dai_ars_buy = parseFloat(response.data.coins[1].price);
+    let dai_usd_sell = parseFloat(response.data.coins[1].price) + 0.2;
+    let dai_usd_buy = parseFloat(response.data.coins[1].price) + 0.6;
+    let btc_ars_sell = parseFloat(response.data.coins[0].price) - parseFloat(response.data.coins[1].price) * 4 / 100;
+    let btc_ars_buy = parseFloat(response.data.coins[0].price);
+
+    switch (compraOVenta) {
+        case "compra":
+
+            switch (leftOrRight) {
+                case "left":
+                    
+                    switch (operacion) {
+                        case "daiars":
+                            
+                            inputRight.value = Number((dai_ars_buy * inputLeft.value).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_ars_buy).toFixed(2)} DAI/ARS`;
+
+                            break;
+                    
+                        case "daiusd":
+
+                            inputRight.value = Number((dai_usd_buy * inputLeft.value).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_usd_buy).toFixed(2)} DAI/USD`;
+                            
+                            break;
+
+                        case "btcars":
+
+                            inputRight.value = btc_ars_buy * inputLeft.value;
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_buy} BTC/ARS`;
+
+                            break;
+
+                    }
+                    break;
+            
+                case "right":
+        
+                    switch (operacion) {
+                        case "daiars":
+                            
+                            inputLeft.value = Number((inputRight.value / dai_ars_buy).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_ars_buy).toFixed(2)} DAI/ARS`;
+
+                            break;
+                    
+                        case "daiusd":
+
+                            inputLeft.value = Number((inputRight.value / dai_usd_buy).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_usd_buy).toFixed(2)} DAI/USD`;
+                            
+                            break;
+
+                        case "btcars":
+
+                            inputLeft.value = ((inputRight.value / btc_ars_buy));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_buy} BTC/ARS`;
+
+                            break;
+                            
+                    }
+                    break;
+
+            }
+            break;
+
+        case "venta":
+
+            switch (leftOrRight) {
+                case "left":
+                    
+                    switch (operacion) {
+                        case "daiars":
+                            
+                            inputRight.value = Number((dai_ars_sell * inputLeft.value).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_ars_sell).toFixed(2)} DAI/ARS`;
+
+                            break;
+                    
+                        case "daiusd":
+
+                            inputRight.value = Number((dai_usd_sell * inputLeft.value).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_usd_sell).toFixed(2)} DAI/USD`;
+
+                            break;
+
+                        case "btcars":
+
+                            inputRight.value = btc_ars_sell * inputLeft.value;
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_sell} BTC/ARS`;
+
+                            break;
+
+                    }
+                    break;
+            
+                case "right":
+        
+                    switch (operacion) {
+                        case "daiars":
+                            
+                            inputLeft.value = Number((inputRight.value / dai_ars_sell).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_ars_sell).toFixed(2)} DAI/ARS`;
+
+                            break;
+                    
+                        case "daiusd":
+
+                            inputLeft.value = Number((inputRight.value / dai_usd_sell).toFixed(2));
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(dai_usd_sell).toFixed(2)} DAI/USD`;
+                            
+                            break;
+
+                        case "btcars":
+
+                            inputLeft.value = inputRight.value / btc_ars_sell;
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_sell} BTC/ARS`;
+
+                            break;
+                            
+                    }
+                    break;
+            }
+            break;
+    }
+    
+}
+
+// Esta función me va a validar que no esté vacío el input de la compra venta, si checkeó el input:checked y si tiene los fondos suficientes
+
+const validarFondos = async (userEmail, fondoAComprobar, inputRight) => {
+    const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`);
+    
+    let getMoney = await userMoney.get();
+
+    if (fondoAComprobar == "ars") {
+
+        let fondoArs = getMoney.data().ars;
+
+        if(fondoArs >= inputRight.value){
+            return true;
+        } else{
+            return false;
+            }
+    
+    } else if (fondoAComprobar == "usd") {
+
+        let fondoUsd = getMoney.data().usd;
+
+        if(fondoUsd >= inputRight.value){
+            return true;
+        } else{
+            return false;
+        }
+    }
+}
+
+//Valida que el input sea específicamente un número
+
+const validarInputCompraVenta = (inputLeft, inputRight) => {
+    debugger
+    if ((inputLeft.value && inputRight.value) == null || (inputLeft.value && inputRight.value) == 0 || (inputLeft.value && inputRight.value).lenght < 1 || isNaN((inputLeft.value && inputRight.value))){
+        return false
+    } else if(!isNaN((inputLeft.value && inputRight.value))){
+        return true;
+    }
+}
+
+// guardarCompraVenta
+
+
+export {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, getCripto, renderArs, renderUsd, cerrarSesion, colocarHistorial, actualizarValoresInput, getCotizacion, validarFondos, validarInputCompraVenta};

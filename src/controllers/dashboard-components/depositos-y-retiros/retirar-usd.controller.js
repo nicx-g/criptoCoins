@@ -1,10 +1,12 @@
+import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd} from "../../../js/functions.js";
+
 export default () => {
     const header = 
     `<div class="dashboard-header">
     <div class="container">
         <div class="navbar navbar-expand-lg d-flex justify-content-between">
             <a class="mr-auto" href="#/dashboard">
-                <img src="https://via.placeholder.com/200x60?=logo" alt="Este es el logo de la pag">
+                <img src="./src/resources/images/logo.png" width="250px" alt="Este es el logo de la pag">
             </a>
             <button class="navbar-toggler" data-target="#menu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
@@ -132,20 +134,10 @@ export default () => {
                 
                 // Si el email está verificado
     
-                //Ruta de base de datos
-                
-                const userDataBase = firestore.doc(`Users/${userEmail}`); //Base de datos
-                const userHistory = firestore.collection(`Users/${userEmail}/historial`);
-                const userHistory_depositos_y_retiros = firestore.collection(`Users/${userEmail}/historial/depositos-y-retiros/data`);
-                const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`); //Base de datos de monedero
-
-                //Get datos
-
-                const getUserData = () => userDataBase.get()
-
                 // elementos del DOM
 
                 const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+                const btnSignOut = divElement.querySelector("#btn-sign-out");
 
                 const mensaje_de_exito = divElement.querySelector('#mensaje-de-exito');
                 const mensaje_de_error = divElement.querySelectorAll('#mensaje-de-error')
@@ -154,196 +146,21 @@ export default () => {
                 const btn_retirar_usd = divElement.querySelector('#btn-retirar-usd');
                 const form_retirar_usd = divElement.querySelector('#form-retirar-usd');
 
-                // Funciones
-                
-                $(async (e) => {
+                let dai_ars_sell = divElement.querySelector('#dai-ars-sell');
+                let dai_usd_sell = divElement.querySelector('#dai-usd-sell');
+                let btc_ars_sell = divElement.querySelector('#btc-ars-sell');
+                let dai_ars_buy = divElement.querySelector('#dai-ars-buy');
+                let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
+                let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
-                    const userData = await getUserData();
-                    const userName = userData.data().nombre;
-                    const userLastname = userData.data().apellido;
-
-                    userNameHeader.innerHTML = `${userName} ${userLastname}`
-                })
-                // Esta función
-                async function guardarOperacion(monedaQueModifica, retiroOIngreso, input) {
-
-                    let valueMoney = parseFloat(input.value);
-
-                    let getMoney = await userMoney.get();
-
-                    let ars_actual = await getMoney.data().ars;
-                    let usd_actual = await getMoney.data().usd;
-                    let dai_actual = await getMoney.data().dai;
-                    let btc_actual = await getMoney.data().btc;
-
-                    switch (monedaQueModifica) {
-                        case "ars":
-                            if(retiroOIngreso == "retiro"){
-
-                                let moneda_actual = ars_actual - valueMoney
-
-                                userMoney.set({
-                                    ars: moneda_actual,
-                                    usd: usd_actual,
-                                    dai: dai_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Retiro de ARS", valueMoney);
-
-                            } else if (retiroOIngreso == "ingreso"){
-
-                                let moneda_actual = valueMoney + ars_actual
-
-                                userMoney.set({
-                                    ars: moneda_actual,
-                                    usd: usd_actual,
-                                    dai: dai_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Ingreso de ARS", valueMoney);
-                            }
-                            break;
-
-                        case "usd":
-                            if(retiroOIngreso == "retiro"){
-
-                                let moneda_actual = usd_actual - valueMoney
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: moneda_actual,
-                                    dai: dai_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Retiro de USD", valueMoney);
-
-                            } else if (retiroOIngreso == "ingreso"){
-
-                                let moneda_actual = valueMoney + usd_actual
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: moneda_actual,
-                                    dai: dai_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Ingreso de USD", valueMoney);
-                            }
-                            break;
-
-                        case "dai":
-                            if(retiroOIngreso == "retiro"){
-
-                                let moneda_actual = dai_actual - valueMoney 
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: ars_actual,
-                                    dai: moneda_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Retiro de DAI", valueMoney);
-
-                            } else if (retiroOIngreso == "ingreso"){
-
-                                let moneda_actual = valueMoney + dai_actual
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: usd_actual,
-                                    dai: moneda_actual,
-                                    btc: btc_actual
-                                });
-
-                                guardarhistorial("Ingreso de DAI", valueMoney);
-                            }
-
-                            break;
-                        case "btc":
-                            if(retiroOIngreso == "retiro"){
-
-                                let moneda_actual = btc_actual - valueMoney
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: ars_actual,
-                                    dai: dai_actual,
-                                    btc: moneda_actual
-                                });
-
-                                guardarhistorial("Retiro de BTC", valueMoney);
-
-                            } else if (retiroOIngreso == "ingreso"){
-
-                                let moneda_actual = valueMoney + btc_actual
-
-                                userMoney.set({
-                                    ars: ars_actual,
-                                    usd: usd_actual,
-                                    dai: dai_actual,
-                                    btc: moneda_actual
-                                });
-
-                                guardarhistorial("Ingreso de BTC", valueMoney);
-                            }    
-
-                            break;
-                    }
-                } 
-                
-                
-                async function guardarhistorial(operacion, monto){
-
-                    let hoy = new Date();
-                    
-                    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
-                    const hora = hoy.getHours();
-                    const minuto = hoy.getMinutes();
-                    let horaPosta = "";
-                    let minutoPosta = "";
-
-                    if (hora < 10){
-                        horaPosta = `0${hora}`
-                    } else{
-                        horaPosta = hora;
-                    }
-                    if (minuto < 10){
-                        minutoPosta = `0${minuto}`
-                    } else{
-                        minutoPosta = minuto;
-                    }
-
-                    userHistory_depositos_y_retiros.add({
-                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
-                        monto: monto,
-                        fecha: fechaActual,
-                        hora: `${horaPosta}:${minutoPosta}`
-                    })
-
-                    userHistory.add({
-                        titulo: `<i class="fas fa-piggy-bank"></i>${operacion}`,
-                        monto: monto,
-                        fecha: fechaActual,
-                        hora: `${horaPosta}:${minutoPosta}`
-                    })
-                }
-
-                function validarInput(inputId){
-                    let checkearInput = inputId.value
-                    
-                    if(!isNaN(checkearInput)){
-                        return true;
-                    } else{
-                        return false;
-                    }
-                }
-
+ 
                 $(()=>{
+
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
+                    setInterval(getCripto, 30000); // Cada 30 secs
+                    colocarDatosBasicos(userEmail, userNameHeader);
+
+                    btnSignOut.addEventListener('click', cerrarSesion);
 
                     btn_retirar_usd.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -355,7 +172,7 @@ export default () => {
                             btn_retirar_usd.disabled = true;
                             input_retirar_usd.readOnly=true;
                             $(mensaje_de_exito).fadeIn(500)
-                            guardarOperacion("usd", "retiro", input_retirar_usd);
+                            guardarOperacion("usd", "retiro", input_retirar_usd, userEmail);
                             
                             setTimeout(() => {
     
