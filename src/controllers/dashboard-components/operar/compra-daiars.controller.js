@@ -1,4 +1,4 @@
-import {getCripto, colocarDatosBasicos, cerrarSesion, getCotizacion, validarFondos, validarInputCompraVenta} from "../../../js/functions.js";
+import {getCripto, colocarDatosBasicos, cerrarSesion, getCotizacion, validarFondos, validarInputCompraVenta, guardarOperacionDeCompraVenta, guardarHistorialCompraVentaYCotizacion} from "../../../js/functions.js";
 
 export default () => {
     const header =
@@ -91,7 +91,7 @@ export default () => {
                 <div class="ingresar-o-retirar-cripto flex-column d-flex justify-content-center align-items-center">
                     <div class="ingresar-o-retirar-cripto-operacion d-flex flex-column align-items-center">
                         <h2>Comprar DAI por ARS</h2>
-                        <form class="d-flex flex-column align-items-center">
+                        <form method="POST" id="form-compraventa" class="d-flex flex-column align-items-center">
                             <div class="ingresar-o-retirar-cripto-input d-flex">
                                 <div class="d-flex align-items-center justify-content-center flex-column">
                                     <label for="moneyLeft">DAI que vas a comprar</label>
@@ -102,13 +102,13 @@ export default () => {
                                     <input type="text" name="moneyRight" id="moneyRight" placeholder="0">
                                 </div>
                             </div>
-                            <p id="cotizacionOperacion">Tu cotización: 125 ARS/DAI</p>
+                            <p id="cotizacionOperacion">Tu cotización es: </p>
                             
                             <label for="juramento"><input type="checkbox" name="juramento" id="juramento">Al continuar declaro bajo juramento que mis fondos no provienen de planes y programas sociales en Argentina.</label>
                             <button id="confirmOperation" type="submit">Confirmar operación</button>
                         </form>
                         <p id="errorFondos" style="display:none; color:red;">No tenés los fondos suficientes</p>
-                        <p id="errorInput" style="display:none; color:red;">Ingresá un número válido</p>
+                        <p id="errorInput" style="display:none; color:red;">Ingresá un número válido. El monto tiene que ser mayor a 1</p>
                         <p id="errorJuramento" style="display:none; color:red;">Para continuar tenés que confirmar la declaración jurada</p>
                     </div>
 
@@ -161,10 +161,11 @@ export default () => {
                 const errorInput = divElement.querySelector('#errorInput');
                 const errorJuramento = divElement.querySelector('#errorJuramento');
                 const mensajeDeExito = divElement.querySelector(".mensaje-de-exito");
+                const formCompraVenta = divElement.querySelector('#form-compraventa')
 
-                $(()=>{
+                $(async()=>{
 
-                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
+                    await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
                     setInterval(getCripto, 30000); // Cada 30 secs
                     
                     colocarDatosBasicos(userEmail, userNameHeader);
@@ -194,8 +195,10 @@ export default () => {
                             checked: false,
                         }
                         
-                        let respuestaALosFondos = await validarFondos(userEmail, "ars", moneyRight);
+                        let respuestaALosFondos = await validarFondos(userEmail, "ars", moneyRight, moneyLeft);
 
+                        
+                        // Si tiene fondos o no
                         if (respuestaALosFondos == true){
                             $(errorFondos).fadeOut();
                             validaciones.fondos = true;
@@ -205,6 +208,7 @@ export default () => {
                             validaciones.fondos = false;
                         }
 
+                        // Si colocó correctamente un número mayor a 1
                         if (validarInputCompraVenta(moneyLeft, moneyRight) == true){
                             $(errorInput).fadeOut();
                             validaciones.campoRelleno = true;
@@ -213,6 +217,7 @@ export default () => {
                             validaciones.campoRelleno = false;
                         }
 
+                        // Si checkeó el checkbox que hace alusión al juramento
                         if (juramento.checked){
                             $(errorJuramento).fadeOut();
                             validaciones.checked = true;
@@ -222,14 +227,29 @@ export default () => {
                             validaciones.checked = false;
                         }
 
+                        // Checkea si se cumplen las 3 condiciones
                         if(validaciones.fondos && validaciones.campoRelleno && validaciones.checked){
+
                             $(errorJuramento).fadeOut();
                             $(errorInput).fadeOut();    
                             $(errorFondos).fadeOut();
+                            
                             $(mensajeDeExito).fadeIn();
                             moneyLeft.readOnly = true;
                             moneyRight.readOnly = true;
                             btnConfirmOperation.disabled = true;
+
+                            await guardarOperacionDeCompraVenta(userEmail, moneyLeft, moneyRight, "compra", "daiars")
+                            await guardarHistorialCompraVentaYCotizacion("ARS", userEmail, "compra", "daiars", moneyLeft);
+
+                            setTimeout(() => {
+                                $(mensajeDeExito).fadeOut();
+                                moneyLeft.readOnly = false;
+                                moneyRight.readOnly = false;
+                                btnConfirmOperation.disabled = false;
+                                formCompraVenta.reset();
+
+                            }, 5000);
 
                         }
                     })

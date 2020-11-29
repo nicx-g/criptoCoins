@@ -1,5 +1,4 @@
 
-
 async function guardarOperacion(monedaQueModifica, retiroOIngreso, input, userEmail) {
 
     const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`); //Base de datos de monedero
@@ -237,11 +236,11 @@ function getCripto(daiArsSell, daiArsBuy, btcArsSell, btcArsBuy, daiUsdSell, dai
 
 function renderArs(response, daiArsSell, daiArsBuy, btcArsSell, btcArsBuy) {
 
-    let buyBtcPriceValue = parseInt(response.data.coins[1].price);
-    let buyDaiPriceValue = parseInt(response.data.coins[2].price);
+    let buyBtcPriceValue = Number(parseInt(response.data.coins[1].price)).toFixed(2);
+    let buyDaiPriceValue = Number(response.data.coins[2].price).toFixed(2);
 
-    let sellBtcPriceValue = parseInt(response.data.coins[1].price) - parseInt(response.data.coins[1].price) * 4 / 100
-    let sellDaiPriceValue = parseInt(response.data.coins[2].price) - parseInt(response.data.coins[2].price) * 4 / 100
+    let sellBtcPriceValue = Number(parseInt(response.data.coins[1].price) - parseInt(response.data.coins[1].price) * 4 / 100).toFixed(2);
+    let sellDaiPriceValue = Number(Number(response.data.coins[2].price).toFixed(2) - Number(response.data.coins[2].price).toFixed(2) * 4 / 100).toFixed(2);
 
     $(btcArsBuy).slideUp();
     $(daiArsBuy).slideUp();
@@ -261,9 +260,8 @@ function renderArs(response, daiArsSell, daiArsBuy, btcArsSell, btcArsBuy) {
 
 function renderUsd(response, daiUsdBuy, daiUsdSell) {
 
-    let buyUsdPriceValue = parseInt(response.data.coins[1].price) + parseInt(response.data.coins[1].price) * 6 / 100
-    let sellUsdPriceValue = parseInt(response.data.coins[1].price) + parseInt(response.data.coins[1].price) * 2 / 100
-
+    let buyUsdPriceValue = Number(parseFloat(response.data.coins[1].price) + 0.06).toFixed(2);
+    let sellUsdPriceValue = Number(parseFloat(response.data.coins[1].price) + 0.02).toFixed(2);
 
     $(daiUsdBuy).slideUp();
     $(daiUsdSell).slideUp();
@@ -298,17 +296,32 @@ const colocarHistorial = async(userEmail, HistorialADesear, domElement) => {
             allHistory.forEach((doc) => {
         
                 const historyitem = doc.data();
-                domElement.innerHTML +=
+                if(historyitem.monto){
+                    domElement.innerHTML +=
+                    `<div class="historial-item  d-flex justify-content-around align-items-center">
+                        <div class="d-flex">
+                            <span id="history-title">${historyitem.titulo}</span>
+                        </div>
+                        
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <span>$${historyitem.monto}</span>
+                            <span>${historyitem.fecha} ${historyitem.hora}</span>
+                        </div>
+                    </div>`
+                    
+                } else if (historyitem.cotizacion){
+                    domElement.innerHTML +=
                 `<div class="historial-item  d-flex justify-content-around align-items-center">
                     <div class="d-flex">
                         <span id="history-title">${historyitem.titulo}</span>
                     </div>
                     
                     <div class="d-flex flex-column align-items-center justify-content-center">
-                        <span>$${historyitem.monto}</span>
+                        <span>Cotización: ${historyitem.cotizacion}</span>
                         <span>${historyitem.fecha} ${historyitem.hora}</span>
                     </div>
                 </div>`
+                }
             })
 
             break;
@@ -359,7 +372,7 @@ const colocarHistorial = async(userEmail, HistorialADesear, domElement) => {
                     </div>
                     
                     <div class="d-flex flex-column align-items-center justify-content-center">
-                        <span>$${historyitem.monto}</span>
+                        <span>Cotización: ${historyitem.cotizacion}</span>
                         <span>${historyitem.fecha} ${historyitem.hora}</span>
                     </div>
                 </div>`
@@ -392,8 +405,8 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
     
     let dai_ars_sell = parseFloat(response.data.coins[1].price) - parseFloat(response.data.coins[1].price) * 4 / 100;
     let dai_ars_buy = parseFloat(response.data.coins[1].price);
-    let dai_usd_sell = parseFloat(response.data.coins[1].price) + 0.2;
-    let dai_usd_buy = parseFloat(response.data.coins[1].price) + 0.6;
+    let dai_usd_sell = parseFloat(response.data.coins[1].price) + 0.02;
+    let dai_usd_buy = parseFloat(response.data.coins[1].price) + 0.06;
     let btc_ars_sell = parseFloat(response.data.coins[0].price) - parseFloat(response.data.coins[1].price) * 4 / 100;
     let btc_ars_buy = parseFloat(response.data.coins[0].price);
 
@@ -420,8 +433,8 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
 
                         case "btcars":
 
-                            inputRight.value = btc_ars_buy * inputLeft.value;
-                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_buy} BTC/ARS`;
+                            inputRight.value = Number(btc_ars_buy * inputLeft.value).toFixed(2);
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(btc_ars_buy).toFixed(2)} BTC/ARS`;
 
                             break;
 
@@ -447,8 +460,8 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
 
                         case "btcars":
 
-                            inputLeft.value = ((inputRight.value / btc_ars_buy));
-                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_buy} BTC/ARS`;
+                            inputLeft.value = Number((inputRight.value / btc_ars_buy)).toFixed(5);
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(btc_ars_buy).toFixed(2)} BTC/ARS`;
 
                             break;
                             
@@ -480,8 +493,8 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
 
                         case "btcars":
 
-                            inputRight.value = btc_ars_sell * inputLeft.value;
-                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_sell} BTC/ARS`;
+                            inputRight.value = Number(btc_ars_sell * inputLeft.value).toFixed(2);
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(btc_ars_sell).toFixed(2)} BTC/ARS`;
 
                             break;
 
@@ -507,8 +520,8 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
 
                         case "btcars":
 
-                            inputLeft.value = inputRight.value / btc_ars_sell;
-                            cotizacionOperacion.innerHTML = `Tu cotización es: ${btc_ars_sell} BTC/ARS`;
+                            inputLeft.value = Number(inputRight.value / btc_ars_sell).toFixed(5);
+                            cotizacionOperacion.innerHTML = `Tu cotización es: ${Number(btc_ars_sell).toFixed(2)} BTC/ARS`;
 
                             break;
                             
@@ -522,7 +535,7 @@ const actualizarValoresInput = async(response, compraOVenta, leftOrRight, operac
 
 // Esta función me va a validar que no esté vacío el input de la compra venta, si checkeó el input:checked y si tiene los fondos suficientes
 
-const validarFondos = async (userEmail, fondoAComprobar, inputRight) => {
+const validarFondos = async (userEmail, fondoAComprobar, inputRight, inputLeft) => {
     const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`);
     
     let getMoney = await userMoney.get();
@@ -546,21 +559,312 @@ const validarFondos = async (userEmail, fondoAComprobar, inputRight) => {
         } else{
             return false;
         }
+    } else if (fondoAComprobar == "dai"){
+        let fondoDai = getMoney.data().dai;
+
+        if(fondoDai >= inputLeft.value){
+            return true;
+        } else{
+            return false;
+        }
+    } else if (fondoAComprobar == "btc"){
+        let fondoBtc = getMoney.data().btc;
+
+        if(fondoBtc >= inputLeft.value){
+            return true;
+        } else{
+            return false;
+        }
     }
 }
 
 //Valida que el input sea específicamente un número
 
 const validarInputCompraVenta = (inputLeft, inputRight) => {
-    debugger
-    if ((inputLeft.value && inputRight.value) == null || (inputLeft.value && inputRight.value) == 0 || (inputLeft.value && inputRight.value).lenght < 1 || isNaN((inputLeft.value && inputRight.value))){
+    
+    if (inputLeft.value == null || inputRight.value == null || inputLeft.value == 0 || inputRight.value < 1 || (inputLeft.value && inputRight.value).lenght < 1 || isNaN((inputLeft.value && inputRight.value))){
         return false
     } else if(!isNaN((inputLeft.value && inputRight.value))){
         return true;
     }
 }
 
-// guardarCompraVenta
+// Función que guarda la compraventa en la parte de operar
+
+const guardarOperacionDeCompraVenta = async(userEmail, inputLeft, inputRight, compraOVenta, tipoDeOperacion) => {
+
+    const userMoney = firestore.doc(`Users/${userEmail}/operaciones/monedero`);
+    let getMoney = await userMoney.get();
+    
+    let ars_actual = await getMoney.data().ars;
+    let usd_actual = await getMoney.data().usd;
+    let dai_actual = await getMoney.data().dai;
+    let btc_actual = await getMoney.data().btc;
+
+    let valorInputLeft = Number(inputLeft.value);
+    let valorInputRight = Number(inputRight.value);
+
+    let monedaComprada;
+    let monedaVendida;
+
+    switch (compraOVenta) {
+        case "compra":
+            
+            switch (tipoDeOperacion) {
+                case "daiars":
+                    
+                    monedaComprada = valorInputLeft + dai_actual;
+                    monedaVendida = ars_actual - valorInputRight;
+
+                    userMoney.set({
+                        ars: monedaVendida,
+                        usd: usd_actual,
+                        dai: monedaComprada,
+                        btc: btc_actual
+                    });
+                    break;
+            
+                case "daiusd":
+                    
+                    monedaComprada = valorInputLeft + dai_actual;
+                    monedaVendida = usd_actual - valorInputRight;
+
+                    userMoney.set({
+                        ars: ars_actual,
+                        usd: monedaVendida,
+                        dai: monedaComprada,
+                        btc: btc_actual
+                    });
+                    break;
+
+                case "btcars":
+
+                    monedaComprada = valorInputLeft + btc_actual;
+                    monedaVendida = ars_actual - valorInputRight;
+
+                    userMoney.set({
+                        ars: monedaVendida,
+                        usd: usd_actual,
+                        dai: dai_actual,
+                        btc: monedaComprada
+                    });
+                    break;
+            }
+            break;
+    
+        case "venta":
+
+            switch (tipoDeOperacion) {
+                case "daiars":
+                    
+                    monedaComprada = valorInputRight + ars_actual;
+                    monedaVendida = dai_actual - valorInputLeft;
+
+                    userMoney.set({
+                        ars: monedaComprada,
+                        usd: usd_actual,
+                        dai: monedaVendida,
+                        btc: btc_actual
+                    });
+                    break;
+            
+                case "daiusd":
+                    
+                    monedaComprada = valorInputRight + usd_actual;
+                    monedaVendida = dai_actual - valorInputLeft;
+
+                    userMoney.set({
+                        ars: ars_actual,
+                        usd: monedaComprada,
+                        dai: monedaVendida,
+                        btc: btc_actual
+                    });
+                    break;
+
+                case "btcars":
+
+                    monedaComprada = valorInputRight + ars_actual;
+                    monedaVendida = btc_actual - valorInputLeft;
+
+                    userMoney.set({
+                        ars: monedaComprada,
+                        usd: usd_actual,
+                        dai: dai_actual,
+                        btc: monedaVendida
+                    });
+                    break;
+            }
+            break;
+    }
+}
+
+const guardarHistorialCompraVentaYCotizacion = (cotizaEn, userEmail, compraOVenta, operacion, inputLeft) => {
+    $.ajax({
+        type: "GET",
+        url: `https://api.coinranking.com/v1/public/coins?base=${cotizaEn}&timePeriod=24h&ids=1,68589&sort=price`,
+        dataType: "json"
+    }).then((response) => {
+        guardarHistorialCompraVenta(response, userEmail, compraOVenta, operacion, inputLeft)
+    })
+}
+
+const guardarHistorialCompraVenta = (response, userEmail, compraOVenta, operacion, inputLeft) => {
+
+    const userHistory = firestore.collection(`Users/${userEmail}/historial`);
+    const userHistory_compra_venta = firestore.collection(`Users/${userEmail}/historial/compra-y-venta/data`);
+
+    let dai_ars_sell = Number(parseFloat(response.data.coins[1].price) - parseFloat(response.data.coins[1].price) * 4 / 100).toFixed(2);
+    let dai_ars_buy = Number(parseFloat(response.data.coins[1].price)).toFixed(2);
+    let dai_usd_sell = Number(parseFloat(response.data.coins[1].price) + 0.02).toFixed(2);
+    let dai_usd_buy = Number(parseFloat(response.data.coins[1].price) + 0.06).toFixed(2);
+    let btc_ars_sell = Number(parseFloat(response.data.coins[0].price) - parseFloat(response.data.coins[1].price) * 4 / 100).toFixed(2);
+    let btc_ars_buy = Number(parseFloat(response.data.coins[0].price)).toFixed(2);
+
+    // Me saca la fecha y la hora actual
+    
+    let hoy = new Date();
+    
+    const fechaActual = `${hoy.getDate()}-${hoy.getMonth() + 1}-${hoy.getFullYear()}`;
+    const hora = hoy.getHours();
+    const minuto = hoy.getMinutes();
+    let horaPosta;
+    let minutoPosta;
+
+    //Acá le agrega un 0 a la hora y minuto si llega a tener un sólo digito. ej: 1:5 = 01:05
+    
+    if (hora < 10){
+        horaPosta = `0${hora}`
+    } else{
+        horaPosta = hora;
+    }
+    if (minuto < 10){
+        minutoPosta = `0${minuto}`
+    } else{
+        minutoPosta = minuto;
+    }
+
+    // 
+    switch (compraOVenta) {
+        case "compra":
+
+            switch (operacion) {
+                case "daiars":
+
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_ars_buy} DAI/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_ars_buy} DAI/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+            
+                case "daiusd":
+                    
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_usd_buy} DAI/USD`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_usd_buy} DAI/USD`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+
+                case "btcars":
+
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} BTC`,
+                        cotizacion: `${btc_ars_buy} BTC/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Compra de ${inputLeft.value} BTC`,
+                        cotizacion: `${btc_ars_buy} BTC/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+            }    
+            break;
+    
+        case "venta":
+
+            switch (operacion) {
+                case "daiars":
+                    
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_ars_sell} DAI/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_ars_sell} DAI/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+            
+                case "daiusd":
+                    
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_usd_sell} DAI/USD`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} DAI`,
+                        cotizacion: `${dai_usd_sell} DAI/USD`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+
+                case "btcars":
+
+                    userHistory_compra_venta.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} BTC`,
+                        cotizacion: `${btc_ars_sell} BTC/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                
+                    // Setea historial general
+                    userHistory.add({
+                        titulo: `<i class="fas fa-handshake"></i>Venta de ${inputLeft.value} BTC`,
+                        cotizacion: `${btc_ars_sell} BTC/ARS`,
+                        fecha: fechaActual,
+                        hora: `${horaPosta}:${minutoPosta}`
+                    })
+                    break;
+            }
+            break;
+    }
+}
 
 
-export {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, getCripto, renderArs, renderUsd, cerrarSesion, colocarHistorial, actualizarValoresInput, getCotizacion, validarFondos, validarInputCompraVenta};
+
+export {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, getCripto, renderArs, renderUsd, cerrarSesion, colocarHistorial, actualizarValoresInput, getCotizacion, validarFondos, validarInputCompraVenta, guardarOperacionDeCompraVenta, guardarHistorialCompraVentaYCotizacion};

@@ -1,3 +1,5 @@
+import {getCripto, colocarDatosBasicos, cerrarSesion, getCotizacion, validarFondos, validarInputCompraVenta, guardarOperacionDeCompraVenta, guardarHistorialCompraVentaYCotizacion} from "../../../js/functions.js";
+
 export default () => {
     const header =
     `<div class="dashboard-header">
@@ -89,23 +91,28 @@ export default () => {
                 <div class="ingresar-o-retirar-cripto flex-column d-flex justify-content-center align-items-center">
                     <div class="ingresar-o-retirar-cripto-operacion d-flex flex-column align-items-center">
                         <h2>Vender DAI por ARS</h2>
-                        <div class="ingresar-o-retirar-cripto-input d-flex">
-                            <div class="d-flex align-items-center justify-content-center flex-column">
-                                <label for="moneyLeft">DAI que vas a vender</label>
-                                <input type="text" name="moneyLeft" id="moneyLeft" placeholder="0">
+                        <form method="POST" id="form-compraventa" class="d-flex flex-column align-items-center">
+                            <div class="ingresar-o-retirar-cripto-input d-flex">
+                                <div class="d-flex align-items-center justify-content-center flex-column">
+                                    <label for="moneyLeft">DAI que vas a vender</label>
+                                    <input type="text" name="moneyLeft" id="moneyLeft" placeholder="0">
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center flex-column">
+                                    <label for="moneyRight">ARS que vas a recibir</label>
+                                    <input type="text" name="moneyRight" id="moneyRight" placeholder="0">
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-center flex-column">
-                                <label for="moneyRight">ARS que vas a recibir</label>
-                                <input type="text" name="moneyRight" id="moneyRight" placeholder="0">
-                            </div>
-                        </div>
-                        <p id="cotizacionOperacion">Tu cotización: 125 ARS/DAI</p>
-                        
-                        <label for="juramento"><input type="checkbox" name="juramento" id="juramento">Al continuar declaro bajo juramento que mis fondos no provienen de planes y programas sociales en Argentina.</label>
-                        <button id="confirmOperation" type="submit">Confirmar operación</button>
+                            <p id="cotizacionOperacion">Tu cotización es: </p>
+                            
+                            <label for="juramento"><input type="checkbox" name="juramento" id="juramento">Al continuar declaro bajo juramento que mis fondos no provienen de planes y programas sociales en Argentina.</label>
+                            <button id="confirmOperation" type="submit">Confirmar operación</button>
+                        </form>
+                        <p id="errorFondos" style="display:none; color:red;">No tenés los fondos suficientes</p>
+                        <p id="errorInput" style="display:none; color:red;">Ingresá un número válido. El monto tiene que ser mayor a 1</p>
+                        <p id="errorJuramento" style="display:none; color:red;">Para continuar tenés que confirmar la declaración jurada</p>
                     </div>
 
-                    <div class="mensaje-de-exito bg-success">
+                    <div class="mensaje-de-exito bg-success" style="display:none">
                         <p>Ya están los pesos acreditados en tu cuenta</p>
                     </div>
                 </div>
@@ -123,6 +130,144 @@ export default () => {
     const divElement = document.createElement('div');
     divElement.innerHTML = `${header} ${views} ${footer}`;
 
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // si el User está logueado
+            var emailVerified = user.emailVerified;
+            let userEmail = user.email
+    
+            if (emailVerified){
+                
+                // Si el email está verificado
+    
+                // Elementos del DOM
+
+                const userNameHeader = divElement.querySelector('#nombreDelUsuarioCripto')
+                const btnSignOut = divElement.querySelector("#btn-sign-out");
+
+                let dai_ars_sell = divElement.querySelector('#dai-ars-sell');
+                let dai_usd_sell = divElement.querySelector('#dai-usd-sell');
+                let btc_ars_sell = divElement.querySelector('#btc-ars-sell');
+                let dai_ars_buy = divElement.querySelector('#dai-ars-buy');
+                let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
+                let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
+
+                const moneyLeft = divElement.querySelector('#moneyLeft');
+                const moneyRight = divElement.querySelector('#moneyRight');
+                const cotizacionOperacion = divElement.querySelector('#cotizacionOperacion');
+                const btnConfirmOperation = divElement.querySelector('#confirmOperation');
+                const juramento = divElement.querySelector('#juramento');
+                const errorFondos = divElement.querySelector('#errorFondos');
+                const errorInput = divElement.querySelector('#errorInput');
+                const errorJuramento = divElement.querySelector('#errorJuramento');
+                const mensajeDeExito = divElement.querySelector(".mensaje-de-exito");
+                const formCompraVenta = divElement.querySelector('#form-compraventa')
+
+                $(async()=>{
+
+                    await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
+                    setInterval(getCripto, 30000); // Cada 30 secs
+                    
+                    colocarDatosBasicos(userEmail, userNameHeader);
+
+                    btnSignOut.addEventListener('click', cerrarSesion);
+
+                    
+                    moneyLeft.addEventListener('keyup', () => {
+                      getCotizacion("ARS", "venta","left", "daiars", moneyLeft, moneyRight, cotizacionOperacion);  
+                    }) 
+                    moneyRight.addEventListener('keyup', () => {
+                      getCotizacion("ARS", "venta", "right", "daiars", moneyLeft, moneyRight, cotizacionOperacion);  
+                    }) 
+                    moneyLeft.addEventListener('blur', () => {
+                      getCotizacion("ARS", "venta","left", "daiars", moneyLeft, moneyRight, cotizacionOperacion);  
+                    }) 
+                    moneyRight.addEventListener('blur', () => {
+                      getCotizacion("ARS", "venta", "right", "daiars", moneyLeft, moneyRight, cotizacionOperacion);  
+                    }) 
+
+                    $(btnConfirmOperation).on('click', async (e) => {
+                        e.preventDefault();
+
+                        let validaciones = {
+                            fondos: false,
+                            campoRelleno: false,
+                            checked: false,
+                        }
+                        
+                        let respuestaALosFondos = await validarFondos(userEmail, "dai", moneyRight, moneyLeft);
+
+                        
+                        // Si tiene fondos o no
+                        if (respuestaALosFondos == true){
+                            $(errorFondos).fadeOut();
+                            validaciones.fondos = true;
+
+                        } else{
+                            $(errorFondos).fadeIn();
+                            validaciones.fondos = false;
+                        }
+
+                        // Si colocó correctamente un número mayor a 1
+                        if (validarInputCompraVenta(moneyLeft, moneyRight) == true){
+                            $(errorInput).fadeOut();
+                            validaciones.campoRelleno = true;
+                        } else {
+                            $(errorInput).fadeIn();
+                            validaciones.campoRelleno = false;
+                        }
+
+                        // Si checkeó el checkbox que hace alusión al juramento
+                        if (juramento.checked){
+                            $(errorJuramento).fadeOut();
+                            validaciones.checked = true;
+
+                        } else{
+                            $(errorJuramento).fadeIn();
+                            validaciones.checked = false;
+                        }
+
+                        // Checkea si se cumplen las 3 condiciones
+                        if(validaciones.fondos && validaciones.campoRelleno && validaciones.checked){
+
+                            $(errorJuramento).fadeOut();
+                            $(errorInput).fadeOut();    
+                            $(errorFondos).fadeOut();
+                            
+                            $(mensajeDeExito).fadeIn();
+                            moneyLeft.readOnly = true;
+                            moneyRight.readOnly = true;
+                            btnConfirmOperation.disabled = true;
+
+                            await guardarOperacionDeCompraVenta(userEmail, moneyLeft, moneyRight, "venta", "daiars")
+                            await guardarHistorialCompraVentaYCotizacion("ARS", userEmail, "venta", "daiars", moneyLeft);
+
+                            setTimeout(() => {
+                                $(mensajeDeExito).fadeOut();
+                                moneyLeft.readOnly = false;
+                                moneyRight.readOnly = false;
+                                btnConfirmOperation.disabled = false;
+                                formCompraVenta.reset();
+
+                            }, 5000);
+
+                        }
+                    })
+
+                })
+    
+            } else{
+    
+                // Si el email no está verificado
+    
+                window.location.href = "#/login"
+            }
+            
+        } else {
+            // si el user no está logueado
+            window.location.href = "#/login"
+        }
+        });
 
     return divElement;
 }

@@ -83,7 +83,7 @@ export default () =>{
         <div class="d-flex justify-content-center">
             <div class="definition-card">
                 <h3>Criptodivisas</h3>
-                <p>Existe un gran número de criptodivisas disponibles, todas con sus propias características y aplicaciones. Las que tienen mayor capitalización de mercado son bitcoin cash, ether, litecoin, ripple y dash, y una de las más conocidas, dai.</p>
+                <p>Existe un gran número de criptodivisas disponibles, todas con sus propias características y aplicaciones. Las que tienen mayor capitalización de mercado son bitcoin cash, ether, litecoin, ripple y dash, y otras siguen la cotización de una moneda Fiat, una de las más conocidas, dai.</p>
             </div>
         </div>
 
@@ -103,27 +103,27 @@ export default () =>{
         <div class="card-criptos d-flex justify-content-center">
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-btc"></i>
-                <span>11</span>
+                <span id="btc">11</span>
             </div>
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-eth"></i>
-                <span>1</span>
+                <span id="eth">1</span>
             </div>
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-ltc"></i>
-                <span>1</span>
+                <span id="ltc">1</span>
             </div>
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-xrp"></i>
-                <span>1</span>
+                <span id="xrp">1</span>
             </div>
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-dash"></i>
-                <span>1</span>
+                <span id="dash">1</span>
             </div>
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-dai"></i>
-                <span>1</span>
+                <span id="dai">1</span>
             </div>
         </div>
     </div>
@@ -316,6 +316,13 @@ export default () =>{
     const linkGetApp = divElement.querySelector('.get-app-link')
     const linkContact = divElement.querySelector('.contact-link')
 
+    const btc = divElement.querySelector('#btc');
+    const eth = divElement.querySelector('#eth');
+    const ltc = divElement.querySelector('#ltc');
+    const xrp = divElement.querySelector('#xrp');
+    const dash = divElement.querySelector('#dash');
+    const dai = divElement.querySelector('#dai');
+
     $(linkQueEsCripto).on('click', () => {
         smoothScroll(queEsCripto, 1000);
     })
@@ -387,5 +394,38 @@ export default () =>{
 
     })
 
+    const getCotizacionCriptosCap = () => {
+
+        $.ajax({
+            type: "GET",
+            url: `https://api.coinranking.com/v1/public/coins?base=ARS&timePeriod=24h&ids=1,178,7,3,13,68589&sort=price`,
+            dataType: "json"
+        }).then((response) => {
+            
+            $(btc).slideUp()
+            $(eth).slideUp()
+            $(ltc).slideUp()
+            $(xrp).slideUp()
+            $(dash).slideUp()
+            $(dai).slideUp()
+            
+            btc.innerHTML = `$${Number(response.data.coins[0].price).toFixed(2)}`;
+            eth.innerHTML = `$${Number(response.data.coins[1].price).toFixed(2)}`;
+            ltc.innerHTML = `$${Number(response.data.coins[2].price).toFixed(2)}`;
+            xrp.innerHTML = `$${Number(response.data.coins[3].price).toFixed(2)}`;
+            dash.innerHTML = `$${Number(response.data.coins[4].price).toFixed(2)}`;
+            dai.innerHTML = `$${Number(response.data.coins[5].price).toFixed(2)}`;
+            
+            $(btc).slideDown()
+            $(eth).slideDown()
+            $(ltc).slideDown()
+            $(xrp).slideDown()
+            $(dash).slideDown()
+            $(dai).slideDown()
+        })
+    }
+
+    getCotizacionCriptosCap();
+    // setInterval(getCotizacionCriptosCap, 60000)
     return divElement
 }

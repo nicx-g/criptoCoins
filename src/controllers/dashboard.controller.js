@@ -186,10 +186,10 @@ firebase.auth().onAuthStateChanged((user) => {
             const saldo_Monedero_BTC = querySnapshotMoney.data().btc;
 
 
-            saldo_ARS.innerHTML = saldo_Monedero_ARS;
-            saldo_USD.innerHTML = saldo_Monedero_USD;
-            saldo_DAI.innerHTML = saldo_Monedero_DAI;
-            saldo_BTC.innerHTML = saldo_Monedero_BTC;
+            saldo_ARS.innerHTML = Number(saldo_Monedero_ARS).toFixed(2);
+            saldo_USD.innerHTML = Number(saldo_Monedero_USD).toFixed(2);
+            saldo_DAI.innerHTML = Number(saldo_Monedero_DAI).toFixed(2);
+            saldo_BTC.innerHTML = Number(saldo_Monedero_BTC).toFixed(5);
 
              // Nombre y apellido del header
             colocarDatosBasicos(userEmail, userNameHeader);
