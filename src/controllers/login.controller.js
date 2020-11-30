@@ -149,36 +149,37 @@ export default () => {
           let emailVerificado = user.emailVerified;
     
           if(emailVerificado){
-    
+                // Si el email fue verificado
               window.location.href = "#/dashboard"
     
           } else{
-    
+            // Si no está verificado se le agrega el mensaje de que tiene que verificar el email
             divElement.querySelector(`.registerForm-submit-errorEmail`).classList.add('registerForm-submit-errorEmail-active')
     
           }
     
         } else {
           // User is signed out.
+
           formularioLogin.addEventListener('submit', async(e) => {
     
-            e.preventDefault();
+            e.preventDefault(); //cancela el form
         
             let emailLogin = divElement.querySelector(`#emailLoginDeUsuario`).value;
             let passwordLogin = divElement.querySelector(`#passwordLoginDeUsuario`).value;
         
-            await firebase.auth().signOut();
+            await firebase.auth().signOut(); // desloguea al usuario actual
             
-            firebase.auth().signInWithEmailAndPassword(emailLogin, passwordLogin)
+            await firebase.auth().signInWithEmailAndPassword(emailLogin, passwordLogin) //loguea al usuario que intenta ingresar
             .then(() => {
         
-                divElement.querySelector(`.registerForm-submit-errorForm`).classList.remove('registerForm-submit-errorForm-active')
-                window.location.href = "#/dashboard"
+                divElement.querySelector(`.registerForm-submit-errorForm`).classList.remove('registerForm-submit-errorForm-active') //Elimina el mensaje de error
+                window.location.href = "#/dashboard" //lo redirecciona
         
             })
             .catch(() => {
                 
-                divElement.querySelector(`.registerForm-submit-errorForm`).classList.add('registerForm-submit-errorForm-active')
+                divElement.querySelector(`.registerForm-submit-errorForm`).classList.add('registerForm-submit-errorForm-active') //Agrega el mensaje de error en caso de que el login haya salido mal
         
             })
         })

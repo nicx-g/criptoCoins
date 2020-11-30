@@ -1,0 +1,10 @@
+.error-404{
+    background-color: map-get($colors, primary);
+    height: 100vh;
+
+    h1, h2{
+        color: map-get($colors, quaternary);
+        font-size: 3rem;
+        font-weight: 700;
+    }
+}

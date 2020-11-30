@@ -106,7 +106,7 @@ export default () => {
                 <div style="display:none" class="feedback-section">
                     <div class="feedback-section-presentation">
                         <h3>Reportar errores o aspectos a mejorar.</h3>
-                        <p>Hola! espero que andes bien. Hice este apartado para que el que vea esta pag tenga la posibilidad de mandarme feedback desde la página misma en lugar de ir a otro lado (hasta que se me acabe el cupo gratis y si es que encuentran este lugar primero (?) te dejo acá abajo lo que necesitas para enviarme la información!</p>
+                        <p>Hola! espero que andes bien. Hice este apartado para que el que vea esta pag tenga la posibilidad de mandarme feedback desde la página misma en lugar de ir a otro lado peeero lamentablemente no logré que ande, me falta experiencia en backend aún, no voy a borrar la sección porque definitivamente la voy a hacer andar en el futuro pero por el momento no será, disculpá</p>
                     </div>
                     <form method="post">
                         <div id="div-email" class="d-flex flex-column">
@@ -221,14 +221,16 @@ export default () => {
 
 
 
-                $( () => {
+                $( async() => {
 
-                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
-                    colocarDatosBasicos(userEmail, userNameHeader);
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Coloca la cotización en el header
+                    setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
+                    colocarDatosBasicos(userEmail, userNameHeader); // Pone el nombre y apellido en el header
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 
+                    //Coloca todos los datos en el perfil
+                    
                     const colocarDatosCompletos = async(userEmail) => {
 
                         const userDataPath = firestore.doc(`Users/${userEmail}`);
@@ -244,6 +246,8 @@ export default () => {
                         contra.value = userData.data().password;
                     }   
 
+                    // Me valida los inputs de feedback
+                    
                     const validarInputsFeedback = (expresion, input, campo) => {
                         const inputError = divElement.querySelector(`#error-${campo}`)
                         if (expresion.test(input.value)){
@@ -255,6 +259,8 @@ export default () => {
                         }
                     }
                     
+
+                    // Me valida el formulario de feedback
                     const validarFormFeedback = (e) => {
                         switch (e.target.name) {
                             case "feedback-email":
@@ -271,6 +277,7 @@ export default () => {
                         }
                     }
 
+                    //Todos los inputs y textarea dentro del form tendrán el evento blur y keyup
                     inputsFeedback.forEach((input) => {
                         $(input).on('blur', validarFormFeedback)
                         $(input).on('keyup', validarFormFeedback)
@@ -279,9 +286,9 @@ export default () => {
                     $(textareaFeedback).on('keyup', validarFormFeedback);
 
 
-                    
                     colocarDatosCompletos(userEmail);
 
+                    // Lo que hace es aparecer o desaparecer el formulario y cambia el texto del botón y sólo ejecuta el alert si está todo validado
                     $(btn_feedback_account).on('click', () => {
 
                         if(btn_feedback_account.textContent == "Reportar errores o feedback"){
@@ -292,7 +299,7 @@ export default () => {
                                 e.preventDefault();
 
                                 if(validaciones.text && validaciones.asunto && validaciones.email){
-                                    alert('hola ;)');
+                                    alert('no funca :(');
                                 }
                             })
 
@@ -302,6 +309,7 @@ export default () => {
                         }
                     })
 
+                    // Una vez hacés click te deshabilita el botón y comienza la secuencia de mensajes en rojo, una vez sucede eso se le añade animaciones al botón y se le cambia el texto, si el usuario presiona el botón para eliminar la cuenta se realiza la eliminación del historial completo, de compra venta y depositos y retiros y también los datos del usuario. Aparece el div de despedida y se redirige al login
                     $(btn_delete_account).on('click', () => {
                         if(btn_delete_account.textContent == "Borrar cuenta"){
                             btn_delete_account.disabled = true;
@@ -343,25 +351,23 @@ export default () => {
                                                     let historialDepositosYRetiros = await gethistorialDepositosYRetiros()
                                                     let historialCompraVenta = await gethistorialCompraVenta()
 
-                                                    historialCompleto.forEach((response) => {
+                                                    historialCompleto.forEach(async (response) => {
                                                         let ids = response.id
-                                                        firestore.doc(`Users/${userEmail}/historial/${ids}`).delete();
+                                                        await firestore.doc(`Users/${userEmail}/historial/${ids}`).delete();
                                                     })
-                                                    historialDepositosYRetiros.forEach((response) => {
+                                                    historialDepositosYRetiros.forEach(async (response) => {
                                                         let idsdepositosyretiros = response.id
-                                                        firestore.doc(`Users/${userEmail}/historial/depositos-y-retiros/data/${idsdepositosyretiros}`).delete();
+                                                        await firestore.doc(`Users/${userEmail}/historial/depositos-y-retiros/data/${idsdepositosyretiros}`).delete();
                                                     })
-                                                    historialCompraVenta.forEach((response) => {
+                                                    historialCompraVenta.forEach(async (response) => {
                                                         let idscompraventa = response.id
-                                                        firestore.doc(`Users/${userEmail}/historial/compra-y-venta/data/${idscompraventa}`).delete();
+                                                        await firestore.doc(`Users/${userEmail}/historial/compra-y-venta/data/${idscompraventa}`).delete();
                                                     })
                                                     
-                                                    firestore.doc(`Users/${userEmail}`).delete().then(()=>{
-                                                        setTimeout(() => {
-                                                            firebase.auth().currentUser.delete().then(() => {
-                                                                $(adios).fadeOut();
-                                                            })
-                                                        }, 10000);
+                                                    await firestore.doc(`Users/${userEmail}`).delete().then(async ()=>{
+                                                        await firebase.auth().currentUser.delete().then(() => {
+                                                            $(adios).fadeOut();
+                                                        })
                                                     })
                                                 });
                                             }, 1500);

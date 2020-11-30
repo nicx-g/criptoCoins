@@ -154,11 +154,11 @@ export default () => {
                 let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
                 let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
-                $( () => {
+                $( async() => {
 
-                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
-                    colocarDatosBasicos(userEmail, userNameHeader);
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); //actualiza el precio de las cripto
+                    setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
+                    colocarDatosBasicos(userEmail, userNameHeader); // Pone nombre y apellido en el header
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 

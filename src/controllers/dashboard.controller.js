@@ -173,8 +173,8 @@ firebase.auth().onAuthStateChanged((user) => {
             
             // Actualiza el precio de las monedas
 
-            getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-            setInterval(getCripto, 30000); // Cada 30 secs
+            await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Coloca la cotización en el header
+            setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
             
             // Colocar monedas que posee
 

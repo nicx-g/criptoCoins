@@ -1,4 +1,4 @@
-import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd} from "../../../js/functions.js";
+import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, validarFondos} from "../../../js/functions.js";
 
 export default () => {
     const header =
@@ -95,11 +95,11 @@ export default () => {
                             <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
                                 <label for="retirarBtc">Insertar cantidad de Bitcoin</label>
                                 <input type="text" name="retirarBtc" id="retirarBtc" placeholder="Por ej: 0.0095">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+                                <p id="mensaje-de-error" style="display: none">No ingresaste un número válido o no tenés fondos suficientes</p>
 
                                 <label for="wallet-btc">Insertar dirección de la Wallet.</label>
                                 <input type="text" name="wallet-btc" id="wallet-btc" placeholder="Por ej: 0xac4f72e7bda732a521dff91a0fb46ee24f1eadbf">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar una dirección de wallet válida</p>
+                                <p id="mensaje-de-error-direccion" style="display: none">Tenés que ingresar una dirección de wallet válida</p>
                             </div>
                             <button id="btn-retirar-btc" type="submit">Enviar Bitcoin</button>
                         </form>
@@ -153,16 +153,17 @@ export default () => {
                 let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
                 let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
-                $(()=>{
+                $(async () => {
 
                     getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                         setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
                     colocarDatosBasicos(userEmail, userNameHeader);
+                    btnSignOut.addEventListener('click', cerrarSesion);
 
-                    btn_retirar_btc.addEventListener('click', (e) => {
+                    btn_retirar_btc.addEventListener('click', async(e) => {
                         e.preventDefault();
 
-                        if(validarInput(input_retirar_btc)){
+                        if(validarInput(input_retirar_btc) && await validarFondos(userEmail, "btc", null, input_retirar_btc)){
 
                             input_retirar_btc.classList.remove("error-input")
                             $(mensaje_de_error).fadeOut();

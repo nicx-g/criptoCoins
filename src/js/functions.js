@@ -1,3 +1,4 @@
+// Esta función va a guardar las operaciones de deposito o retiro
 
 async function guardarOperacion(monedaQueModifica, retiroOIngreso, input, userEmail) {
 
@@ -132,7 +133,7 @@ async function guardarOperacion(monedaQueModifica, retiroOIngreso, input, userEm
     }
 } 
 
-// Esta funcion va a recibir por parámetro el nombre de la operación "retiro/ingreso de moenda" y el monto que ya lo vas a aclarar con el input de la funcion guardarOperacion()
+// Esta funcion va a recibir por parámetro el nombre de la operación "retiro/ingreso de moenda" y el monto que ya lo vas a aclarar con el input de la funcion guardarOperacion() y va a guardar el historial de esa misma operacion
 
 async function guardarhistorial(operacion, monto, userEmail){
 
@@ -193,7 +194,7 @@ function validarInput(inputId){
     }
 }
 
-//Coloca al principio del documento el nombre y apellido del usuario
+//Coloca en el header el nombre y apellido del usuario
 
 const colocarDatosBasicos = async (userEmail, elementoDom) => {
     
@@ -213,7 +214,7 @@ const colocarDatosBasicos = async (userEmail, elementoDom) => {
 
 // Conjunto de funciones que crean el actualizador de criptomonedas en el header
 
-//Coloca precios actuales de las cripto
+//Coloca precios actuales de las cripto en el dashboard
             
 function getCripto(daiArsSell, daiArsBuy, btcArsSell, btcArsBuy, daiUsdSell, daiUsdBuy){
     $.ajax({
@@ -385,7 +386,7 @@ const colocarHistorial = async(userEmail, HistorialADesear, domElement) => {
     }
 }
 
-// Me obtiene la cotización de las cripto, podría haber mejorado la que ya hice? sí. Sólo acepta "ARS" o "USD"
+// Me obtiene la cotización de las cripto, podría haber mejorado la que ya hice? sí. Sólo acepta "ARS" o "USD" y se utiliza en la compraventa cuando se trata de la actualizacion de los inputs para obtener el valor correcto
 
 const getCotizacion = (cotizaEn, compraOVenta, leftOrRight, operacion, inputLeft, inputRight, cotizacionOperacion) => {
 
@@ -698,6 +699,8 @@ const guardarOperacionDeCompraVenta = async(userEmail, inputLeft, inputRight, co
     }
 }
 
+// Va a guardar el historial de la compra o venta con la cotización de ese momento
+
 const guardarHistorialCompraVentaYCotizacion = (cotizaEn, userEmail, compraOVenta, operacion, inputLeft) => {
     $.ajax({
         type: "GET",
@@ -707,6 +710,8 @@ const guardarHistorialCompraVentaYCotizacion = (cotizaEn, userEmail, compraOVent
         guardarHistorialCompraVenta(response, userEmail, compraOVenta, operacion, inputLeft)
     })
 }
+
+// Va a guardar el historial de la compra o venta con la cotización de ese momento
 
 const guardarHistorialCompraVenta = (response, userEmail, compraOVenta, operacion, inputLeft) => {
 
@@ -866,5 +871,5 @@ const guardarHistorialCompraVenta = (response, userEmail, compraOVenta, operacio
 }
 
 
-
+// Exporto todas las funciones para utilizarlas en los diferentes controladores dependiendo de lo que necesite
 export {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, getCripto, renderArs, renderUsd, cerrarSesion, colocarHistorial, actualizarValoresInput, getCotizacion, validarFondos, validarInputCompraVenta, guardarOperacionDeCompraVenta, guardarHistorialCompraVentaYCotizacion};

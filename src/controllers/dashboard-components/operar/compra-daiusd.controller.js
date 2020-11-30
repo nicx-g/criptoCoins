@@ -166,7 +166,7 @@ export default () => {
                 $(async()=>{
 
                     await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                         setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
                     
                     colocarDatosBasicos(userEmail, userNameHeader);
 

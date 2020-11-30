@@ -1,4 +1,4 @@
-import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd} from "../../../js/functions.js";
+import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd, validarFondos} from "../../../js/functions.js";
 
 export default () => {
     const header = 
@@ -95,7 +95,7 @@ export default () => {
                             <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
                                 <label for="retirarDolares">Insertar cantidad de dólares</label>
                                 <input type="text" name="retirarDolares" id="retirarDolares" placeholder="Por ej: 68">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+                                <p id="mensaje-de-error" style="display: none">No ingresaste un número válido o no tenés fondos suficientes</p>
 
                                 <label for="cbuAlias">Insertar tu CBU o ALIAS de tu caja de ahorro en DÓLARES</label>
                                 <input type="text" name="cbuAlias" id="cbuAlias" placeholder="Por ej: 1430001713000035540010">
@@ -154,18 +154,18 @@ export default () => {
                 let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
  
-                $(()=>{
+                $( async() => {
 
                     getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                         setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
                     colocarDatosBasicos(userEmail, userNameHeader);
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 
-                    btn_retirar_usd.addEventListener('click', (e) => {
+                    btn_retirar_usd.addEventListener('click', async(e) => {
                         e.preventDefault();
 
-                        if(validarInput(input_retirar_usd)){
+                        if(validarInput(input_retirar_usd) && await validarFondos(userEmail, "usd", input_retirar_usd)){
 
                             input_retirar_usd.classList.remove("error-input")
                             $(mensaje_de_error).fadeOut();

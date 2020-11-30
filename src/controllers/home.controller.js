@@ -67,21 +67,21 @@ export default () =>{
         </div>
 
         <div class="d-flex justify-content-between">
-            <div class="definition-card">
+            <div class="wow animate__animated animate__fadeInLeft definition-card">
                 <h3>¿Qué es una cripto?</h3>
                 <p>Una criptomoneda es una divisa o moneda virtual, la cual se crea y se almacena de manera electrónica, asimismo, no cuenta con la regulación de algún gobierno ni respaldo físico, ya que lo que brinda seguridad a sus usuarios y transacciones es el hecho de que están basadas como su nombre lo indica, en criptografía (técnica de escribir procedimientos o claves secretas, de tal forma que lo escrito solamente sea inteligible para quien sepa descifrarlo).</p>
             </div>
             <div class="bitcoin-image"></div>
         </div>
         <div class="d-flex justify-content-between flex-row-reverse">
-            <div class="definition-card">
+            <div class="wow animate__animated animate__fadeInRight definition-card">
                 <h3>Blockchain</h3>
                 <p>Como se mencionó, al no contar con algún tipo de regulación de parte de gobiernos o bancos, estas monedas digitales son creadas y controladas por programas o algoritmos, los cuales determinan la manera en que se realizan y registran las transacciones. En otras palabras, son los usuarios quienes registran las transacciones directamente entre pares, en lugar de hacerlo por medio de bancos o intermediarios, a este sistema se le conoce como blockchain.</p>
             </div>
             <div class="criptos-image"></div>
         </div>
         <div class="d-flex justify-content-center">
-            <div class="definition-card">
+            <div class="wow animate__animated animate__fadeInUp definition-card">
                 <h3>Criptodivisas</h3>
                 <p>Existe un gran número de criptodivisas disponibles, todas con sus propias características y aplicaciones. Las que tienen mayor capitalización de mercado son bitcoin cash, ether, litecoin, ripple y dash, y otras siguen la cotización de una moneda Fiat, una de las más conocidas, dai.</p>
             </div>
@@ -100,7 +100,7 @@ export default () =>{
             </div>
         </div>
 
-        <div class="card-criptos d-flex justify-content-center">
+        <div class="wow animate__animated animate__fadeInUp card-criptos d-flex justify-content-center">
             <div class="card-cripto d-flex flex-column justify-content-center align-items-center">
                 <i class="cf cf-btc"></i>
                 <span id="btc">11</span>
@@ -136,29 +136,29 @@ export default () =>{
         </div>
         <div class="about-us-cards">
             <div class="d-flex justify-content-center">
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInRight about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-thumbs-up"></i>
                     <p>Una plataforma completamente legal y segura, autorizada por el gobierno nacional para operar en la compra y venta de criptomonedas. <a  href="#">saber más</a></p>
                 </div>
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInUp about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-check-circle"></i>
                     <p>Te validamos la identidad al instánte, sin que tengas largas horas de espera en verificación, en 5 minutos tu cuenta estará validada para operar. 😉</p>
                 </div>
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInLeft about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-shield-alt"></i>
                     <p>Te aseguramos la mejor tecnología de encriptación para que tu cuenta y tus criptomonedas estén seguras en todo momento.</p>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInRight about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-handshake"></i>
                     <p>Te ofrecemos las comisiones más bajas del mercado. ¿Cómo? <a href="#">saber más</a></p>
                 </div>
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInUp about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="fab fa-fly"></i>
                     <p>Olvidate de los impuestos, los límites y las retenciones del gobierno nacional, acá nadie te va a cobrar eso, el cielo es el límite. <span>(y ni eso)</span></p>
                 </div>
-                <div class="about-us-cards-item d-flex flex-column align-items-center justify-content-center">
+                <div class="wow animate__animated animate__fadeInLeft about-us-cards-item d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-user-check"></i>
                     <p>Un soporte que te otorgará asistencia en todo lo que necesites las 24 horas del día, los 7 días de la semana.</p>
                 </div>
@@ -179,15 +179,15 @@ export default () =>{
                 <img src="./src/resources/images/step-by-step.png" alt="Usuario registrándose" width="400px">
             </div>
             <div class="step-by-step-text">
-                <div class="step-by-step-text-item">
+                <div class="wow animate__animated animate__slideInRight step-by-step-text-item">
                     <h4>Primer paso</h4>
                     <span>Regístrate completando todos los datos que se te pide. <i class="far fa-id-card"></i> ¡No nos mientas eh! lo vamos a saber.</span>
                 </div>
-                <div class="step-by-step-text-item">
+                <div class="wow animate__animated animate__slideInRight step-by-step-text-item">
                     <h4>Segundo paso</h4>
                     <span>Validá la cuenta en 5 minutos. <i class="fas fa-rocket"></i> Va a ser más rápido que el repartidor entregándote la pizza, creenos.</span>
                 </div>
-                <div class="step-by-step-text-item">
+                <div class="wow animate__animated animate__slideInRight step-by-step-text-item">
                     <h4>Tercer paso</h4>
                     <span>¡Listo! <i class="fas fa-user-check"></i> ya estás listo para operar con nosotros. Más adelante te vamos a pedir unos datos adicionales para asegurarnos ciertos temas, pero no te preocupes, será rápido también. 😉</span>
                 </div>
@@ -199,7 +199,7 @@ export default () =>{
 <div class="separator3"></div>
 
 <div class="get-app">
-    <div class="container d-flex flex-row-reverse justify-content-around align-items-center">
+    <div class="wow animate__animated animate__zoomIn container d-flex flex-row-reverse justify-content-around align-items-center">
         <div class="get-app-image">
             <img src="./src/resources/images/app.png" alt="Descargá la app" width="350px">
         </div>
@@ -301,6 +301,8 @@ export default () =>{
 
     // Código JS
 
+    // Elementos del DOM
+    
     const menu_header = divElement.querySelector('.menu-header'); 
     const menu_header_logo = divElement.querySelector('.header-logo img'); 
 
@@ -323,6 +325,8 @@ export default () =>{
     const dash = divElement.querySelector('#dash');
     const dai = divElement.querySelector('#dai');
 
+    // Redirecciona a la sección seleccionada
+    
     $(linkQueEsCripto).on('click', () => {
         smoothScroll(queEsCripto, 1000);
     })
@@ -341,6 +345,7 @@ export default () =>{
 
     let scrollPos = 0;
 
+    // Esta funcion no la terminé de entender muy bien pero toma la distancia que existe entre el top y el objetivo, y el tiempo si no me equivoco sirve para la animación, pero es muy complejo, sobre todo la función que realiza la animación
     function smoothScroll (objetivo, duration){
         let target = objetivo;
         let targetPosition = target.getBoundingClientRect().top;
@@ -369,6 +374,7 @@ export default () =>{
 
 
 
+    // Esta función toma el scroll del usuario, si es mayor a 450 se le agrega estilos y animaciones, una vez pasa los 600 el header se "oculta" cuando scrolleas para abajo, si subís, se aparece nuevamente
     $(window).on('scroll', () => {
 
 
@@ -394,6 +400,8 @@ export default () =>{
 
     })
 
+
+    // Obtiene la cotización de las monedas que figuran en el home y las coloca    
     const getCotizacionCriptosCap = () => {
 
         $.ajax({
@@ -426,6 +434,6 @@ export default () =>{
     }
 
     getCotizacionCriptosCap();
-    // setInterval(getCotizacionCriptosCap, 60000)
+    setInterval(getCotizacionCriptosCap, 30000) // cada 30 segundos
     return divElement
 }

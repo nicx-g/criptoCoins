@@ -94,7 +94,7 @@ export default () => {
                             <a href="#/dashboard/operar/compra/daiusd"><i class="fas fa-dollar-sign"></i>DAI/USD</a>
                         </div>
                         <div class="elegirMonedaItem">
-                            <a href="#/dashboard/operar/compra/btcars"><i class="cf cf-dai"></i>BTC/ARS</a>
+                            <a href="#/dashboard/operar/compra/bitcoinars"><i class="cf cf-dai"></i>BTC/ARS</a>
                         </div>
                     </div>
                 </div>
@@ -146,13 +146,13 @@ export default () => {
 
                 $(async() => {
 
-                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Coloca la cotización en el header 
+                    setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
 
-                    colocarDatosBasicos(userEmail, userNameHeader);
+                    colocarDatosBasicos(userEmail, userNameHeader); // Pone nombre y apellido en el header
                     $(btnSignOut).on('click', cerrarSesion);
 
-                    colocarHistorial(userEmail, "compraventa", HistorialDeOperaciones)
+                    colocarHistorial(userEmail, "compraventa", HistorialDeOperaciones); //Coloca el historial
 
                 })
 

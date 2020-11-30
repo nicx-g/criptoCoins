@@ -19,6 +19,7 @@ import Dashboard_O_C_BITCOINARS from "../controllers/dashboard-components/operar
 import Dashboard_O_V_DAIARS from "../controllers/dashboard-components/operar/venta-daiars.controller.js";
 import Dashboard_O_V_DAIUSD from "../controllers/dashboard-components/operar/venta-daiusd.controller.js";
 import Dashboard_O_V_BITCOINARS from "../controllers/dashboard-components/operar/venta-bitcoinars.controller.js";
+import error_404 from "../controllers/404.controller.js";
 
 // Este choclo de arriba es para importar todos los DivElement que contiene el html de cada sección y sus funciones
 
@@ -117,7 +118,7 @@ const router = (route) => { // esta funcion va a hacer que dependiendo el hashta
             return contentMain.appendChild(Dashboard_O_V_BITCOINARS())
 
         default:
-            return console.log("404")
+            return contentMain.appendChild(error_404())
     }
 }
 

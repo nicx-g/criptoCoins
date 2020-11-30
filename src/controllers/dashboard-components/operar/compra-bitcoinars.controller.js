@@ -165,14 +165,14 @@ export default () => {
 
                 $(async()=>{
 
-                    await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                    await getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); //Coloca la cotización en el header
+                    setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
                     
-                    colocarDatosBasicos(userEmail, userNameHeader);
+                    colocarDatosBasicos(userEmail, userNameHeader); //Coloca el nombre y apellido en el header
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 
-                    
+                    //Estas funciones de acá van a realizar la multiplicación para que se reemplace en el otro input el valor correcto dependiendo la cotización
                     moneyLeft.addEventListener('keyup', () => {
                       getCotizacion("ARS", "compra","left", "btcars", moneyLeft, moneyRight, cotizacionOperacion);  
                     }) 
@@ -239,6 +239,7 @@ export default () => {
                             moneyRight.readOnly = true;
                             btnConfirmOperation.disabled = true;
 
+                            //Guarda todo en la base de datos
                             await guardarOperacionDeCompraVenta(userEmail, moneyLeft, moneyRight, "compra", "btcars")
                             await guardarHistorialCompraVentaYCotizacion("ARS", userEmail, "compra", "btcars", moneyLeft);
 

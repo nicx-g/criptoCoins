@@ -1,4 +1,4 @@
-import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd} from "../../../js/functions.js";
+import {guardarOperacion, validarInput, colocarDatosBasicos, cerrarSesion, getCripto,  validarFondos} from "../../../js/functions.js";
 
 export default () => {
     const header =
@@ -95,11 +95,12 @@ export default () => {
                             <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
                                 <label for="retirarPesos">Insertar cantidad de pesos</label>
                                 <input type="text" name="retirarPesos" id="retirarPesos" placeholder="Por ej: 1500">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+                                <p id="mensaje-de-error" style="display: none">No ingresaste un número válido o no tenés fondos suficientes</p>
+                                
 
                                 <label for="cbuAlias">Insertar tu CBU o ALIAS de tu caja de ahorro en PESOS</label>
                                 <input type="text" name="cbu" id="cbuAlias" placeholder="Por ej: 1430001713000035540010">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un cbu o alias válido</p>
+                                <p id="mensaje-de-error-direccion" style="display: none">Tenés que ingresar un cbu o alias válido</p>
                             </div>
                             <button id="btn-retirar-ars" type="submit">Retirar pesos</button>
                         </form>
@@ -154,18 +155,18 @@ export default () => {
                 let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
                 let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
-                $(()=>{
+                $( async() => {
 
-                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
-                    colocarDatosBasicos(userEmail, userNameHeader);
+                    getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // actualiza el precio de las cripto
+                    setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
+                    colocarDatosBasicos(userEmail, userNameHeader); // Pone el nobmre y apellido en el header
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 
-                    btn_retirar_ars.addEventListener('click', (e) => {
+                    btn_retirar_ars.addEventListener('click', async(e) => {
                         e.preventDefault();
 
-                        if(validarInput(input_retirar_ars)){
+                        if(validarInput(input_retirar_ars) && await validarFondos(userEmail, "ars", input_retirar_ars)){ //Este if valida si tiene fondos y si puso un numero
 
                             input_retirar_ars.classList.remove("error-input")
                             $(mensaje_de_error).fadeOut();

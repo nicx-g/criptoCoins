@@ -1,4 +1,4 @@
-import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd} from "../../../js/functions.js";
+import {guardarOperacion, guardarhistorial, validarInput, colocarDatosBasicos, cerrarSesion, getCripto, renderArs, renderUsd, validarFondos} from "../../../js/functions.js";
 
 export default () => {
     const header =
@@ -95,7 +95,7 @@ export default () => {
                             <div class="ingresar-o-retirar-noCripto-input d-flex flex-column">
                                 <label for="retirarDai">Insertar cantidad de DAI</label>
                                 <input type="text" name="retirarDai" id="retirarDai" placeholder="Por ej: 35">
-                                <p id="mensaje-de-error" style="display: none">Tenés que ingresar un número</p>
+                                <p id="mensaje-de-error" style="display: none">No ingresaste un número válido o no tenés fondos suficientes</p>
 
                                 <label for="wallet-dai">Insertar dirección de la Wallet.</label>
                                 <input type="text" name="wallet-dai" id="wallet-dai" placeholder="Por ej: 0xac4f72e7bda732a521dff91a0fb46ee24f1eadbf">
@@ -153,18 +153,18 @@ export default () => {
                 let dai_usd_buy = divElement.querySelector('#dai-usd-buy');
                 let btc_ars_buy = divElement.querySelector('#btc-ars-buy');
 
-                $(()=>{
+                $(async () => {
 
                     getCripto(dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy);
-                    setInterval(getCripto, 30000); // Cada 30 secs
+                         setInterval(await getCripto, 30000, dai_ars_sell, dai_ars_buy, btc_ars_sell, btc_ars_buy, dai_usd_sell, dai_usd_buy); // Cada 30 secs
                     colocarDatosBasicos(userEmail, userNameHeader);
 
                     btnSignOut.addEventListener('click', cerrarSesion);
 
-                    btn_retirar_dai.addEventListener('click', (e) => {
+                    btn_retirar_dai.addEventListener('click', async(e) => {
                         e.preventDefault();
 
-                        if(validarInput(input_retirar_dai)){
+                        if(validarInput(input_retirar_dai) && await validarFondos(userEmail, "dai", null, input_retirar_dai)){
 
                             input_retirar_dai.classList.remove("error-input")
                             $(mensaje_de_error).fadeOut();
