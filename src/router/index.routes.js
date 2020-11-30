@@ -2,6 +2,7 @@ import Home from "../controllers/home.controller.js";
 import Register from "../controllers/register.controller.js";
 import Login from "../controllers/login.controller.js";
 import Dashboard from "../controllers/dashboard.controller.js";
+import Dashboard_perfil from "../controllers/dashboard-components/perfil.controller.js";
 import Dashboard_DyR from "../controllers/dashboard-components/depositos-y-retiros/depositos-y-retiros.controller.js";
 import Dashboard_DyR_I_ARS from "../controllers/dashboard-components/depositos-y-retiros/ingresar-ars.controller.js";
 import Dashboard_DyR_I_USD from "../controllers/dashboard-components/depositos-y-retiros/ingresar-usd.controller.js";
@@ -48,6 +49,10 @@ const router = (route) => { // esta funcion va a hacer que dependiendo el hashta
         case '#/dashboard':
 
             return contentMain.appendChild(Dashboard())
+
+        case '#/dashboard/perfil':
+
+            return contentMain.appendChild(Dashboard_perfil())
 
         case '#/dashboard/depositos-y-retiros':
 
